@@ -1,0 +1,30 @@
+:root{
+--sp-0:0; /* @kind spacing */
+--sp-1:4px; /* @kind spacing */
+--sp-2:8px; /* @kind spacing */
+--sp-3:12px; /* @kind spacing */
+--sp-4:16px; /* @kind spacing */
+--sp-5:24px; /* @kind spacing */
+--sp-6:32px; /* @kind spacing */
+--sp-7:48px; /* @kind spacing */
+--sp-8:64px; /* @kind spacing */
+--sp-9:96px; /* @kind spacing */
+--sp-10:128px; /* @kind spacing */
+--sp-11:192px; /* @kind spacing */
+--gutter:24px; /* @kind spacing */
+--gutter-lg:40px; /* @kind spacing */
+--section-y:96px; /* @kind spacing */
+--section-y-lg:144px; /* @kind spacing */
+--maxw-page:1360px; /* @kind spacing */
+--maxw-prose:64ch; /* @kind spacing */
+--grid-cols:12; /* @kind spacing */
+/* Blocky brand: containers are square. Only chips, the waveform mark and avatars round off. */
+--radius-none:0; /* @kind radius */
+--radius-xs:2px; /* @kind radius */
+--radius-sm:4px; /* @kind radius */
+--radius-pill:999px; /* @kind radius */
+--border-hair:1px; /* @kind spacing */
+--border-strong:2px; /* @kind spacing */
+--border-block:3px; /* @kind spacing */
+--rule-heavy:6px; /* @kind spacing */
+}

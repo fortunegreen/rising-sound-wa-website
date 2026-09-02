@@ -1,0 +1,67 @@
+:root{
+/* Base — sampled from the Rising Sound WA logo */
+--rs-ink:#000000; /* @kind color */
+--rs-ink-900:#0B0A09; /* @kind color */
+--rs-ink-800:#121110; /* @kind color */
+--rs-ink-700:#1C1A17; /* @kind color */
+--rs-ink-600:#2A2724; /* @kind color */
+--rs-ink-500:#3D3833; /* @kind color */
+--rs-bone-50:#FDF7EE; /* @kind color */
+--rs-bone:#F8E8D0; /* @kind color */
+--rs-bone-200:#EAD8BC; /* @kind color */
+--rs-bone-300:#D3BE9F; /* @kind color */
+--rs-bone-400:#A8977E; /* @kind color */
+--rs-amber:#F8A008; /* @kind color */
+--rs-amber-700:#9A6004; /* @kind color */
+--rs-amber-600:#D98505; /* @kind color */
+--rs-amber-300:#FFC55C; /* @kind color */
+--rs-amber-100:#FFE7BC; /* @kind color */
+/* Energy accents — sampled from the Saturday Sessions poster series.
+   Used as full-bleed blocks and hand-lettered headline colour, never as body text. */
+--rs-teal:#1F9E9E; /* @kind color */
+--rs-teal-700:#146868; /* @kind color */
+--rs-teal-300:#66C6C6; /* @kind color */
+--rs-flare:#F0507F; /* @kind color */
+--rs-flare-700:#B22B55; /* @kind color */
+--rs-flare-300:#FF93B2; /* @kind color */
+--rs-voltage:#6350B0; /* @kind color */
+--rs-voltage-700:#43357E; /* @kind color */
+--rs-voltage-300:#9C8CDA; /* @kind color */
+--rs-lemon:#F5EE12; /* @kind color */
+--rs-lemon-700:#A39D00; /* @kind color */
+/* Status */
+--rs-go:#1E8F5E; /* @kind color */
+--rs-warn:#F8A008; /* @kind color */
+--rs-stop:#CC271D; /* @kind color */
+
+/* Semantic — surfaces */
+--surface-page:var(--rs-ink); /* @kind color */
+--surface-1:var(--rs-ink-800); /* @kind color */
+--surface-2:var(--rs-ink-700); /* @kind color */
+--surface-3:var(--rs-ink-600); /* @kind color */
+--surface-inverse:var(--rs-bone-50); /* @kind color */
+--surface-inverse-2:var(--rs-bone); /* @kind color */
+--surface-accent:var(--rs-amber); /* @kind color */
+--surface-teal:var(--rs-teal); /* @kind color */
+--surface-voltage:var(--rs-voltage); /* @kind color */
+--surface-flare:var(--rs-flare); /* @kind color */
+--surface-lemon:var(--rs-lemon); /* @kind color */
+/* Semantic — text */
+--text-primary:var(--rs-bone-50); /* @kind color */
+--text-body:var(--rs-bone-200); /* @kind color */
+--text-muted:var(--rs-bone-400); /* @kind color */
+--text-accent:var(--rs-amber); /* @kind color */
+--text-on-accent:var(--rs-ink); /* @kind color */
+--text-inverse:var(--rs-ink-900); /* @kind color */
+--text-inverse-muted:var(--rs-ink-500); /* @kind color */
+/* Semantic — lines & states */
+--line-hairline:rgba(248,232,208,.16); /* @kind color */
+--line-strong:var(--rs-bone); /* @kind color */
+--line-inverse:rgba(0,0,0,.18); /* @kind color */
+--focus-ring:var(--rs-teal-300); /* @kind color */
+--link:var(--rs-amber); /* @kind color */
+--link-hover:var(--rs-amber-300); /* @kind color */
+--link-inverse:var(--rs-voltage-700); /* @kind color */
+--scrim:rgba(0,0,0,.72); /* @kind color */
+--scrim-soft:rgba(0,0,0,.45); /* @kind color */
+}

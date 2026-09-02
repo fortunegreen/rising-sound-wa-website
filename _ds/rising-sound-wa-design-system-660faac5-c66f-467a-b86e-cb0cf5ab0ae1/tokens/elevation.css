@@ -1,0 +1,13 @@
+:root{
+/* No soft drop shadows. Depth is expressed as hard offset blocks and inset hairlines. */
+--shadow-none:none; /* @kind shadow */
+--block-offset-sm:4px 4px 0 0 var(--rs-ink); /* @kind shadow */
+--block-offset:8px 8px 0 0 var(--rs-ink); /* @kind shadow */
+--block-offset-amber:8px 8px 0 0 var(--rs-amber); /* @kind shadow */
+--block-offset-voltage:8px 8px 0 0 var(--rs-voltage); /* @kind shadow */
+--inset-hairline:inset 0 0 0 1px var(--line-hairline); /* @kind shadow */
+--inset-strong:inset 0 0 0 2px var(--line-strong); /* @kind shadow */
+--overlay-bottom:linear-gradient(to top,rgba(0,0,0,.88) 0%,rgba(0,0,0,.55) 38%,rgba(0,0,0,0) 78%); /* @kind other */
+--overlay-flat:linear-gradient(0deg,rgba(0,0,0,.45),rgba(0,0,0,.45)); /* @kind other */
+--blur-glass:saturate(140%) blur(14px); /* @kind other */
+}

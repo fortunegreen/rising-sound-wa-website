@@ -1,0 +1,5 @@
+/* Webfonts are loaded from Google Fonts. No original brand binaries were supplied —
+   these are the closest available matches to the Rising Sound WA logo lockup.
+   See readme.md > Visual Foundations > Typography for the substitution note. */
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600;700&family=Playfair+Display:wght@700;800;900&family=Space+Mono:wght@400;700&display=swap");
+:root{--font-display:"Archivo Black","Arial Black",sans-serif;--font-brand:"Playfair Display",Georgia,serif;--font-text:"Archivo","Helvetica Neue",Arial,sans-serif;--font-mono:"Space Mono",ui-monospace,monospace}

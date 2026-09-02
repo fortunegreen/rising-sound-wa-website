@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<title>Rising Sound WA</title>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/rising-sound-wa-design-system-660faac5-c66f-467a-b86e-cb0cf5ab0ae1/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/rising-sound-wa-design-system-660faac5-c66f-467a-b86e-cb0cf5ab0ae1/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/rising-sound-wa-design-system-660faac5-c66f-467a-b86e-cb0cf5ab0ae1/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/rising-sound-wa-design-system-660faac5-c66f-467a-b86e-cb0cf5ab0ae1/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/rising-sound-wa-design-system-660faac5-c66f-467a-b86e-cb0cf5ab0ae1/tokens/elevation.css">
+  <link rel="stylesheet" href="_ds/rising-sound-wa-design-system-660faac5-c66f-467a-b86e-cb0cf5ab0ae1/tokens/motion.css">
+  <link rel="stylesheet" href="_ds/rising-sound-wa-design-system-660faac5-c66f-467a-b86e-cb0cf5ab0ae1/tokens/base.css">
+  <link rel="stylesheet" href="_ds/rising-sound-wa-design-system-660faac5-c66f-467a-b86e-cb0cf5ab0ae1/components/components.css">
+  <link rel="stylesheet" href="_ds/rising-sound-wa-design-system-660faac5-c66f-467a-b86e-cb0cf5ab0ae1/styles.css">
+  <script src="https://unpkg.com/lucide@0.462.0/dist/umd/lucide.js"></script>
+  <script src="_ds/rising-sound-wa-design-system-660faac5-c66f-467a-b86e-cb0cf5ab0ae1/_ds_bundle.js"></script>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <style>
+    body { margin: 0; background: #000; color: var(--text-primary); font: var(--type-body); }
+    a { color: var(--link); text-decoration: none; }
+    a:hover { color: var(--link-hover); }
+    @keyframes rs-ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @keyframes rs-logo-rise {
+      0%   { opacity: 0; transform: translateY(48px) scale(3.2); }
+      22%  { opacity: 1; transform: translateY(0) scale(3.2); }
+      38%  { transform: translateY(0) scale(3.2); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes rs-logo-bar {
+      0%   { transform: scaleY(.04); }
+      30%  { transform: scaleY(1.42); }
+      44%  { transform: scaleY(.72); }
+      56%  { transform: scaleY(1.2); }
+      68%  { transform: scaleY(.87); }
+      78%  { transform: scaleY(1.08); }
+      88%  { transform: scaleY(.96); }
+      100% { transform: scaleY(1); }
+    }
+    @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+    @media (max-width: 700px) {
+      .rs-event { grid-template-columns: 1fr; gap: 12px; align-items: start; }
+      .rs-event__day { font-size: 2rem; }
+      .rs-tabs { flex-wrap: wrap; }
+      img { max-width: 100%; }
+    }
+  </style>
+</helmet>
+
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+    <rect width="320" height="200" fill="#000000"></rect>
+    <g fill="#F8A008">
+      <rect x="120" y="82" width="7" height="36" rx="3.5"></rect>
+      <rect x="136" y="70" width="7" height="60" rx="3.5"></rect>
+      <rect x="152" y="58" width="7" height="84" rx="3.5"></rect>
+      <rect x="168" y="70" width="7" height="60" rx="3.5"></rect>
+      <rect x="184" y="82" width="7" height="36" rx="3.5"></rect>
+    </g>
+    <rect x="60" y="150" width="200" height="6" fill="#F8E8D0"></rect>
+  </svg>
+</template>
+
+<div style="background:#000;min-height:100vh">
+
+  <header style="position:sticky;top:0;z-index:40;background:rgba(0,0,0,.92);backdrop-filter:saturate(140%) blur(14px);border-bottom:1px solid var(--line-hairline)">
+    <div style="max-width:1360px;margin:0 auto;padding:16px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:16px 32px">
+      <a href="#" onClick="{{ goHome }}" style="display:block;flex:none;z-index:2;border-bottom:0">
+        <div style="display:flex;align-items:center;gap:18px;transform-origin:left center;animation:rs-logo-rise 1700ms cubic-bezier(.2,.8,.25,1) both">
+          <img src="assets/logo-wordmark.png" alt="Rising Sound WA" style="height:62px;width:auto;display:block">
+          <div style="display:flex;align-items:center;gap:4px;height:62px">
+            <div style="width:5px;height:13px;border-radius:3px;background:var(--rs-amber);transform-origin:center;animation:rs-logo-bar 1500ms cubic-bezier(.2,.8,.25,1) 420ms both"></div>
+            <div style="width:5px;height:28px;border-radius:3px;background:var(--rs-amber);transform-origin:center;animation:rs-logo-bar 1500ms cubic-bezier(.2,.8,.25,1) 480ms both"></div>
+            <div style="width:5px;height:46px;border-radius:3px;background:var(--rs-amber);transform-origin:center;animation:rs-logo-bar 1500ms cubic-bezier(.2,.8,.25,1) 540ms both"></div>
+            <div style="width:5px;height:62px;border-radius:3px;background:var(--rs-amber);transform-origin:center;animation:rs-logo-bar 1500ms cubic-bezier(.2,.8,.25,1) 600ms both"></div>
+            <div style="width:5px;height:50px;border-radius:3px;background:var(--rs-amber);transform-origin:center;animation:rs-logo-bar 1500ms cubic-bezier(.2,.8,.25,1) 660ms both"></div>
+            <div style="width:5px;height:34px;border-radius:3px;background:var(--rs-amber);transform-origin:center;animation:rs-logo-bar 1500ms cubic-bezier(.2,.8,.25,1) 720ms both"></div>
+            <div style="width:5px;height:21px;border-radius:3px;background:var(--rs-amber);transform-origin:center;animation:rs-logo-bar 1500ms cubic-bezier(.2,.8,.25,1) 780ms both"></div>
+            <div style="width:5px;height:11px;border-radius:3px;background:var(--rs-amber);transform-origin:center;animation:rs-logo-bar 1500ms cubic-bezier(.2,.8,.25,1) 840ms both"></div>
+          </div>
+        </div>
+      </a>
+      <nav style="display:flex;flex-wrap:wrap;gap:14px 22px;margin-left:auto;align-items:center">
+        <sc-for list="{{ secondaryNav }}" as="n" hint-placeholder-count="4">
+          <div style="position:relative" onMouseEnter="{{ n.onEnter }}" onMouseLeave="{{ n.onLeave }}">
+            <button onClick="{{ n.go }}" style="background:none;border:0;padding:4px 0;cursor:pointer;font-size:var(--fs-body-sm);color:{{ n.colour }};border-bottom:2px solid {{ n.underline }}" style-hover="color:var(--rs-amber-300)">{{ n.label }}</button>
+            <sc-if value="{{ n.showSub }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;top:100%;left:-16px;padding-top:14px;min-width:180px">
+                <div style="background:#000;border:1px solid var(--line-hairline);padding:8px 0">
+                  <button onClick="{{ goCommittee }}" style="display:block;width:100%;text-align:left;background:none;border:0;padding:10px 20px;cursor:pointer;font-size:var(--fs-body-sm);color:var(--text-body)" style-hover="color:var(--rs-amber-300);background:var(--surface-1)">Committee</button>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </nav>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding-left:22px;border-left:1px solid var(--line-hairline)">
+        <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" size="sm" onClick="{{ goEvents }}" hint-size="auto,36px">What's on</x-import>
+        <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="secondary" size="sm" onClick="{{ goJoin }}" hint-size="auto,36px">Get involved</x-import>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══ HOME ══ -->
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <main data-screen-label="Home">
+
+    <div style="background:var(--rs-amber);color:var(--rs-ink);overflow:hidden;padding:10px 0;border-bottom:1px solid var(--rs-ink)">
+      <div style="display:flex;width:max-content;animation:rs-ticker 28s linear infinite">
+        <div style="display:flex;gap:56px;padding-right:56px;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase">
+          <span>Saturday Sessions at Midland Records — free</span><span>Regional events across WA</span><span>Memberships open</span><span>Filmed sessions on the shop floor</span>
+        </div>
+        <div style="display:flex;gap:56px;padding-right:56px;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase" aria-hidden="true">
+          <span>Saturday Sessions at Midland Records — free</span><span>Regional events across WA</span><span>Memberships open</span><span>Filmed sessions on the shop floor</span>
+        </div>
+      </div>
+    </div>
+
+    <section style="position:relative;min-height:min(76vh,720px);display:flex;align-items:flex-end;overflow:hidden">
+      <img src="assets/img-shopfloor.jpg" alt="A session on the shop floor at Midland Records" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 40%;filter:saturate(108%) contrast(104%)">
+      <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.94) 0%,rgba(0,0,0,.82) 42%,rgba(0,0,0,.25) 100%)"></div>
+      <div style="position:relative;max-width:1360px;margin:0 auto;padding:clamp(88px,15vw,144px) 24px clamp(48px,8vw,96px);width:100%">
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:28px">
+          <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Waveform" height="20" bars="9" hint-size="60px,20px"></x-import>
+          <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">Original music, Western Australia</span>
+        </div>
+        <h1 style="margin:0;max-width:20ch;font:var(--type-display);font-size:clamp(2.5rem,5.5vw,4.5rem);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-bone-50);text-wrap:balance">Let your songs fill the space.</h1>
+        <p style="margin:32px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--text-body)">A not-for-profit formed by passionate local musicians, creating live music experiences across WA — from intimate concerts in cosy rooms to events in public spaces.</p>
+        <div style="display:flex;gap:16px;margin-top:40px;flex-wrap:wrap">
+          <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" size="lg" onClick="{{ goEvents }}" hint-size="auto,48px">See what's on</x-import>
+          <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="secondary" size="lg" onClick="{{ goJoin }}" hint-size="auto,48px">Get involved</x-import>
+        </div>
+      </div>
+    </section>
+
+    <section style="background:#000;border-top:1px solid var(--line-hairline)">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px">
+        <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.SectionHeading" eyebrow="What's on" title="Upcoming shows" rule="amber" hint-size="100%,96px"></x-import>
+        <div style="display:flex;flex-wrap:wrap;gap:40px;align-items:flex-end;margin-top:40px">
+          <div style="width:min(300px,100%);flex:none">
+            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Poster" src="{{ featuredPoster.src }}" alt="{{ featuredPoster.alt }}" caption="{{ featuredPoster.caption }}" hint-size="100%,400px"></x-import>
+          </div>
+          <p style="margin:0 0 8px;flex:1;min-width:280px;max-width:52ch;font:var(--type-feature);color:var(--rs-bone-50);text-wrap:pretty">Next up on the shop floor at Midland Records. Free, 12–2pm.</p>
+        </div>
+        <div style="margin-top:56px">
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <sc-for list="{{ homeEvents }}" as="e" hint-placeholder-count="3">
+                <div style="display:flex;flex-wrap:wrap;align-items:stretch;gap:16px">
+                  <div style="flex:1 1 260px;min-width:0">
+                    <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.EventCard" day="{{ e.day }}" month="{{ e.month }}" title="{{ e.title }}" support="{{ e.support }}" venue="{{ e.venue }}" time="{{ e.time }}" price="{{ e.price }}" badge="{{ e.badge }}" tags="{{ e.tags }}" hint-size="100%,140px"></x-import>
+                  </div>
+                  <div style="display:flex;align-items:center;flex:none">
+                    <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="{{ e.ctaVariant }}" onClick="{{ e.onCta }}" hint-size="140px,40px">{{ e.cta }}</x-import>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="margin-top:40px">
+              <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" size="lg" onClick="{{ goEvents }}" hint-size="auto,48px">See all events</x-import>
+            </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="background:var(--rs-teal);color:var(--rs-ink)">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:clamp(40px,6vw,72px);align-items:center">
+        <div>
+          <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-teal-700)">Get involved</span>
+          <h2 style="margin:20px 0 0;font:var(--type-display);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-ink)">Join the room.</h2>
+          <p style="margin:24px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--rs-ink)">Members keep the free sessions free. Musicians get stages. Venues get audiences. There is a way in for all three.</p>
+          <div style="margin-top:36px">
+            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="inverse" size="lg" onClick="{{ goJoin }}" hint-size="auto,48px">Become a member</x-import>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:1px;background:rgba(0,0,0,.18)">
+          <sc-for list="{{ pathways }}" as="w" hint-placeholder-count="3">
+            <div style="background:var(--rs-teal);padding:24px 4px;display:flex;align-items:baseline;gap:20px">
+              <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);color:var(--rs-teal-700);flex:none;width:32px">{{ w.num }}</span>
+              <div>
+                <h3 style="margin:0;font:var(--type-h3);color:var(--rs-ink)">{{ w.title }}</h3>
+                <p style="margin:8px 0 0;font-size:var(--fs-body-sm);line-height:var(--lh-body);color:var(--rs-ink)">{{ w.body }}</p>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section style="background:#000">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px">
+        <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.SectionHeading" eyebrow="Rising Sound Sessions" title="Three songs, one take" rule="amber" hint-size="100%,96px"></x-import>
+        <p style="margin:24px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--text-body)">Short-form filmed concerts capturing original WA performers, recorded on the shop floor at Midland Records.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:24px;margin-top:40px">
+          <sc-for list="{{ sessions }}" as="s" hint-placeholder-count="3">
+            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.VideoCard" title="{{ s.title }}" artist="{{ s.artist }}" episode="{{ s.episode }}" duration="{{ s.duration }}" image="{{ s.image }}" tone="{{ s.tone }}" hint-size="100%,300px"></x-import>
+          </sc-for>
+        </div>
+        <div style="margin-top:40px">
+          <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="secondary" onClick="{{ goEvents }}" hint-size="auto,40px">See all sessions</x-import>
+        </div>
+      </div>
+    </section>
+
+    <section style="background:var(--rs-ink-900);border-top:1px solid var(--line-hairline)">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:clamp(40px,6vw,72px);align-items:start">
+          <div>
+            <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">What we do</span>
+            <p style="margin:20px 0 0;font:var(--type-feature);color:var(--rs-bone-50);text-wrap:pretty">Atmosphere matters. Original work matters. Both deserve more care than they usually get.</p>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1px;background:var(--line-hairline)">
+            <sc-for list="{{ pillars }}" as="p" hint-placeholder-count="4">
+              <div style="background:var(--rs-ink-900);padding:32px 28px 36px;display:flex;flex-direction:column;gap:14px">
+                <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);color:var(--text-muted)">{{ p.num }}</span>
+                <h3 style="margin:0;font:var(--type-h3);color:var(--rs-bone-50)">{{ p.title }}</h3>
+                <p style="margin:0;font-size:var(--fs-body-sm);line-height:var(--lh-body);color:var(--text-body)">{{ p.body }}</p>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <!-- ══ ABOUT ══ -->
+  <sc-if value="{{ isAbout }}">
+  <main data-screen-label="About">
+    <section style="background:#000;border-bottom:1px solid var(--line-hairline)">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px 72px">
+        <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">About</span>
+        <h1 style="margin:20px 0 0;max-width:24ch;font:var(--type-display);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-bone-50)">Formed by musicians, for musicians.</h1>
+      </div>
+    </section>
+    <section style="background:var(--rs-ink-900)">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:clamp(40px,6vw,72px);align-items:start">
+        <div style="display:flex;flex-direction:column;gap:24px">
+          <p style="margin:0;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--text-primary);max-width:52ch">Rising Sound WA Inc. is a not-for-profit incorporated association supporting original musical and performance works across Western Australia.</p>
+          <p style="margin:0;line-height:var(--lh-body);color:var(--text-body);max-width:64ch">We put on concerts in venues, halls, parks and unexpected spaces, take events to towns outside the city, film short-form sessions with original performers, and match musicians with stages that suit them.</p>
+          <p style="margin:0;line-height:var(--lh-body);color:var(--text-body);max-width:64ch">Everything runs on members, volunteers and the venues that lend us their rooms.</p>
+          <div style="margin-top:16px;border-left:6px solid var(--rs-amber);padding-left:28px">
+            <p style="margin:0;font:var(--type-feature);color:var(--rs-bone-50);text-wrap:pretty">Atmosphere matters. Original work matters. Both deserve more care than they usually get.</p>
+          </div>
+        </div>
+        <div>
+          <img src="assets/img-singer.jpg" alt="A performer on the shop floor at Midland Records" style="width:100%;height:520px;object-fit:cover;display:block;filter:saturate(108%)">
+          <p style="margin:12px 0 0;font-family:var(--font-mono);font-size:var(--fs-micro);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">Saturday Sessions · Midland Records, Midland</p>
+        </div>
+      </div>
+    </section>
+    <section style="background:#000;border-top:1px solid var(--line-hairline)">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px">
+        <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.SectionHeading" eyebrow="Values" title="What we hold to" rule="amber" hint-size="100%,96px"></x-import>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:1px;background:var(--line-hairline);margin-top:40px">
+          <sc-for list="{{ values }}" as="v" hint-placeholder-count="5">
+            <div style="background:#000;padding:32px 24px;display:flex;flex-direction:column;gap:12px">
+              <h3 style="margin:0;font:var(--type-h2);letter-spacing:var(--ls-heading);text-transform:uppercase;color:var(--rs-amber);font-size:var(--fs-h3)">{{ v.title }}</h3>
+              <p style="margin:0;font-size:var(--fs-body-sm);line-height:var(--lh-body);color:var(--text-body)">{{ v.body }}</p>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section id="committee" style="background:var(--rs-ink-900);border-top:1px solid var(--line-hairline)">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px">
+        <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.SectionHeading" eyebrow="Committee" title="Who runs it" rule="amber" hint-size="100%,96px"></x-import>
+        <p style="margin:24px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--text-body)">Rising Sound WA is governed by a volunteer committee of musicians, organisers and community board members.</p>
+        <div style="display:flex;flex-direction:column;gap:1px;background:var(--line-hairline);margin-top:48px">
+          <sc-for list="{{ committee }}" as="m" hint-placeholder-count="0">
+            <div style="background:var(--rs-ink-900);display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:48px;padding:40px 0;align-items:start">
+              <div style="width:100%;height:clamp(300px,62vw,380px);border:1px solid var(--line-hairline);background:var(--surface-1)">{{ m.photoEl }}</div>
+              <div>
+                <span style="font-family:var(--font-mono);font-size:var(--fs-micro);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">{{ m.role }}</span>
+                <h3 style="margin:12px 0 0;font:var(--type-h2);letter-spacing:var(--ls-heading);text-transform:uppercase;color:var(--rs-bone-50)">{{ m.name }}</h3>
+                <div style="display:flex;flex-direction:column;gap:16px;margin-top:24px;max-width:64ch">
+                  <sc-for list="{{ m.bio }}" as="para" hint-placeholder-count="3">
+                    <p style="margin:0;line-height:var(--lh-body);color:var(--text-body)">{{ para }}</p>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <p style="margin:40px 0 0;font-family:var(--font-mono);font-size:var(--fs-micro);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">Remaining committee members to come.</p>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <!-- ══ EVENTS ══ -->
+  <sc-if value="{{ isEvents }}">
+  <main data-screen-label="Events">
+    <section style="background:var(--rs-voltage);color:var(--rs-bone-50)">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px 72px">
+        <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-voltage-300)">What's on</span>
+        <h1 style="margin:20px 0 0;max-width:22ch;font:var(--type-display);letter-spacing:var(--ls-display);text-transform:uppercase">Every show we're putting on.</h1>
+        <p style="margin:24px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body)">Saturday Sessions are our free afternoon shows on the shop floor at Midland Records — they run when we have the right bill, not every Saturday. Other shows are usually ticketed one-offs.</p>
+      </div>
+    </section>
+    <section style="background:var(--rs-ink-900);border-bottom:1px solid var(--line-hairline)">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(40px,7vw,72px) 24px">
+        <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">Featured</span>
+        <div style="display:flex;flex-direction:column;gap:56px;margin-top:32px">
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(32px,5vw,56px);align-items:center;padding-top:56px;border-top:1px solid var(--line-hairline)">
+            <img src="assets/poster-jamboree.jpg" alt="Spring Time Country Folk Jamboree poster" style="width:100%;height:auto;display:block">
+            <div>
+              <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">Featured event</span>
+              <h2 style="margin:16px 0 0;font:var(--type-h2);font-size:var(--fs-h2);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-bone-50)">Spring Time Country Folk Jamboree</h2>
+              <div style="display:flex;flex-direction:column;gap:16px;margin-top:20px">
+                <p style="margin:0;max-width:52ch;font-size:var(--fs-body);line-height:var(--lh-body);color:var(--text-body);text-wrap:pretty">The Little Lord Street Band, Whiskey Jack, Stack of Bibles, Michael Savage and Band, and The Stumblers.</p>
+                <p style="margin:0;max-width:52ch;font-size:var(--fs-body);line-height:var(--lh-body);color:var(--text-body);text-wrap:pretty">An afternoon and evening celebrating the very best of Western Australian country, folk and Americana music.</p>
+              </div>
+              <p style="margin:24px 0 0;font:var(--type-meta);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">Sun 13 Sep · 4pm start, 8:30pm finish · Lyrics Underground</p>
+              <div style="margin-top:28px">
+                <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" onClick="{{ goJamboree }}" hint-size="auto,40px">Buy tickets</x-import>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(32px,5vw,56px);align-items:center;padding-top:56px;border-top:1px solid var(--line-hairline)">
+            <img src="assets/poster-season-songbirds.jpg" alt="Season Songbirds — Spring edition poster" style="width:100%;height:auto;display:block">
+            <div>
+              <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">Featured series</span>
+              <h2 style="margin:16px 0 0;font:var(--type-h2);font-size:var(--fs-h2);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-bone-50)">Season Songbirds</h2>
+              <div style="display:flex;flex-direction:column;gap:16px;margin-top:20px">
+                <p style="margin:0;max-width:52ch;font-size:var(--fs-body);line-height:var(--lh-body);color:var(--text-body);text-wrap:pretty">Season Songbirds is a gig series designed to showcase and support female creatives from Western Australia. Inspired by the Nashville Bluebird Café “songwriters in the round” format, each event features four female singer-songwriters sharing original songs and the stories behind them in an intimate, acoustic, seated setting.</p>
+                <p style="margin:0;max-width:52ch;font-size:var(--fs-body);line-height:var(--lh-body);color:var(--text-body);text-wrap:pretty">Each event also features one female visual artist, who designs the event poster and is highlighted during the gig.</p>
+                <p style="margin:0;max-width:52ch;font-size:var(--fs-body);line-height:var(--lh-body);color:var(--text-body);text-wrap:pretty">Attendees are encouraged to donate to a selected women-focused organisation, and 10% of proceeds from each gig are allocated to this fundraising effort.</p>
+              </div>
+              <p style="margin:24px 0 0;font:var(--type-meta);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">Sun 4 Oct · 4:30–8pm · 24 View St, North Perth · Presented by Midnight Francine</p>
+              <div style="margin-top:28px">
+                <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" onClick="{{ goSongbirds }}" hint-size="auto,40px">Buy tickets</x-import>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(32px,5vw,56px);align-items:center;padding-top:56px;border-top:1px solid var(--line-hairline)">
+            <img src="assets/poster-merredin-hoedown.jpg" alt="Merredin Pre-Harvest Hoedown poster" style="width:100%;height:auto;display:block">
+            <div>
+              <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">Featured event</span>
+              <h2 style="margin:16px 0 0;font:var(--type-h2);font-size:var(--fs-h2);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-bone-50)">Merredin Pre-Harvest Hoedown</h2>
+              <div style="display:flex;flex-direction:column;gap:16px;margin-top:20px">
+                <p style="margin:0;max-width:52ch;font-size:var(--fs-body);line-height:var(--lh-body);color:var(--text-body);text-wrap:pretty">Country music classics performed by The Stumblers, plus boot scooting, bush dancing, games and activities.</p>
+                <p style="margin:0;max-width:52ch;font-size:var(--fs-body);line-height:var(--lh-body);color:var(--text-body);text-wrap:pretty">A regional night out at the Cummins Theatre, bringing country music to a country town.</p>
+              </div>
+              <p style="margin:24px 0 0;font:var(--type-meta);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">Sat 17 Oct · 6pm–11pm · Cummins Theatre, Bates St, Merredin · Tickets to be announced</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <section style="background:#000">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(32px,6vw,56px) 24px clamp(48px,8vw,96px)">
+        <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Tabs" items="{{ filters }}" value="{{ filter }}" onChange="{{ setFilter }}" hint-size="100%,48px"></x-import>
+        <div style="display:flex;flex-direction:column;gap:16px;margin-top:40px">
+          <sc-for list="{{ shownUpcoming }}" as="e" hint-placeholder-count="2">
+            <div style="display:flex;flex-wrap:wrap;align-items:stretch;gap:16px">
+              <div style="flex:1 1 260px;min-width:0">
+                <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.EventCard" day="{{ e.day }}" month="{{ e.month }}" title="{{ e.title }}" support="{{ e.support }}" venue="{{ e.venue }}" time="{{ e.time }}" price="{{ e.price }}" badge="{{ e.badge }}" tags="{{ e.tags }}" hint-size="100%,140px"></x-import>
+              </div>
+              <div style="display:flex;align-items:center;flex:none">
+                <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="{{ e.ctaVariant }}" onClick="{{ e.onCta }}" hint-size="140px,40px">{{ e.cta }}</x-import>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <sc-if value="{{ hasPast }}" hint-placeholder-val="{{ true }}">
+          <div style="margin-top:72px;padding-top:32px;border-top:1px solid var(--line-hairline)">
+            <p style="margin:0 0 8px;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-muted)">Past events</p>
+            <p style="margin:0;font-size:var(--fs-body-sm);color:var(--text-muted)">What the rooms have already heard.</p>
+            <div style="display:flex;flex-direction:column;gap:16px;margin-top:32px">
+              <sc-for list="{{ shownPast }}" as="e" hint-placeholder-count="4">
+                <div style="display:flex;flex-wrap:wrap;align-items:stretch;gap:16px">
+                  <div style="flex:1 1 260px;min-width:0">
+                    <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.EventCard" day="{{ e.day }}" month="{{ e.month }}" title="{{ e.title }}" support="{{ e.support }}" venue="{{ e.venue }}" time="{{ e.time }}" badge="{{ e.badge }}" tags="{{ e.tags }}" hint-size="100%,140px"></x-import>
+                  </div>
+                  <div style="display:flex;align-items:center;flex:none;min-width:140px">
+                    <span style="font-family:var(--font-mono);font-size:var(--fs-body-sm);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-body)">Finished</span>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ noUpcoming }}">
+          <div style="border:1px solid var(--line-hairline);padding:40px 32px;margin-top:16px">
+            <p style="margin:0;color:var(--text-primary)">Nothing upcoming in this category yet.</p>
+            <p style="margin:8px 0 0;font-size:var(--fs-body-sm);color:var(--text-muted)">Join the mailing list and we'll tell you when the next dates land.</p>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isEmpty }}">
+          <div style="border:1px solid var(--line-hairline);padding:56px 32px;text-align:center;margin-top:16px">
+            <p style="margin:0;color:var(--text-primary)">Nothing in this category yet.</p>
+            <p style="margin:8px 0 0;font-size:var(--fs-body-sm);color:var(--text-muted)">Regional dates go up as soon as they're locked in. Join the mailing list and we'll tell you.</p>
+          </div>
+        </sc-if>
+      </div>
+    </section>
+
+    <section style="background:var(--rs-ink-900);border-top:1px solid var(--line-hairline)">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px">
+        <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.SectionHeading" eyebrow="Rising Sound Sessions" title="Three songs, one take" rule="amber" hint-size="100%,96px"></x-import>
+        <p style="margin:24px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--text-body)">Short-form filmed concerts capturing original WA performers. No overdubs, no crowd, one afternoon on the shop floor at Midland Records.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:24px;margin-top:40px">
+          <sc-for list="{{ allSessions }}" as="s" hint-placeholder-count="6">
+            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.VideoCard" title="{{ s.title }}" artist="{{ s.artist }}" episode="{{ s.episode }}" duration="{{ s.duration }}" image="{{ s.image }}" tone="{{ s.tone }}" hint-size="100%,300px"></x-import>
+          </sc-for>
+        </div>
+        <p style="margin:40px 0 0;font-family:var(--font-mono);font-size:var(--fs-micro);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">Poster frames stand in until the session films are supplied.</p>
+      </div>
+    </section>
+
+    <section style="background:#000;border-top:1px solid var(--line-hairline)">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px">
+        <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.SectionHeading" eyebrow="Posters" title="The season, on paper" rule="amber" hint-size="100%,96px"></x-import>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;margin-top:40px">
+          <sc-for list="{{ posters }}" as="p" hint-placeholder-count="4">
+            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Poster" src="{{ p.src }}" alt="{{ p.alt }}" caption="{{ p.caption }}" interactive="{{ true }}" hint-size="100%,420px"></x-import>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <!-- ══ GET INVOLVED ══ -->
+  <sc-if value="{{ isJoin }}">
+  <main data-screen-label="Get involved">
+    <section style="background:#000;border-bottom:1px solid var(--line-hairline)">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px 72px">
+        <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">Get involved</span>
+        <h1 style="margin:20px 0 0;max-width:20ch;font:var(--type-display);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-bone-50)">Three ways in.</h1>
+      </div>
+    </section>
+    <section style="background:var(--rs-ink-900)">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(40px,7vw,72px) 24px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:24px">
+          <sc-for list="{{ pathways }}" as="w" hint-placeholder-count="3">
+            <div style="background:var(--surface-1);border:1px solid var(--line-hairline);padding:32px 28px 36px;display:flex;flex-direction:column;gap:16px;min-height:280px">
+              <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);color:var(--rs-amber)">{{ w.num }}</span>
+              <h3 style="margin:0;font:var(--type-h2);letter-spacing:var(--ls-heading);text-transform:uppercase;color:var(--rs-bone-50);font-size:var(--fs-h3)">{{ w.title }}</h3>
+              <p style="margin:0;font-size:var(--fs-body-sm);line-height:var(--lh-body);color:var(--text-body);flex:1">{{ w.long }}</p>
+              <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="secondary" hint-size="auto,40px">{{ w.cta }}</x-import>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+    <section style="background:#000;border-top:1px solid var(--line-hairline)">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px">
+        <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.SectionHeading" eyebrow="Membership" title="Keep the free shows free" rule="amber" hint-size="100%,96px"></x-import>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,400px));gap:24px;margin-top:48px;align-items:start">
+          <sc-for list="{{ tiers }}" as="t" hint-placeholder-count="2">
+            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.TierCard" name="{{ t.name }}" price="{{ t.price }}" period="{{ t.period }}" blurb="{{ t.blurb }}" features="{{ t.features }}" cta="{{ t.cta }}" featured="{{ t.featured }}" hint-size="100%,420px"></x-import>
+          </sc-for>
+        </div>
+        <p style="margin:32px 0 0;font-family:var(--font-mono);font-size:var(--fs-micro);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">Musicians pay no more than anyone else. Playing with us costs nothing.</p>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <!-- ══ CONTACT ══ -->
+  <sc-if value="{{ isContact }}">
+  <main data-screen-label="Contact">
+    <section style="background:#000;border-bottom:1px solid var(--line-hairline)">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px 72px">
+        <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">Contact</span>
+        <h1 style="margin:20px 0 0;max-width:20ch;font:var(--type-display);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-bone-50)">Say hello.</h1>
+      </div>
+    </section>
+    <section style="background:var(--rs-ink-900)">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:96px;align-items:start">
+        <div style="display:flex;flex-direction:column;gap:40px">
+          <div>
+            <h2 style="margin:0 0 16px;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">Where we play</h2>
+            <p style="margin:0;line-height:var(--lh-body);color:var(--text-primary)">Midland Records<br>7 Spring Park Rd, Midland WA</p>
+          </div>
+          <div>
+            <h2 style="margin:0 0 16px;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">Email</h2>
+            <p style="margin:0;line-height:var(--lh-body);color:var(--text-primary)">hello@risingsoundwa.org.au</p>
+            <p style="margin:8px 0 0;font-size:var(--fs-body-sm);color:var(--text-muted)">Email address is a placeholder.</p>
+          </div>
+          <div>
+            <h2 style="margin:0 0 16px;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">Mailing list</h2>
+            <p style="margin:0 0 20px;font-size:var(--fs-body-sm);line-height:var(--lh-body);color:var(--text-body);max-width:44ch">One email a month: what's on, who's playing, which sessions are up.</p>
+            <div style="display:flex;gap:12px;align-items:flex-end">
+              <div style="flex:1">
+                <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Input" placeholder="you@email.com" hint-size="100%,48px"></x-import>
+              </div>
+              <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" hint-size="auto,48px">Subscribe</x-import>
+            </div>
+          </div>
+        </div>
+        <div style="background:var(--surface-1);border:1px solid var(--line-hairline);padding:40px">
+          <h2 style="margin:0 0 32px;font:var(--type-h2);letter-spacing:var(--ls-heading);text-transform:uppercase;color:var(--rs-bone-50)">Send us a message</h2>
+          <div style="display:grid;gap:24px">
+            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Input" label="Name" placeholder="Your name" hint-size="100%,72px"></x-import>
+            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Input" label="Email" type="email" placeholder="you@email.com" hint-size="100%,72px"></x-import>
+            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Select" label="What's this about?" options="{{ enquiryOptions }}" hint-size="100%,72px"></x-import>
+            <div class="rs-field">
+              <label class="rs-label" for="in-message">Message</label>
+              <textarea id="in-message" class="rs-input" rows="5" placeholder="Tell us what you're after" style="resize:vertical;min-height:140px"></textarea>
+            </div>
+            <div style="display:flex;justify-content:flex-end">
+              <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" size="lg" hint-size="auto,48px">Send</x-import>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <section style="background:var(--rs-ink-900);border-top:1px solid var(--line-hairline)">
+    <div style="max-width:1360px;margin:0 auto;padding:80px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:clamp(40px,6vw,72px);align-items:start">
+      <div>
+        <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">Mailing list</span>
+        <h2 style="margin:16px 0 0;font:var(--type-h2);letter-spacing:var(--ls-heading);text-transform:uppercase;color:var(--rs-bone-50)">Hear what's next.</h2>
+        <p style="margin:16px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--text-body)">An occasional email about what we're up to: upcoming shows, new sessions, and ways to get involved. We won't send more than that.</p>
+      </div>
+      <sc-if value="{{ subscribed }}" hint-placeholder-val="{{ false }}">
+        <div style="border:1px solid var(--line-hairline);background:var(--surface-1);padding:32px 28px">
+          <p style="margin:0;font:var(--type-h3);color:var(--rs-bone-50)">You're on the list.</p>
+          <p style="margin:12px 0 0;font-size:var(--fs-body-sm);line-height:var(--lh-body);color:var(--text-body)">We'll email {{ subscribedEmail }} when there's something worth telling you about.</p>
+        </div>
+      </sc-if>
+      <sc-if value="{{ notSubscribed }}" hint-placeholder-val="{{ true }}">
+        <form onSubmit="{{ onSubscribe }}" style="display:flex;flex-direction:column;gap:24px">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px">
+            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Input" label="First name" placeholder="Your name" value="{{ nlName }}" onChange="{{ setName }}" hint-size="100%,76px"></x-import>
+            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Input" label="Email" type="email" placeholder="you@email.com" value="{{ nlEmail }}" onChange="{{ setEmail }}" hint-size="100%,76px"></x-import>
+          </div>
+          <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap">
+            <div style="flex:none">
+              <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" type="submit" size="lg" hint-size="auto,48px">Sign me up</x-import>
+            </div>
+            <p style="margin:0;flex:1;min-width:200px;font-size:var(--fs-body-sm);color:var(--text-muted)">Unsubscribe any time. We don't share your details.</p>
+          </div>
+        </form>
+      </sc-if>
+    </div>
+  </section>
+
+  <footer style="background:#000;border-top:1px solid var(--line-hairline)">
+    <div style="max-width:1360px;margin:0 auto;padding:clamp(40px,7vw,72px) 24px 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:48px">
+      <div>
+        <img src="assets/logo-lockup.png" alt="Rising Sound WA" style="height:52px;width:auto;display:block">
+        <p style="margin:24px 0 0;max-width:34ch;font-size:var(--fs-body-sm);line-height:var(--lh-body);color:var(--text-muted)">A not-for-profit incorporated association supporting original musical and performance works across Western Australia.</p>
+      </div>
+      <div>
+        <h3 style="margin:0 0 20px;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">Site</h3>
+        <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start">
+          <sc-for list="{{ nav }}" as="n" hint-placeholder-count="6">
+            <button onClick="{{ n.go }}" style="background:none;border:0;padding:0;cursor:pointer;font-size:var(--fs-body-sm);color:var(--text-body);white-space:nowrap;text-align:left" style-hover="color:var(--rs-amber-300)">{{ n.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin:0 0 20px;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">Follow</h3>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <a href="#">Instagram</a>
+          <a href="#">Facebook</a>
+          <a href="#">YouTube</a>
+        </div>
+      </div>
+    </div>
+    <div style="max-width:1360px;margin:0 auto;padding:32px 24px 72px;border-top:1px solid var(--line-hairline)">
+      <p style="margin:0;max-width:80ch;font-size:var(--fs-body-sm);line-height:var(--lh-body);color:var(--text-muted)">Rising Sound WA acknowledges the Traditional Owners of the many lands across Western Australia on which we create and perform, and pays respect to Elders past and present . We recognise that sovereignty was never ceded and that these lands, waters and skies remain places of deep cultural significance.</p>
+      <p style="margin:20px 0 0;font-family:var(--font-mono);font-size:var(--fs-micro);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">Rising Sound WA Inc. · Not-for-profit incorporated association</p>
+    </div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1000}}">
+const EVENTS = [
+  { id: 1, date: "2026-06-06", day: "06", month: "Jun", title: "Gidge Rock", support: "Wabi Sabi album launch, with special guests Midnight Francine and Mergo", venue: "Midland Records", time: "7:00pm", price: "$25 / $18 members", region: "Metro", free: false, badge: { tone: "live", label: "Album launch" }, tags: ["Metro", "Ticketed"], cta: "Book tickets", ctaVariant: "primary" },
+  { id: 2, date: "2026-06-13", day: "13", month: "Jun", title: "Tanya Hemi and The Dusty Stingrays", support: "Saturday Sessions on the shop floor. Two acts, free entry.", venue: "Midland Records", time: "12–2pm", price: "Free", region: "Metro", free: true, badge: { tone: "session", label: "Saturday Sessions" }, tags: ["Metro", "Free"], cta: "Add to calendar", ctaVariant: "secondary" },
+  { id: 3, date: "2026-06-27", day: "27", month: "Jun", title: "String and Bone", support: "Saturday Sessions on the shop floor. Free entry.", venue: "Midland Records", time: "12–2pm", price: "Free", region: "Metro", free: true, badge: { tone: "session", label: "Saturday Sessions" }, tags: ["Metro", "Free"], cta: "Add to calendar", ctaVariant: "secondary" },
+  { id: 4, date: "2026-08-08", day: "08", month: "Aug", title: "Vissac and Moana Mayatrix", support: "Saturday Sessions on the shop floor. Free entry.", venue: "Midland Records", time: "12–2pm", price: "Free", region: "Metro", free: true, badge: { tone: "session", label: "Saturday Sessions" }, tags: ["Metro", "Free"], cta: "Add to calendar", ctaVariant: "secondary" },
+  { id: 5, date: "2026-08-22", day: "22", month: "Aug", title: "Arturo and Blue Minou", support: "Saturday Sessions on the shop floor. Free entry.", venue: "Midland Records", time: "12–2pm", price: "Free", region: "Metro", free: true, badge: { tone: "session", label: "Saturday Sessions" }, tags: ["Metro", "Free"], cta: "Add to calendar", ctaVariant: "secondary" },
+  { id: 8, date: "2026-09-05", day: "05", month: "Sep", title: "Kerry B Ryan and The Off Set", support: "Saturday Sessions on the shop floor. Free entry.", venue: "Midland Records", time: "12–2pm", price: "Free", region: "Metro", free: true, badge: { tone: "session", label: "Saturday Sessions" }, tags: ["Metro", "Free"], cta: "Add to calendar", ctaVariant: "secondary" },
+  { id: 6, date: "2026-09-13", day: "13", month: "Sep", title: "Spring Time Country Folk Jamboree", support: "The Little Lord Street Band, Whiskey Jack, Stack of Bibles, Michael Savage and Band, and The Stumblers. An afternoon and evening celebrating the very best of Western Australian country, folk and Americana music.", venue: "Lyrics Underground", time: "4:00pm", price: "Tickets via Oztix", region: "Metro", free: false, badge: { tone: "live", label: "Jamboree" }, tags: ["Metro", "Ticketed"], cta: "Buy tickets", ctaVariant: "primary", url: "https://lyricsunderground.oztix.com.au/outlet/event/4fa8bb9a-8264-4fa7-acea-8ece5d16e877?Event=244042" },
+  { id: 9, date: "2026-10-04", day: "04", month: "Oct", title: "Season Songbirds — Spring edition", support: "Moana Mayatrix, Jasmine Gannaway, Harriet Hawthorn and Charlie and Goldie in the round. Presented by Midnight Francine. BYO rug, nibblies and drinks.", venue: "24 View St, North Perth", time: "4:30–8pm", price: "Tickets via Humanitix", region: "Metro", free: false, badge: { tone: "live", label: "Songbirds" }, tags: ["Metro", "Ticketed"], cta: "Buy tickets", ctaVariant: "primary", url: "https://events.humanitix.com/season-songbirds-ayelupy4" },
+  { id: 7, date: "2026-10-17", day: "17", month: "Oct", title: "Merredin Pre-Harvest Hoedown", support: "Country music classics performed by The Stumblers, plus boot scooting, bush dancing, games and activities.", venue: "Cummins Theatre, Bates St, Merredin", time: "6pm–11pm", region: "Regional", free: false, badge: { tone: "live", label: "Hoedown" }, tags: ["Regional", "Ticketed"], cta: "Add to calendar", ctaVariant: "secondary" }
+];
+
+const SESSIONS = [
+  { title: "Tanya Hemi", artist: "Saturday Sessions · Midland Records", episode: "Session 01", duration: "Coming soon", image: "assets/img-singer.jpg", tone: "teal" },
+  { title: "Blue Minou", artist: "Saturday Sessions · Midland Records", episode: "Session 02", duration: "Coming soon", image: "assets/img-graffiti.jpg", tone: "flare" },
+  { title: "Arturo", artist: "Saturday Sessions · Midland Records", episode: "Session 03", duration: "Coming soon", image: "assets/img-portrait-sepia.jpg", tone: "amber" },
+  { title: "Gidge Rock", artist: "Wabi Sabi album launch", episode: "Session 04", duration: "Coming soon", image: "assets/img-stage.jpg", tone: "voltage" },
+  { title: "String and Bone", artist: "Saturday Sessions · Midland Records", episode: "Session 05", duration: "Coming soon", image: "assets/img-shopfloor.jpg", tone: "teal" },
+  { title: "Moana Mayatrix", artist: "Saturday Sessions · Midland Records", episode: "Session 06", duration: "Coming soon", image: null, tone: "lemon" }
+];
+
+class Component extends DCLogic {
+  state = { screen: "home", openMenu: null, filter: "All", nlName: "", nlEmail: "", nlMusician: false, subscribedEmail: null };
+
+  go = (s) => () => { this.setState({ screen: s }); window.scrollTo(0, 0); };
+
+  asset(p) {
+    const map = (typeof window !== "undefined" && window.RS_ASSETS) || {};
+    return (p && map[p]) || p;
+  }
+
+  withPhotos(list) {
+    return list.map(m => Object.assign({}, m, {
+      photoEl: m.photo ? React.createElement("img", {
+        src: this.asset(m.photo), alt: m.name,
+        style: { width: "100%", height: "380px", objectFit: "cover", objectPosition: "50% 30%", display: "block" }
+      }) : null
+    }));
+  }
+
+  renderVals() {
+    const s = this.state.screen;
+    const items = [
+      ["home", "Home"], ["about", "About"], ["events", "Events"],
+      ["join", "Get involved"], ["contact", "Contact"]
+    ];
+    const secondary = [
+      ["home", "Home"], ["about", "About"], ["contact", "Contact"]
+    ];
+    const link = ([k, label]) => ({
+      key: k, label, go: this.go(k),
+      showSub: k === "about" && this.state.openMenu === "about",
+      onEnter: k === "about" ? () => this.setState({ openMenu: "about" }) : undefined,
+      onLeave: k === "about" ? () => this.setState({ openMenu: null }) : undefined,
+      colour: this.state.screen === k ? "var(--rs-bone-50)" : "var(--text-muted)",
+      underline: this.state.screen === k ? "var(--rs-amber)" : "transparent"
+    });
+    const today = new Date().toISOString().slice(0, 10);
+    const byDate = EVENTS.slice().sort((a, b) => a.date.localeCompare(b.date));
+    const upcoming = byDate.filter(e => e.date >= today);
+    const withCta = (e) => Object.assign({}, e, {
+      onCta: e.url ? () => window.open(e.url, "_blank", "noopener") : undefined
+    });
+    const f = this.state.filter;
+    const match = (e) => f === "All" ? true : f === "Free" ? e.free : e.region === f;
+    const shownUpcoming = upcoming.filter(match);
+    const shownPast = byDate.filter(e => e.date < today).reverse().filter(match);
+
+    return {
+      nav: items.map(link),
+      secondaryNav: secondary.map(link),
+      isHome: s === "home", isAbout: s === "about", isEvents: s === "events",
+      isJoin: s === "join", isContact: s === "contact",
+      goHome: (e) => { e.preventDefault(); this.go("home")(); },
+      goCommittee: () => {
+        this.setState({ screen: "about", openMenu: null });
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          const el = document.getElementById("committee");
+          if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: "smooth" });
+        }));
+      },
+      goEvents: this.go("events"), goJoin: this.go("join"),
+      goSongbirds: () => window.open("https://events.humanitix.com/season-songbirds-ayelupy4", "_blank", "noopener"),
+      goJamboree: () => window.open("https://lyricsunderground.oztix.com.au/outlet/event/4fa8bb9a-8264-4fa7-acea-8ece5d16e877?Event=244042", "_blank", "noopener"),
+
+      nlName: this.state.nlName,
+      nlEmail: this.state.nlEmail,
+      nlMusician: this.state.nlMusician,
+      setName: (e) => this.setState({ nlName: e.target.value }),
+      setEmail: (e) => this.setState({ nlEmail: e.target.value }),
+      setMusician: (v) => this.setState({ nlMusician: v }),
+      subscribed: !!this.state.subscribedEmail,
+      notSubscribed: !this.state.subscribedEmail,
+      subscribedEmail: this.state.subscribedEmail,
+      onSubscribe: (e) => {
+        e.preventDefault();
+        if (!this.state.nlEmail) return;
+        this.setState({ subscribedEmail: this.state.nlEmail });
+      },
+
+      pillars: [
+        { num: "01", title: "Concerts & events", body: "Live music in venues, halls, parks and unexpected spaces across WA." },
+        { num: "02", title: "Regional events", body: "Bringing music to towns outside the city." },
+        { num: "03", title: "Rising Sound Sessions", body: "Short-form filmed concerts capturing original WA performers." },
+        { num: "04", title: "Connecting performers with stages", body: "Matching musicians and venues." }
+      ],
+      values: [
+        { title: "Community", body: "The room matters as much as the bill." },
+        { title: "Craft", body: "Sound, light and staging done properly." },
+        { title: "Original work", body: "A place for original songs, where many rooms only want covers." },
+        { title: "Care", body: "Artists paid, audiences looked after." },
+        { title: "Local first", body: "We encourage WA artists, and welcome acts from further afield." }
+      ],
+      committee: this.withPhotos([
+        {
+          name: "Jon Elbery",
+          role: "Chair",
+          photo: "assets/committee-jon-elbery.jpg",
+          bio: [
+            "Jon Elbery chairs Rising Sound WA, bringing governance experience from a career as a public company director to a volunteer-run arts organisation. He retired from company directorship some years ago and now chairs the Kalamunda Chamber of Commerce, co-chairs Kalamunda Community Matters, and sits on the board of the Bullwinkel Business Alliance.",
+            "A drummer who began playing in London, Jon has spent a lifetime in and around live music as a performer and audience member. He settled in the Kalamunda region, where he has built the bands, friendships and community relationships that Rising Sound WA still draws on.",
+            "Within the organisation Jon is responsible for turning programming ideas into delivered events: governance, reporting, compliance and the administration that sits behind every show. He remains committed to enriching the Perth music scene and to putting more original WA artists in front of audiences."
+          ]
+        },
+        {
+          name: "Siân Johanna",
+          role: "Chief Executive Officer",
+          photo: "assets/committee-sian.jpg",
+          bio: [
+            "Siân Johanna is the founding Chief Executive Officer of Rising Sound WA and leads its programming. She is a working musician who played alongside Jon Elbery in several long-running Perth Hills bands, and she founded Ladybird Music, a business spanning recording, tuition, promotion and events.",
+            "Frustrated that hearing good original music meant driving down the hill, she began building it where she lived. Live at the Kala, a monthly line-up at the Kalamunda Hotel, was followed by the Summer Sundowner at Araluen and Live at the Spire, among others. The audiences were there; what she wanted next was better pay and larger opportunities for the artists. Rising Sound WA was established with Jon Elbery to provide them.",
+            "She now curates the Saturday Sessions at Midland Records and the Rising Sound Sessions film series, and is developing the organisation's next programs."
+          ]
+        },
+        {
+          name: "Nici Bull",
+          role: "Committee member",
+          photo: "assets/committee-nici-bull.jpg",
+          bio: [
+            "Nici Bull is an original singer-songwriter based in the Perth Hills, performing as Midnight Francine across indie, folk and blues.",
+            "She brings a performing artist's perspective to the committee, having played the rooms and bills Rising Sound WA programs."
+          ]
+        },
+        {
+          name: "Mark Phillips",
+          role: "Committee member",
+          photo: "assets/committee-mark-phillips.jpg",
+          bio: [
+            "Mark Phillips presents The Mixtape Radio Show and curates Sofar Sounds Perth.",
+            "He brings broadcast and curatorial reach to the committee, connecting the artists Rising Sound WA programs with audiences on air and in Sofar's intimate rooms."
+          ]
+        },
+        {
+          name: "Sarah Mason Durack",
+          role: "Committee member",
+          photo: "assets/committee-sarah-mason-durack.jpg",
+          bio: [
+            "Sarah Mason Durack fronts The Stumblers, who make sweet, heart filled country music — songs of hard lives and domestic bliss.",
+            "She is currently working to bring country music to underutilised halls in country towns."
+          ]
+        },
+        {
+          name: "Gem Addison",
+          role: "Committee member",
+          photo: "assets/committee-gem-addison.jpg",
+          bio: [
+            "Gem Addison is a singer-songwriter, music teacher, and promoter.",
+            "Throughout her last few years in the local scene, Gem has put on community based events supporting upcoming artists in Perth, including a livestream series \u201CGrapejuice Does a Livefest\u201D and \u201CHangout at the Hyde\u201D.",
+            "Gem is an accomplished musician and singer and is one half of the band Charlie & Goldie."
+          ]
+        }
+      ]),
+
+      homeEvents: (upcoming.length ? upcoming : byDate.slice(-4)).slice(0, 4).map(withCta),
+      shownUpcoming: shownUpcoming.map(withCta),
+      shownPast: shownPast,
+      hasPast: shownPast.length > 0,
+      noUpcoming: shownUpcoming.length === 0 && shownPast.length > 0,
+      isEmpty: shownUpcoming.length === 0 && shownPast.length === 0,
+      filters: ["All", "Metro", "Regional", "Free"],
+      filter: f,
+      setFilter: (v) => this.setState({ filter: v }),
+
+      featuredPoster: { src: this.asset("assets/poster-kerry-b-ryan.jpg"), alt: "Saturday Sessions poster: Kerry B Ryan and The Off Set", caption: "Sat 5 Sep · Kerry B Ryan and The Off Set" },
+      posters: [
+        { src: "assets/poster-kerry-b-ryan.jpg", alt: "Saturday Sessions poster", caption: "Kerry B Ryan and The Off Set" },
+        { src: "assets/poster-jamboree.jpg", alt: "Spring Time Country Folk Jamboree poster", caption: "Spring Time Country Folk Jamboree" },
+        { src: "assets/poster-season-songbirds.jpg", alt: "Season Songbirds Spring edition poster", caption: "Season Songbirds — Spring edition" },
+        { src: "assets/poster-june.jpg", alt: "June season poster", caption: "June at Midland Records" },
+        { src: "assets/poster-sessions-teal.jpg", alt: "Saturday Sessions poster", caption: "Tanya Hemi and The Dusty Stingrays" },
+        { src: "assets/poster-sessions-lemon.jpg", alt: "Saturday Sessions poster", caption: "Vissac and Moana Mayatrix" },
+        { src: "assets/poster-sessions-flare.jpg", alt: "Saturday Sessions poster", caption: "Arturo and Blue Minou" }
+      ].map(p => Object.assign({}, p, { src: this.asset(p.src) })),
+      sessions: SESSIONS.slice(0, 3).map(s => Object.assign({}, s, { image: this.asset(s.image) })),
+      allSessions: SESSIONS.map(s => Object.assign({}, s, { image: this.asset(s.image) })),
+
+      pathways: [
+        { num: "01", title: "Musicians", body: "Original work, any stage of your career.", long: "Send us a link to your work and we will see if we can help. Sessions slots, support spots and regional dates all start here.", cta: "Get in touch" },
+        { num: "02", title: "Venues & presenters", body: "Rooms, halls and public spaces.", long: "We bring the acts, the gear and the audience. If you have a room in the metro area or a regional town, we want to hear about it.", cta: "Partner with us" },
+        { num: "03", title: "Members & volunteers", body: "Keep the free sessions free.", long: "Membership funds artist fees and keeps ticket prices down. Volunteers run doors, cameras and load-ins.", cta: "Become a member" }
+      ],
+      tiers: [
+        { name: "Member", price: "$20", period: "per year", blurb: "Keep the free sessions free.", features: ["Member ticket prices", "Priority for Sessions slots", "Listed in the artist directory", "Monthly what's on email", "Vote at the AGM"], cta: "Become a member", featured: true },
+        { name: "Champion", price: "$100", period: "per year", blurb: "For the people who make seasons happen.", features: ["Everything in Member", "Two double passes a year", "Named in the season program"], cta: "Join as champion", featured: false }
+      ],
+      enquiryOptions: [
+        { value: "general", label: "General enquiry" },
+        { value: "perform", label: "I want to perform" },
+        { value: "venue", label: "I have a venue" },
+        { value: "member", label: "Membership" },
+        { value: "media", label: "Media" }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

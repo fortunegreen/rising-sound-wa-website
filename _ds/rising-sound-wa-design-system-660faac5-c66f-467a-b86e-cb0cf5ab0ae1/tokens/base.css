@@ -1,0 +1,14 @@
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--surface-page);color:var(--text-body);font:var(--type-body);-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{margin:0;color:var(--text-primary)}
+h1{font:var(--type-display);letter-spacing:var(--ls-display);text-transform:uppercase}
+h2{font:var(--type-h2);letter-spacing:var(--ls-heading);text-transform:uppercase}
+h3{font:var(--type-h3)}
+p{margin:0 0 var(--sp-4);text-wrap:pretty}
+a{color:var(--link);text-decoration:none;border-bottom:1px solid currentColor;transition:var(--motion-hover)}
+a:hover{color:var(--link-hover)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
+::selection{background:var(--rs-amber);color:var(--rs-ink)}
+.rs-eyebrow{font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-accent)}
+.rs-on-light{background:var(--surface-inverse);color:var(--text-inverse)}
+.rs-on-light a{color:var(--link-inverse)}
