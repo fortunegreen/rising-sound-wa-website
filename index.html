@@ -197,11 +197,11 @@
         <p style="margin:24px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--text-body)">Short-form filmed concerts capturing original WA performers, recorded on the shop floor at Midland Records.</p>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:24px;margin-top:40px">
           <sc-for list="{{ sessions }}" as="s" hint-placeholder-count="3">
-            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.VideoCard" title="{{ s.title }}" artist="{{ s.artist }}" episode="{{ s.episode }}" duration="{{ s.duration }}" image="{{ s.image }}" tone="{{ s.tone }}" hint-size="100%,300px"></x-import>
+            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.VideoCard" title="{{ s.title }}" artist="{{ s.artist }}" episode="{{ s.episode }}" duration="{{ s.duration }}" image="{{ s.image }}" tone="{{ s.tone }}" onPlay="{{ s.onPlayFromHome }}" hint-size="100%,300px"></x-import>
           </sc-for>
         </div>
         <div style="margin-top:40px">
-          <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="secondary" onClick="{{ goEvents }}" hint-size="auto,40px">See all sessions</x-import>
+          <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="secondary" onClick="{{ goSessions }}" hint-size="auto,40px">See all sessions</x-import>
         </div>
       </div>
     </section>
@@ -405,19 +405,6 @@
       </div>
     </section>
 
-    <section style="background:var(--rs-ink-900);border-top:1px solid var(--line-hairline)">
-      <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px">
-        <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.SectionHeading" eyebrow="Rising Sound Sessions" title="Three songs, one take" rule="amber" hint-size="100%,96px"></x-import>
-        <p style="margin:24px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--text-body)">Short-form filmed concerts capturing original WA performers. No overdubs, no crowd, one afternoon on the shop floor at Midland Records.</p>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:24px;margin-top:40px">
-          <sc-for list="{{ allSessions }}" as="s" hint-placeholder-count="6">
-            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.VideoCard" title="{{ s.title }}" artist="{{ s.artist }}" episode="{{ s.episode }}" duration="{{ s.duration }}" image="{{ s.image }}" tone="{{ s.tone }}" hint-size="100%,300px"></x-import>
-          </sc-for>
-        </div>
-        <p style="margin:40px 0 0;font-family:var(--font-mono);font-size:var(--fs-micro);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">Poster frames stand in until the session films are supplied.</p>
-      </div>
-    </section>
-
     <section style="background:#000;border-top:1px solid var(--line-hairline)">
       <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px">
         <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.SectionHeading" eyebrow="Posters" title="The season, on paper" rule="amber" hint-size="100%,96px"></x-import>
@@ -425,6 +412,84 @@
           <sc-for list="{{ posters }}" as="p" hint-placeholder-count="4">
             <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Poster" src="{{ p.src }}" alt="{{ p.alt }}" caption="{{ p.caption }}" interactive="{{ true }}" hint-size="100%,420px"></x-import>
           </sc-for>
+        </div>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <!-- ══ SESSIONS ══ -->
+  <sc-if value="{{ isSessions }}">
+  <main data-screen-label="Sessions">
+    <section style="background:var(--rs-teal)">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(56px,9vw,120px) 24px">
+        <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-teal-700)">Rising Sound Sessions</span>
+        <h1 style="margin:20px 0 0;max-width:22ch;font:var(--type-display);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-ink)">Three songs, one take.</h1>
+        <p style="margin:24px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--rs-ink)">Short-form filmed concerts capturing original WA performers. No overdubs, no crowd, one afternoon on the shop floor at Midland Records.</p>
+      </div>
+    </section>
+
+    <section style="background:#000;border-bottom:1px solid var(--line-hairline)">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px">
+        <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">Featured session</span>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(32px,5vw,56px);margin-top:28px;align-items:center">
+          <div>
+            <sc-if value="{{ featuredSession.notPlaying }}" hint-placeholder-val="{{ true }}">
+              <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.VideoCard" title="{{ featuredSession.title }}" artist="{{ featuredSession.artist }}" episode="{{ featuredSession.episode }}" duration="{{ featuredSession.duration }}" image="{{ featuredSession.image }}" tone="{{ featuredSession.tone }}" onPlay="{{ featuredSession.onPlay }}" hint-size="100%,360px"></x-import>
+            </sc-if>
+            <sc-if value="{{ featuredSession.isPlaying }}">
+              <div style="position:relative;aspect-ratio:16/9;width:100%;background:var(--rs-ink-700)">
+                <iframe src="{{ featuredSession.embedUrl }}" title="{{ featuredSession.frameTitle }}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="true" style="position:absolute;inset:0;width:100%;height:100%;border:0;display:block"></iframe>
+              </div>
+            </sc-if>
+          </div>
+          <div>
+            <h2 style="margin:0;font:var(--type-h2);letter-spacing:var(--ls-heading);text-transform:uppercase;color:var(--rs-bone-50)">{{ featuredSession.title }}</h2>
+            <p style="margin:14px 0 0;font-family:var(--font-brand);font-weight:900;font-size:clamp(1.75rem,3.5vw,2.5rem);line-height:1;color:var(--rs-amber)">{{ featuredSession.subtitle }}</p>
+            <p style="margin:20px 0 0;font-family:var(--font-mono);font-size:var(--fs-micro);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">{{ featuredSession.meta }}</p>
+            <p style="margin:24px 0 0;max-width:44ch;line-height:var(--lh-body);color:var(--text-body)">An original composition, recorded live on the shop floor.</p>
+            <div style="margin-top:32px">
+              <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" size="lg" onClick="{{ featuredSession.onPlay }}" hint-size="auto,48px">Play the session</x-import>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="background:#000">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px">
+        <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.SectionHeading" eyebrow="All sessions" title="The rest of the series" rule="amber" hint-size="100%,96px"></x-import>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:40px 24px;margin-top:40px">
+          <sc-for list="{{ allSessions }}" as="s" hint-placeholder-count="6">
+            <div>
+              <sc-if value="{{ s.notPlaying }}" hint-placeholder-val="{{ true }}">
+                <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.VideoCard" title="{{ s.title }}" artist="{{ s.artist }}" episode="{{ s.episode }}" duration="{{ s.duration }}" image="{{ s.image }}" tone="{{ s.tone }}" onPlay="{{ s.onPlay }}" hint-size="100%,300px"></x-import>
+              </sc-if>
+              <sc-if value="{{ s.isPlaying }}">
+                <div style="position:relative;aspect-ratio:16/9;width:100%;background:var(--rs-ink-700)">
+                  <iframe src="{{ s.embedUrl }}" title="{{ s.frameTitle }}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="true" style="position:absolute;inset:0;width:100%;height:100%;border:0;display:block"></iframe>
+                </div>
+              </sc-if>
+              <sc-if value="{{ s.hasSong }}">
+                <p style="margin:16px 0 0;font:var(--type-h3);font-size:var(--fs-h3);color:var(--text-primary)">{{ s.subtitle }}</p>
+              </sc-if>
+              <p style="margin:12px 0 0;font-family:var(--font-mono);font-size:var(--fs-micro);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">{{ s.meta }}</p>
+            </div>
+          </sc-for>
+        </div>
+        <p style="margin:56px 0 0;font-family:var(--font-mono);font-size:var(--fs-micro);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">Session stills stand in until the films are delivered. Song titles and video links to follow.</p>
+      </div>
+    </section>
+
+    <section style="background:var(--rs-ink-900);border-top:1px solid var(--line-hairline)">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between">
+        <div>
+          <h2 style="margin:0;font:var(--type-h2);letter-spacing:var(--ls-heading);text-transform:uppercase;color:var(--rs-bone-50)">Play a session.</h2>
+          <p style="margin:16px 0 0;max-width:52ch;line-height:var(--lh-body);color:var(--text-body)">Sessions are filmed at the free Saturday shows. Come to one, or send us your work.</p>
+        </div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap">
+          <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" size="lg" onClick="{{ goEvents }}" hint-size="auto,48px">See what's on</x-import>
+          <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="secondary" size="lg" onClick="{{ goJoin }}" hint-size="auto,48px">Get involved</x-import>
         </div>
       </div>
     </section>
@@ -594,19 +659,21 @@ const EVENTS = [
   { id: 7, date: "2026-10-17", day: "17", month: "Oct", title: "Merredin Pre-Harvest Hoedown", support: "Country music classics performed by The Stumblers, plus boot scooting, bush dancing, games and activities.", venue: "Cummins Theatre, Bates St, Merredin", time: "6pm–11pm", region: "Regional", free: false, badge: { tone: "live", label: "Hoedown" }, tags: ["Regional", "Ticketed"], cta: "Add to calendar", ctaVariant: "secondary" }
 ];
 
+// song and url are filled in as each film is delivered. Leave "" / null until then.
 const SESSIONS = [
-  { title: "Tanya Hemi", artist: "Saturday Sessions · Midland Records", episode: "Session 01", duration: "Coming soon", image: "assets/img-singer.jpg", tone: "teal" },
-  { title: "Blue Minou", artist: "Saturday Sessions · Midland Records", episode: "Session 02", duration: "Coming soon", image: "assets/img-graffiti.jpg", tone: "flare" },
-  { title: "Arturo", artist: "Saturday Sessions · Midland Records", episode: "Session 03", duration: "Coming soon", image: "assets/img-portrait-sepia.jpg", tone: "amber" },
-  { title: "Gidge Rock", artist: "Wabi Sabi album launch", episode: "Session 04", duration: "Coming soon", image: "assets/img-stage.jpg", tone: "voltage" },
-  { title: "String and Bone", artist: "Saturday Sessions · Midland Records", episode: "Session 05", duration: "Coming soon", image: "assets/img-shopfloor.jpg", tone: "teal" },
-  { title: "Moana Mayatrix", artist: "Saturday Sessions · Midland Records", episode: "Session 06", duration: "Coming soon", image: null, tone: "lemon" }
+  { artist: "Whiskey Jack", song: "Clover", date: "Sat 30 May 2026", venue: "Midland Records", episode: "Session 01", image: "assets/img-shopfloor.jpg", tone: "amber", featured: true, url: "https://vimeo.com/1223579205?share=copy&fl=sv&fe=ci" },
+  { artist: "Tanya Hemi", song: "", date: "Sat 13 Jun 2026", venue: "Midland Records", episode: "Session 01", image: "assets/img-singer.jpg", tone: "teal", url: null },
+  { artist: "Blue Minou", song: "", date: "Sat 22 Aug 2026", venue: "Midland Records", episode: "Session 02", image: "assets/img-graffiti.jpg", tone: "flare", url: null },
+  { artist: "Arturo", song: "", date: "Sat 22 Aug 2026", venue: "Midland Records", episode: "Session 03", image: "assets/img-portrait-sepia.jpg", tone: "amber", url: null },
+  { artist: "Gidge Rock", song: "", date: "Sat 6 Jun 2026", venue: "Midland Records", episode: "Session 04", image: "assets/img-stage.jpg", tone: "voltage", url: null },
+  { artist: "String and Bone", song: "", date: "Sat 27 Jun 2026", venue: "Midland Records", episode: "Session 05", image: null, tone: "teal", url: null },
+  { artist: "Moana Mayatrix", song: "", date: "Sat 8 Aug 2026", venue: "Midland Records", episode: "Session 06", image: null, tone: "flare", url: null }
 ];
 
 class Component extends DCLogic {
-  state = { screen: "home", openMenu: null, filter: "All", nlName: "", nlEmail: "", nlMusician: false, subscribedEmail: null };
+  state = { screen: "home", openMenu: null, playing: null, filter: "All", nlName: "", nlEmail: "", nlMusician: false, subscribedEmail: null };
 
-  go = (s) => () => { this.setState({ screen: s }); window.scrollTo(0, 0); };
+  go = (s) => () => { this.setState({ screen: s, playing: null }); window.scrollTo(0, 0); };
 
   asset(p) {
     const map = (typeof window !== "undefined" && window.RS_ASSETS) || {};
@@ -622,14 +689,49 @@ class Component extends DCLogic {
     }));
   }
 
+  embed(url) {
+    if (!url) return null;
+    const vimeo = url.match(/vimeo\.com\/(\d+)(?:\/([0-9a-z]+))?/i);
+    if (vimeo) return "https://player.vimeo.com/video/" + vimeo[1] + (vimeo[2] ? "?h=" + vimeo[2] + "&autoplay=1" : "?autoplay=1");
+    const yt = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([\w-]{6,})/i);
+    if (yt) return "https://www.youtube-nocookie.com/embed/" + yt[1] + "?autoplay=1&rel=0";
+    return null;
+  }
+
+  session(s) {
+    const meta = [s.date, s.venue].filter(Boolean).join(" · ");
+    const n = SESSIONS.indexOf(s) + 1;
+    const key = "s" + n;
+    const embedUrl = this.embed(s.url);
+    return Object.assign({}, s, {
+      episode: "Session " + String(n).padStart(2, "0"),
+      image: this.asset(s.image),
+      title: s.artist,
+      artist: s.song || "",
+      subtitle: s.song || "",
+      hasSong: !!s.song,
+      meta,
+      duration: s.url ? "Watch" : "Coming soon",
+      isPlaying: this.state.playing === key,
+      notPlaying: this.state.playing !== key,
+      frameTitle: (s.artist || "") + (s.song ? " — " + s.song : ""),
+      embedUrl,
+      onPlay: embedUrl ? () => this.setState({ playing: key })
+        : s.url ? () => window.open(s.url, "_blank", "noopener") : undefined,
+      onPlayFromHome: embedUrl
+        ? () => { this.setState({ screen: "sessions", playing: key }); window.scrollTo(0, 0); }
+        : () => { this.setState({ screen: "sessions", playing: null }); window.scrollTo(0, 0); }
+    });
+  }
+
   renderVals() {
     const s = this.state.screen;
     const items = [
       ["home", "Home"], ["about", "About"], ["events", "Events"],
-      ["join", "Get involved"], ["contact", "Contact"]
+      ["sessions", "Sessions"], ["join", "Get involved"], ["contact", "Contact"]
     ];
     const secondary = [
-      ["home", "Home"], ["about", "About"], ["contact", "Contact"]
+      ["home", "Home"], ["about", "About"], ["sessions", "Sessions"], ["contact", "Contact"]
     ];
     const link = ([k, label]) => ({
       key: k, label, go: this.go(k),
@@ -654,7 +756,8 @@ class Component extends DCLogic {
       nav: items.map(link),
       secondaryNav: secondary.map(link),
       isHome: s === "home", isAbout: s === "about", isEvents: s === "events",
-      isJoin: s === "join", isContact: s === "contact",
+      isSessions: s === "sessions", isJoin: s === "join", isContact: s === "contact",
+      goSessions: this.go("sessions"),
       goHome: (e) => { e.preventDefault(); this.go("home")(); },
       goCommittee: () => {
         this.setState({ screen: "about", openMenu: null });
@@ -775,8 +878,9 @@ class Component extends DCLogic {
         { src: "assets/poster-sessions-lemon.jpg", alt: "Saturday Sessions poster", caption: "Vissac and Moana Mayatrix" },
         { src: "assets/poster-sessions-flare.jpg", alt: "Saturday Sessions poster", caption: "Arturo and Blue Minou" }
       ].map(p => Object.assign({}, p, { src: this.asset(p.src) })),
-      sessions: SESSIONS.slice(0, 3).map(s => Object.assign({}, s, { image: this.asset(s.image) })),
-      allSessions: SESSIONS.map(s => Object.assign({}, s, { image: this.asset(s.image) })),
+      sessions: SESSIONS.slice(0, 3).map(s => this.session(s)),
+      allSessions: SESSIONS.filter(x => !x.featured).map(s => this.session(s)),
+      featuredSession: this.session(SESSIONS.find(x => x.featured) || SESSIONS[0]),
 
       pathways: [
         { num: "01", title: "Musicians", body: "Original work, any stage of your career.", long: "Send us a link to your work and we will see if we can help. Sessions slots, support spots and regional dates all start here.", cta: "Get in touch" },
