@@ -524,7 +524,7 @@
         <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.SectionHeading" eyebrow="Membership" title="Keep the free shows free" rule="amber" hint-size="100%,96px"></x-import>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,400px));gap:24px;margin-top:48px;align-items:start">
           <sc-for list="{{ tiers }}" as="t" hint-placeholder-count="2">
-            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.TierCard" name="{{ t.name }}" price="{{ t.price }}" period="{{ t.period }}" blurb="{{ t.blurb }}" features="{{ t.features }}" cta="{{ t.cta }}" featured="{{ t.featured }}" hint-size="100%,420px"></x-import>
+            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.TierCard" name="{{ t.name }}" price="{{ t.price }}" period="{{ t.period }}" blurb="{{ t.blurb }}" features="{{ t.features }}" cta="{{ t.cta }}" featured="{{ t.featured }}" onSelect="{{ t.onSelect }}" hint-size="100%,420px"></x-import>
           </sc-for>
         </div>
         <p style="margin:32px 0 0;font-family:var(--font-mono);font-size:var(--fs-micro);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">Musicians pay no more than anyone else. Playing with us costs nothing.</p>
@@ -650,6 +650,36 @@
   </footer>
 </div>
 
+
+<sc-if value="{{ mOpen }}" hint-placeholder-val="{{ false }}">
+  <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Dialog" open="{{ true }}" title="{{ mTitle }}" onClose="{{ closeMembership }}" hint-size="100%,100%">
+    <form onSubmit="{{ onMembershipSubmit }}" style="display:grid;gap:20px">
+      <p style="margin:0;font-size:var(--fs-body-sm);line-height:var(--lh-body);color:var(--text-body);max-width:46ch">{{ mBlurb }}</p>
+      <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Input" label="Name" placeholder="Your name" value="{{ mName }}" onChange="{{ setMName }}" hint-size="100%,72px"></x-import>
+      <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Input" label="Email" type="email" placeholder="you@email.com" value="{{ mEmail }}" onChange="{{ setMEmail }}" hint-size="100%,72px"></x-import>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" type="submit" disabled="{{ mSubmitting }}" hint-size="auto,48px">{{ mSubmitLabel }}</x-import>
+        <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="ghost" onClick="{{ closeMembership }}" hint-size="auto,48px">Cancel</x-import>
+      </div>
+      <p style="margin:0;font-size:var(--fs-body-sm);color:var(--text-muted)">You'll be taken to our payment provider to finish up.</p>
+      <sc-if value="{{ mError }}" hint-placeholder-val="{{ false }}">
+        <p style="margin:0;font-size:var(--fs-body-sm);color:var(--rs-stop)">{{ mError }}</p>
+      </sc-if>
+    </form>
+  </x-import>
+</sc-if>
+
+<sc-if value="{{ membershipNotice }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:24px;right:24px;bottom:24px;z-index:80;display:flex;justify-content:center;pointer-events:none">
+    <div style="pointer-events:auto;display:flex;gap:20px;align-items:flex-start;max-width:560px;background:var(--rs-bone-50);color:var(--rs-ink);border:0;box-shadow:8px 8px 0 0 var(--rs-amber);padding:24px 28px">
+      <div style="flex:1">
+        <p style="margin:0;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber-700)">{{ membershipNoticeEyebrow }}</p>
+        <p style="margin:10px 0 0;font-size:var(--fs-body);line-height:var(--lh-body);color:var(--rs-ink)">{{ membershipNotice }}</p>
+      </div>
+      <button onClick="{{ dismissMembershipNotice }}" style="background:none;border:0;padding:0;cursor:pointer;font:var(--type-meta);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--rs-ink)" style-hover="color:var(--rs-amber-700)">Close</button>
+    </div>
+  </div>
+</sc-if>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1000}}">
 const EVENTS = [
@@ -676,9 +706,19 @@ const SESSIONS = [
 ];
 
 class Component extends DCLogic {
-  state = { screen: "home", openMenu: null, playing: null, filter: "All", nlName: "", nlEmail: "", nlWebsite: "", nlMusician: false, nlSubmitting: false, nlError: null, subscribedEmail: null, cName: "", cEmail: "", cEnquiry: "general", cMessage: "", cWebsite: "", cSubmitting: false, cError: null, contactSubmitted: false };
+  state = { mOpen: false, mTier: null, mTitle: "", mBlurb: "", mName: "", mEmail: "", mSubmitting: false, mError: null, membershipNotice: null, membershipNoticeEyebrow: "", screen: "home", openMenu: null, playing: null, filter: "All", nlName: "", nlEmail: "", nlWebsite: "", nlMusician: false, nlSubmitting: false, nlError: null, subscribedEmail: null, cName: "", cEmail: "", cEnquiry: "general", cMessage: "", cWebsite: "", cSubmitting: false, cError: null, contactSubmitted: false };
 
   go = (s) => () => { this.setState({ screen: s, playing: null }); window.scrollTo(0, 0); };
+
+  openMembership = (tier, title, blurb) => {
+    this.setState({ mOpen: true, mTier: tier, mTitle: title, mBlurb: blurb, mError: null, mSubmitting: false });
+  };
+
+  componentDidMount() {
+    const q = new URLSearchParams(window.location.search).get("membership");
+    if (q === "success") this.setState({ membershipNotice: "You're in. Check your email for the receipt and your member details.", membershipNoticeEyebrow: "Welcome aboard" });
+    else if (q === "cancelled") this.setState({ membershipNotice: "Checkout cancelled — nothing was charged. Join any time.", membershipNoticeEyebrow: "Checkout cancelled" });
+  }
 
   asset(p) {
     const map = (typeof window !== "undefined" && window.RS_ASSETS) || {};
@@ -827,6 +867,46 @@ class Component extends DCLogic {
           })
           .catch(() => {
             this.setState({ nlSubmitting: false, nlError: "Network error — please try again in a moment." });
+          });
+      },
+
+      mOpen: this.state.mOpen,
+      mTier: this.state.mTier,
+      mTitle: this.state.mTitle,
+      mBlurb: this.state.mBlurb,
+      mName: this.state.mName,
+      mEmail: this.state.mEmail,
+      setMName: (e) => this.setState({ mName: e.target.value }),
+      setMEmail: (e) => this.setState({ mEmail: e.target.value }),
+      mSubmitting: this.state.mSubmitting,
+      mSubmitLabel: this.state.mSubmitting ? "Taking you to checkout…" : "Continue to payment",
+      mError: this.state.mError,
+      closeMembership: () => this.setState({ mOpen: false, mError: null }),
+      membershipNotice: this.state.membershipNotice,
+      membershipNoticeEyebrow: this.state.membershipNoticeEyebrow,
+      dismissMembershipNotice: () => this.setState({ membershipNotice: null }),
+      onMembershipSubmit: (e) => {
+        e.preventDefault();
+        if (!this.state.mEmail || this.state.mSubmitting) return;
+        this.setState({ mSubmitting: true, mError: null });
+        fetch("https://email-worker.misty-recipe-db89.workers.dev/membership/checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ tier: this.state.mTier, email: this.state.mEmail, name: this.state.mName })
+        })
+          .then((res) => res.json().then((data) => ({ ok: res.ok, data })))
+          .then(({ ok, data }) => {
+            if (ok && data && data.url) {
+              window.location.href = data.url;
+            } else {
+              this.setState({
+                mSubmitting: false,
+                mError: (data && data.error) || "We couldn't start checkout. Please try again."
+              });
+            }
+          })
+          .catch(() => {
+            this.setState({ mSubmitting: false, mError: "Network error — please try again in a moment." });
           });
       },
 
@@ -979,8 +1059,8 @@ class Component extends DCLogic {
         { num: "03", title: "Members & volunteers", body: "Keep the free sessions free.", long: "Membership funds artist fees and keeps ticket prices down. Volunteers run doors, cameras and load-ins.", cta: "Become a member" }
       ],
       tiers: [
-        { name: "Member", price: "$20", period: "per year", blurb: "Keep the free sessions free.", features: ["Member ticket prices", "Priority for Sessions slots", "Listed in the artist directory", "Monthly what's on email", "Vote at the AGM"], cta: "Become a member", featured: true },
-        { name: "Champion", price: "$100", period: "per year", blurb: "For the people who make seasons happen.", features: ["Everything in Member", "Two double passes a year", "Named in the season program"], cta: "Join as champion", featured: false }
+        { name: "Member", price: "$20", period: "per year", blurb: "Keep the free sessions free.", features: ["Member ticket prices", "Priority for Sessions slots", "Listed in the artist directory", "Monthly what's on email", "Vote at the AGM"], cta: "Become a member", featured: true, onSelect: () => this.openMembership("member", "Become a member", "$20 a year. Cancel any time.") },
+        { name: "Champion", price: "$100", period: "per year", blurb: "For the people who make seasons happen.", features: ["Everything in Member", "Two double passes a year", "Named in the season program"], cta: "Join as champion", featured: false, onSelect: () => this.openMembership("champion", "Join as champion", "$100 a year. Cancel any time.") }
       ],
       enquiryOptions: [
         { value: "general", label: "General enquiry" },
