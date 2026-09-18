@@ -604,12 +604,16 @@
             <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Input" label="First name" placeholder="Your name" value="{{ nlName }}" onChange="{{ setName }}" hint-size="100%,76px"></x-import>
             <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Input" label="Email" type="email" placeholder="you@email.com" value="{{ nlEmail }}" onChange="{{ setEmail }}" hint-size="100%,76px"></x-import>
           </div>
+          <input type="text" name="website" value="{{ nlWebsite }}" onChange="{{ setWebsite }}" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px" aria-hidden="true" />
           <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap">
             <div style="flex:none">
-              <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" type="submit" size="lg" hint-size="auto,48px">Sign me up</x-import>
+              <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" type="submit" size="lg" hint-size="auto,48px">{{ nlSubmitLabel }}</x-import>
             </div>
             <p style="margin:0;flex:1;min-width:200px;font-size:var(--fs-body-sm);color:var(--text-muted)">Unsubscribe any time. We don't share your details.</p>
           </div>
+          <sc-if value="{{ nlError }}" hint-placeholder-val="{{ false }}">
+            <p style="margin:0;font-size:var(--fs-body-sm);color:#e5484d">{{ nlError }}</p>
+          </sc-if>
         </form>
       </sc-if>
     </div>
@@ -671,7 +675,7 @@ const SESSIONS = [
 ];
 
 class Component extends DCLogic {
-  state = { screen: "home", openMenu: null, playing: null, filter: "All", nlName: "", nlEmail: "", nlMusician: false, subscribedEmail: null };
+  state = { screen: "home", openMenu: null, playing: null, filter: "All", nlName: "", nlEmail: "", nlWebsite: "", nlMusician: false, nlSubmitting: false, nlError: null, subscribedEmail: null };
 
   go = (s) => () => { this.setState({ screen: s, playing: null }); window.scrollTo(0, 0); };
 
@@ -775,14 +779,41 @@ class Component extends DCLogic {
       nlMusician: this.state.nlMusician,
       setName: (e) => this.setState({ nlName: e.target.value }),
       setEmail: (e) => this.setState({ nlEmail: e.target.value }),
+      setWebsite: (e) => this.setState({ nlWebsite: e.target.value }),
       setMusician: (v) => this.setState({ nlMusician: v }),
       subscribed: !!this.state.subscribedEmail,
       notSubscribed: !this.state.subscribedEmail,
       subscribedEmail: this.state.subscribedEmail,
+      nlSubmitting: this.state.nlSubmitting,
+      nlSubmitLabel: this.state.nlSubmitting ? "Signing you up…" : "Sign me up",
+      nlError: this.state.nlError,
       onSubscribe: (e) => {
         e.preventDefault();
-        if (!this.state.nlEmail) return;
-        this.setState({ subscribedEmail: this.state.nlEmail });
+        if (!this.state.nlEmail || this.state.nlSubmitting) return;
+        this.setState({ nlSubmitting: true, nlError: null });
+        fetch("https://email-worker.misty-recipe-db89.workers.dev/subscribe", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: this.state.nlEmail,
+            name: this.state.nlName,
+            website: this.state.nlWebsite // honeypot — real visitors leave this blank
+          })
+        })
+          .then((res) => res.json().then((data) => ({ ok: res.ok, data })))
+          .then(({ ok, data }) => {
+            if (ok && data && data.ok) {
+              this.setState({ subscribedEmail: this.state.nlEmail, nlSubmitting: false });
+            } else {
+              this.setState({
+                nlSubmitting: false,
+                nlError: (data && data.error) || "Something went wrong. Please try again."
+              });
+            }
+          })
+          .catch(() => {
+            this.setState({ nlSubmitting: false, nlError: "Network error — please try again in a moment." });
+          });
       },
 
       pillars: [
