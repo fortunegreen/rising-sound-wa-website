@@ -513,7 +513,7 @@
               <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);color:var(--rs-amber)">{{ w.num }}</span>
               <h3 style="margin:0;font:var(--type-h2);letter-spacing:var(--ls-heading);text-transform:uppercase;color:var(--rs-bone-50);font-size:var(--fs-h3)">{{ w.title }}</h3>
               <p style="margin:0;font-size:var(--fs-body-sm);line-height:var(--lh-body);color:var(--text-body);flex:1">{{ w.long }}</p>
-              <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="secondary" hint-size="auto,40px">{{ w.cta }}</x-import>
+              <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="secondary" onClick="{{ goContact }}" hint-size="auto,40px">{{ w.cta }}</x-import>
             </div>
           </sc-for>
         </div>
@@ -784,7 +784,7 @@ class Component extends DCLogic {
           if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: "smooth" });
         }));
       },
-      goEvents: this.go("events"), goJoin: this.go("join"),
+      goEvents: this.go("events"), goJoin: this.go("join"), goContact: this.go("contact"),
       goSongbirds: () => window.open("https://events.humanitix.com/season-songbirds-ayelupy4", "_blank", "noopener"),
       goJamboree: () => window.open("https://lyricsunderground.oztix.com.au/outlet/event/4fa8bb9a-8264-4fa7-acea-8ece5d16e877?Event=244042", "_blank", "noopener"),
 
