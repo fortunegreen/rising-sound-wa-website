@@ -322,60 +322,35 @@
         <p style="margin:24px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body)">Saturday Sessions are our free afternoon shows on the shop floor at Midland Records — they run when we have the right bill, not every Saturday. Other shows are usually ticketed one-offs.</p>
       </div>
     </section>
+    <sc-if value="{{ hasFeaturedEvents }}">
     <section style="background:var(--rs-ink-900);border-bottom:1px solid var(--line-hairline)">
       <div style="max-width:1360px;margin:0 auto;padding:clamp(40px,7vw,72px) 24px">
         <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">Featured</span>
         <div style="display:flex;flex-direction:column;gap:56px;margin-top:32px">
-
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(32px,5vw,56px);align-items:center;padding-top:56px;border-top:1px solid var(--line-hairline)">
-            <img src="assets/poster-jamboree.jpg" alt="Spring Time Country Folk Jamboree poster" style="width:100%;height:auto;display:block">
-            <div>
-              <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">Featured event</span>
-              <h2 style="margin:16px 0 0;font:var(--type-h2);font-size:var(--fs-h2);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-bone-50)">Spring Time Country Folk Jamboree</h2>
-              <div style="display:flex;flex-direction:column;gap:16px;margin-top:20px">
-                <p style="margin:0;max-width:52ch;font-size:var(--fs-body);line-height:var(--lh-body);color:var(--text-body);text-wrap:pretty">The Little Lord Street Band, Whiskey Jack, Stack of Bibles, Michael Savage and Band, and The Stumblers.</p>
-                <p style="margin:0;max-width:52ch;font-size:var(--fs-body);line-height:var(--lh-body);color:var(--text-body);text-wrap:pretty">An afternoon and evening celebrating the very best of Western Australian country, folk and Americana music.</p>
-              </div>
-              <p style="margin:24px 0 0;font:var(--type-meta);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">Sun 13 Sep · 4pm start, 8:30pm finish · Lyrics Underground</p>
-              <div style="margin-top:28px">
-                <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" onClick="{{ goJamboree }}" hint-size="auto,40px">Buy tickets</x-import>
-              </div>
-            </div>
-          </div>
-
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(32px,5vw,56px);align-items:center;padding-top:56px;border-top:1px solid var(--line-hairline)">
-            <img src="assets/poster-season-songbirds.jpg" alt="Season Songbirds — Spring edition poster" style="width:100%;height:auto;display:block">
-            <div>
-              <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">Featured series</span>
-              <h2 style="margin:16px 0 0;font:var(--type-h2);font-size:var(--fs-h2);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-bone-50)">Season Songbirds</h2>
-              <div style="display:flex;flex-direction:column;gap:16px;margin-top:20px">
-                <p style="margin:0;max-width:52ch;font-size:var(--fs-body);line-height:var(--lh-body);color:var(--text-body);text-wrap:pretty">Season Songbirds is a gig series designed to showcase and support female creatives from Western Australia. Inspired by the Nashville Bluebird Café “songwriters in the round” format, each event features four female singer-songwriters sharing original songs and the stories behind them in an intimate, acoustic, seated setting.</p>
-                <p style="margin:0;max-width:52ch;font-size:var(--fs-body);line-height:var(--lh-body);color:var(--text-body);text-wrap:pretty">Each event also features one female visual artist, who designs the event poster and is highlighted during the gig.</p>
-                <p style="margin:0;max-width:52ch;font-size:var(--fs-body);line-height:var(--lh-body);color:var(--text-body);text-wrap:pretty">Attendees are encouraged to donate to a selected women-focused organisation, and 10% of proceeds from each gig are allocated to this fundraising effort.</p>
-              </div>
-              <p style="margin:24px 0 0;font:var(--type-meta);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">Sun 4 Oct · 4:30–8pm · 24 View St, North Perth · Presented by Midnight Francine</p>
-              <div style="margin-top:28px">
-                <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" onClick="{{ goSongbirds }}" hint-size="auto,40px">Buy tickets</x-import>
+          <sc-for list="{{ featuredEvents }}" as="f">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(32px,5vw,56px);align-items:center;padding-top:56px;border-top:1px solid var(--line-hairline)">
+              <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Poster" src="{{ f.poster }}" ratio="{{ f.ratio }}" alt="{{ f.posterAlt }}" hint-size="100%,400px"></x-import>
+              <div>
+                <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">{{ f.eyebrow }}</span>
+                <h2 style="margin:16px 0 0;font:var(--type-h2);font-size:var(--fs-h2);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-bone-50)">{{ f.heading }}</h2>
+                <div style="display:flex;flex-direction:column;gap:16px;margin-top:20px">
+                  <sc-for list="{{ f.paragraphs }}" as="para">
+                    <p style="margin:0;max-width:52ch;font-size:var(--fs-body);line-height:var(--lh-body);color:var(--text-body);text-wrap:pretty">{{ para }}</p>
+                  </sc-for>
+                </div>
+                <p style="margin:24px 0 0;font:var(--type-meta);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">{{ f.meta }}</p>
+                <sc-if value="{{ f.hasTickets }}">
+                  <div style="margin-top:28px">
+                    <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" onClick="{{ f.onTickets }}" hint-size="auto,40px">Buy tickets</x-import>
+                  </div>
+                </sc-if>
               </div>
             </div>
-          </div>
-
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(32px,5vw,56px);align-items:center;padding-top:56px;border-top:1px solid var(--line-hairline)">
-            <img src="assets/poster-merredin-hoedown.jpg" alt="Merredin Pre-Harvest Hoedown poster" style="width:100%;height:auto;display:block">
-            <div>
-              <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">Featured event</span>
-              <h2 style="margin:16px 0 0;font:var(--type-h2);font-size:var(--fs-h2);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-bone-50)">Merredin Pre-Harvest Hoedown</h2>
-              <div style="display:flex;flex-direction:column;gap:16px;margin-top:20px">
-                <p style="margin:0;max-width:52ch;font-size:var(--fs-body);line-height:var(--lh-body);color:var(--text-body);text-wrap:pretty">Country music classics performed by The Stumblers, plus boot scooting, bush dancing, games and activities.</p>
-                <p style="margin:0;max-width:52ch;font-size:var(--fs-body);line-height:var(--lh-body);color:var(--text-body);text-wrap:pretty">A regional night out at the Cummins Theatre, bringing country music to a country town.</p>
-              </div>
-              <p style="margin:24px 0 0;font:var(--type-meta);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">Sat 17 Oct · 6pm–11pm · Cummins Theatre, Bates St, Merredin · Tickets to be announced</p>
-            </div>
-          </div>
-
+          </sc-for>
         </div>
       </div>
     </section>
+    </sc-if>
     <section style="background:#000">
       <div style="max-width:1360px;margin:0 auto;padding:clamp(32px,6vw,56px) 24px clamp(48px,8vw,96px)">
         <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Tabs" items="{{ filters }}" value="{{ filter }}" onChange="{{ setFilter }}" hint-size="100%,48px"></x-import>
@@ -744,6 +719,29 @@ const EVENT_POSTERS = {
   11: { src: "assets/poster-circle-of-six.jpg", ratio: "4/5" }
 };
 
+// Featured events on the Events page. Each shows only until its event date has passed; it then lives on in Past events.
+const FEATURED = [
+  { id: 6, eyebrow: "Featured event", heading: "Spring Time Country Folk Jamboree", meta: "Sun 13 Sep · 4pm start, 8:30pm finish · Lyrics Underground", paragraphs: [
+    "The Little Lord Street Band, Whiskey Jack, Stack of Bibles, Michael Savage and Band, and The Stumblers.",
+    "An afternoon and evening celebrating the very best of Western Australian country, folk and Americana music."
+  ] },
+  { id: 9, eyebrow: "Featured series", heading: "Season Songbirds", meta: "Sun 4 Oct · 4:30–8pm · 24 View St, North Perth · Presented by Midnight Francine", paragraphs: [
+    "Season Songbirds is a gig series designed to showcase and support female creatives from Western Australia. Inspired by the Nashville Bluebird Café \u201csongwriters in the round\u201d format, each event features four female singer-songwriters sharing original songs and the stories behind them in an intimate, acoustic, seated setting.",
+    "Each event also features one female visual artist, who designs the event poster and is highlighted during the gig.",
+    "Attendees are encouraged to donate to a selected women-focused organisation, and 10% of proceeds from each gig are allocated to this fundraising effort."
+  ] },
+  { id: 7, eyebrow: "Featured event", heading: "Merredin Pre-Harvest Hoedown", meta: "Sat 17 Oct · 6pm–11pm · Cummins Theatre, Bates St, Merredin · Tickets to be announced", paragraphs: [
+    "Country music classics performed by The Stumblers, plus boot scooting, bush dancing, games and activities.",
+    "A regional night out at the Cummins Theatre, bringing country music to a country town."
+  ] },
+  { id: 11, eyebrow: "Featured event", heading: "Circle of Six", meta: "Thu 26 Nov · Doors 5:30pm · 6pm start · Midland Junction Arts Centre, 276 Great Eastern Hwy, Midland", paragraphs: [
+    "Welcome to \u201cCircle of Six\u201d, hosted by Rising Sound WA, an event showcasing original songwriters in a literal songwriters round, featuring a soloist, a duo and a trio of artists all bringing their stories behind the music and the music itself to a closed audience. The event will be intimate and unplugged with doors closing at 6pm for two sessions, broken up by an intermission.",
+    "With Zoe Eleni, The Bloody Lovelies and The Pointy Heads.",
+    "Midland Junction Arts Centre is a licensed venue and the bar will be open, before and during the event.",
+    "This is a closed door event. Doors open at 5.30. Come in, mingle, grab a drink but at 5.59, doors will close and we ask that audiences remain seated and quiet during the sessions. There will be a half hour intermission at 7pm."
+  ] }
+];
+
 // song and url are filled in as each film is delivered. Leave "" / null until then.
 const SESSIONS = [
   { artist: "Whiskey Jack", song: "Clover", date: "Sat 30 May 2026", venue: "Midland Records", episode: "Session 01", image: "assets/img-shopfloor.jpg", tone: "amber", featured: true, url: "https://vimeo.com/1223579205?share=copy&fl=sv&fe=ci" },
@@ -863,6 +861,20 @@ class Component extends DCLogic {
     const today = new Date().toISOString().slice(0, 10);
     const byDate = EVENTS.slice().sort((a, b) => a.date.localeCompare(b.date));
     const upcoming = byDate.filter(e => e.date >= today);
+    const featuredEvents = FEATURED
+      .map(f => ({ f, e: EVENTS.find(x => x.id === f.id) }))
+      .filter(({ e }) => e && e.date >= today)
+      .sort((a, b) => a.e.date.localeCompare(b.e.date))
+      .map(({ f, e }) => {
+        const p = EVENT_POSTERS[e.id] || {};
+        return Object.assign({}, f, {
+          poster: this.asset(p.src),
+          ratio: p.ratio,
+          posterAlt: e.title + " poster",
+          hasTickets: !!e.url,
+          onTickets: e.url ? () => window.open(e.url, "_blank", "noopener") : undefined
+        });
+      });
     const featured = (() => {
       const withPoster = byDate.filter(e => EVENT_POSTERS[e.id]);
       const e = withPoster.find(x => x.date >= today) || withPoster[withPoster.length - 1];
@@ -1130,6 +1142,8 @@ class Component extends DCLogic {
       filter: f,
       setFilter: (v) => this.setState({ filter: v }),
 
+      featuredEvents,
+      hasFeaturedEvents: featuredEvents.length > 0,
       featuredPoster: featured.poster,
       featuredLine: featured.line,
       posters: [
