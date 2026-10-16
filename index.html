@@ -154,7 +154,7 @@
           <div style="width:min(300px,100%);flex:none">
             <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Poster" src="{{ featuredPoster.src }}" ratio="{{ featuredPoster.ratio }}" alt="{{ featuredPoster.alt }}" caption="{{ featuredPoster.caption }}" hint-size="100%,400px"></x-import>
           </div>
-          <p style="margin:0 0 8px;flex:1;min-width:280px;max-width:52ch;font:var(--type-feature);color:var(--rs-bone-50);text-wrap:pretty">Next up on the shop floor at Midland Records. Free, 12–2pm.</p>
+          <p style="margin:0 0 8px;flex:1;min-width:280px;max-width:52ch;font:var(--type-feature);color:var(--rs-bone-50);text-wrap:pretty">{{ featuredLine }}</p>
         </div>
         <div style="margin-top:56px">
             <div style="display:flex;flex-direction:column;gap:16px">
@@ -734,6 +734,16 @@ const EVENTS = [
   ] }
 ];
 
+// Poster per event (by id). The home page features the poster of the next upcoming event that has one.
+const EVENT_POSTERS = {
+  8: { src: "assets/poster-kerry-b-ryan.jpg", ratio: "1080/1408" },
+  6: { src: "assets/poster-jamboree.jpg", ratio: "1/1" },
+  9: { src: "assets/poster-season-songbirds.jpg", ratio: "1/1" },
+  10: { src: "assets/poster-gidge-rock-bloody-lovelies.jpg", ratio: "3/4" },
+  7: { src: "assets/poster-merredin-hoedown.jpg", ratio: "406/720" },
+  11: { src: "assets/poster-circle-of-six.jpg", ratio: "4/5" }
+};
+
 // song and url are filled in as each film is delivered. Leave "" / null until then.
 const SESSIONS = [
   { artist: "Whiskey Jack", song: "Clover", date: "Sat 30 May 2026", venue: "Midland Records", episode: "Session 01", image: "assets/img-shopfloor.jpg", tone: "amber", featured: true, url: "https://vimeo.com/1223579205?share=copy&fl=sv&fe=ci" },
@@ -853,6 +863,21 @@ class Component extends DCLogic {
     const today = new Date().toISOString().slice(0, 10);
     const byDate = EVENTS.slice().sort((a, b) => a.date.localeCompare(b.date));
     const upcoming = byDate.filter(e => e.date >= today);
+    const featured = (() => {
+      const withPoster = byDate.filter(e => EVENT_POSTERS[e.id]);
+      const e = withPoster.find(x => x.date >= today) || withPoster[withPoster.length - 1];
+      if (!e) return { poster: {}, line: "" };
+      const p = EVENT_POSTERS[e.id];
+      const dow = new Date(e.date + "T12:00:00").toLocaleDateString("en-AU", { weekday: "short" });
+      const place = (e.venue || "").split(",")[0];
+      const upcomingNow = e.date >= today;
+      const lead = upcomingNow ? (place === "Midland Records" ? "Next up on the shop floor at Midland Records." : "Next up at " + place + ".") : "Last up at " + place + ".";
+      const detail = e.free ? "Free, " + e.time + "." : e.time + ".";
+      return {
+        poster: { src: this.asset(p.src), ratio: p.ratio, alt: "Poster: " + e.title, caption: dow + " " + Number(e.day) + " " + e.month + " · " + e.title },
+        line: lead + " " + detail
+      };
+    })();
     const withCta = (e) => {
       const open = this.state.openEvent === e.id;
       return Object.assign({}, e, {
@@ -1105,7 +1130,8 @@ class Component extends DCLogic {
       filter: f,
       setFilter: (v) => this.setState({ filter: v }),
 
-      featuredPoster: { src: this.asset("assets/poster-gidge-rock-bloody-lovelies.jpg"), alt: "Saturday Sessions poster: Gidge Rock with The Bloody Lovelies", caption: "Sat 17 Oct · Gidge Rock with The Bloody Lovelies", ratio: "3/4" },
+      featuredPoster: featured.poster,
+      featuredLine: featured.line,
       posters: [
         { src: "assets/poster-circle-of-six.jpg", alt: "Circle of Six poster", caption: "Circle of Six", ratio: "4/5" },
         { src: "assets/poster-gidge-rock-bloody-lovelies.jpg", alt: "Saturday Sessions poster", caption: "Gidge Rock with The Bloody Lovelies", ratio: "3/4" },
