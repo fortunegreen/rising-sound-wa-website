@@ -152,7 +152,7 @@
         <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.SectionHeading" eyebrow="What's on" title="Upcoming shows" rule="amber" hint-size="100%,96px"></x-import>
         <div style="display:flex;flex-wrap:wrap;gap:40px;align-items:flex-end;margin-top:40px">
           <div style="width:min(300px,100%);flex:none">
-            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Poster" src="{{ featuredPoster.src }}" alt="{{ featuredPoster.alt }}" caption="{{ featuredPoster.caption }}" hint-size="100%,400px"></x-import>
+            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Poster" src="{{ featuredPoster.src }}" ratio="{{ featuredPoster.ratio }}" alt="{{ featuredPoster.alt }}" caption="{{ featuredPoster.caption }}" hint-size="100%,400px"></x-import>
           </div>
           <p style="margin:0 0 8px;flex:1;min-width:280px;max-width:52ch;font:var(--type-feature);color:var(--rs-bone-50);text-wrap:pretty">Next up on the shop floor at Midland Records. Free, 12–2pm.</p>
         </div>
@@ -419,7 +419,7 @@
         <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.SectionHeading" eyebrow="Posters" title="The season, on paper" rule="amber" hint-size="100%,96px"></x-import>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;margin-top:40px">
           <sc-for list="{{ posters }}" as="p" hint-placeholder-count="4">
-            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Poster" src="{{ p.src }}" alt="{{ p.alt }}" caption="{{ p.caption }}" interactive="{{ true }}" hint-size="100%,420px"></x-import>
+            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Poster" src="{{ p.src }}" ratio="{{ p.ratio }}" alt="{{ p.alt }}" caption="{{ p.caption }}" interactive="{{ true }}" hint-size="100%,420px"></x-import>
           </sc-for>
         </div>
       </div>
@@ -700,6 +700,7 @@ const EVENTS = [
   { id: 8, date: "2026-09-05", day: "05", month: "Sep", title: "Kerry B Ryan and The Off Set", support: "Saturday Sessions on the shop floor. Free entry.", venue: "Midland Records", time: "12–2pm", price: "Free", region: "Metro", free: true, badge: { tone: "session", label: "Saturday Sessions" }, tags: ["Metro", "Free"], cta: "Add to calendar", ctaVariant: "secondary" },
   { id: 6, date: "2026-09-13", day: "13", month: "Sep", title: "Spring Time Country Folk Jamboree", support: "The Little Lord Street Band, Whiskey Jack, Stack of Bibles, Michael Savage and Band, and The Stumblers. An afternoon and evening celebrating the very best of Western Australian country, folk and Americana music.", venue: "Lyrics Underground", time: "4:00pm", price: "Tickets via Oztix", region: "Metro", free: false, badge: { tone: "live", label: "Jamboree" }, tags: ["Metro", "Ticketed"], cta: "Buy tickets", ctaVariant: "primary", url: "https://lyricsunderground.oztix.com.au/outlet/event/4fa8bb9a-8264-4fa7-acea-8ece5d16e877?Event=244042" },
   { id: 9, date: "2026-10-04", day: "04", month: "Oct", title: "Season Songbirds — Spring edition", support: "Moana Mayatrix, Jasmine Gannaway, Harriet Hawthorn and Charlie and Goldie in the round. Presented by Midnight Francine. BYO rug, nibblies and drinks.", venue: "24 View St, North Perth", time: "4:30–8pm", price: "Tickets via Humanitix", region: "Metro", free: false, badge: { tone: "live", label: "Songbirds" }, tags: ["Metro", "Ticketed"], cta: "Buy tickets", ctaVariant: "primary", url: "https://events.humanitix.com/season-songbirds-ayelupy4" },
+  { id: 10, date: "2026-10-17", day: "17", month: "Oct", title: "Gidge Rock with The Bloody Lovelies", support: "Saturday Sessions on the shop floor. Free entry.", venue: "Midland Records", time: "12–2pm", price: "Free", region: "Metro", free: true, badge: { tone: "session", label: "Saturday Sessions" }, tags: ["Metro", "Free"], cta: "Add to calendar", ctaVariant: "secondary" },
   { id: 7, date: "2026-10-17", day: "17", month: "Oct", title: "Merredin Pre-Harvest Hoedown", support: "Country music classics performed by The Stumblers, plus boot scooting, bush dancing, games and activities.", venue: "Cummins Theatre, Bates St, Merredin", time: "6pm–11pm", region: "Regional", free: false, badge: { tone: "live", label: "Hoedown" }, tags: ["Regional", "Ticketed"], cta: "Add to calendar", ctaVariant: "secondary" }
 ];
 
@@ -1016,8 +1017,11 @@ class Component extends DCLogic {
           role: "Committee member",
           photo: "assets/committee-nici-bull.jpg",
           bio: [
-            "Nici Bull is an original singer-songwriter based in the Perth Hills, performing as Midnight Francine across indie, folk and blues.",
-            "She brings a performing artist's perspective to the committee, having played the rooms and bills Rising Sound WA programs."
+            "Nici Bull is a Perth hills based singer songwriter. She started playing music in the early 2000s. MF has been involved in a number of bands over the years, most notably as the backing vocalist and percussionist for award winning artist Delilah Rose.",
+            "In the last 5 years Nici has stepped forward in a solo capacity. She has released 4 singles with her latest single, \u201cLavender Lover\u201d, recently released at Clancy's Fremantle.",
+            "She is a regular performer within Perth and Fremantle and has performed at a number of WA festivals including Nanga Music Festival, Wild Village Festival and Nannup Music Festival.",
+            "As well as this Nici is the curator of the gig series Season Songbirds. A women centred gig series, that seeks to showcase the extraordinary creative talent we have in both music and visual arts within Western Australia.",
+            "Nici is a gun behind the scenes, using her knowledge and connections to forge amazing opportunities for all the members to get behind. She is a valued member of Rising Sound and we appreciate her presence and contributions."
           ]
         },
         {
@@ -1030,12 +1034,12 @@ class Component extends DCLogic {
           ]
         },
         {
-          name: "Sarah Mason Durack",
+          name: "Sarah Sands",
           role: "Committee member",
           photo: "assets/committee-sarah-mason-durack.jpg",
           bio: [
-            "Sarah Mason Durack fronts The Stumblers, who make sweet, heart filled country music — songs of hard lives and domestic bliss.",
-            "She is currently working to bring country music to underutilised halls in country towns."
+            "For Sarah Sands, her musical roots run deep, passed on from her father, Perth country stalwart, Gene Sands, and through her numerous WAM winning siblings. After bouncing between various bands through her 20s and 30s, from jazz to rock, Sands is forging ahead with her true love of country music in The Stumblers.",
+            "No longer content to wait around for offers, she has decided to create the gigs she wants to play and wants to attend. With a specific focus on WA Country artists, Sands is assembling events across the State, from Maylands to Merredin, and is determined to bring quality music to every corner of WA, with all the sparkle and rhinestones that goes along with it."
           ]
         },
         {
@@ -1043,9 +1047,13 @@ class Component extends DCLogic {
           role: "Committee member",
           photo: "assets/committee-gem-addison.jpg",
           bio: [
-            "Gem Addison is a singer-songwriter, music teacher, and promoter.",
-            "Throughout her last few years in the local scene, Gem has put on community based events supporting upcoming artists in Perth, including a livestream series \u201CGrapejuice Does a Livefest\u201D and \u201CHangout at the Hyde\u201D.",
-            "Gem is an accomplished musician and singer and is one half of the band Charlie & Goldie."
+            "Meet Gem Addison, our fabulous digital creator and long running member of the organisation.",
+            "Gem was first exposed to live music at the age of 3 at Fairbridge Festival and has been playing music for nearly 10 years. Gem started playing her original music at Nanga Music Festival as part of the youth scholarship programme.",
+            "A highlight of her musical career was playing to 10,000 people at a school strike for climate change rally.",
+            "Gem met Jon Elbery and Mo Johanna in 2018 at Kalamunda\u2019s Hillsounds, when she performed with her fledgling jazz band, Freehand, with her teal green hair, warm smile and personality, they formed some lasting friendships, with a mutual passion for bringing music to the Perth Hills and surrounds.",
+            "Gem is currently gigging around Perth as one half of the fabulous folk duo, Charlie & Goldie.",
+            "With a passion for graphic design, Gem noticed music and design were mutually related and her skills were advantageous in creating promo material which lead her to her role in Rising Sound.",
+            "Gem loves long walks in the forest, birds and animals\u2026"
           ]
         }
       ]),
@@ -1060,8 +1068,9 @@ class Component extends DCLogic {
       filter: f,
       setFilter: (v) => this.setState({ filter: v }),
 
-      featuredPoster: { src: this.asset("assets/poster-kerry-b-ryan.jpg"), alt: "Saturday Sessions poster: Kerry B Ryan and The Off Set", caption: "Sat 5 Sep · Kerry B Ryan and The Off Set" },
+      featuredPoster: { src: this.asset("assets/poster-gidge-rock-bloody-lovelies.jpg"), alt: "Saturday Sessions poster: Gidge Rock with The Bloody Lovelies", caption: "Sat 17 Oct · Gidge Rock with The Bloody Lovelies", ratio: "3/4" },
       posters: [
+        { src: "assets/poster-gidge-rock-bloody-lovelies.jpg", alt: "Saturday Sessions poster", caption: "Gidge Rock with The Bloody Lovelies", ratio: "3/4" },
         { src: "assets/poster-kerry-b-ryan.jpg", alt: "Saturday Sessions poster", caption: "Kerry B Ryan and The Off Set" },
         { src: "assets/poster-jamboree.jpg", alt: "Spring Time Country Folk Jamboree poster", caption: "Spring Time Country Folk Jamboree" },
         { src: "assets/poster-season-songbirds.jpg", alt: "Season Songbirds Spring edition poster", caption: "Season Songbirds — Spring edition" },
