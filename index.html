@@ -163,9 +163,19 @@
                   <div style="flex:1 1 260px;min-width:0">
                     <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.EventCard" day="{{ e.day }}" month="{{ e.month }}" title="{{ e.title }}" support="{{ e.support }}" venue="{{ e.venue }}" time="{{ e.time }}" price="{{ e.price }}" badge="{{ e.badge }}" tags="{{ e.tags }}" hint-size="100%,140px"></x-import>
                   </div>
-                  <div style="display:flex;align-items:center;flex:none">
+                  <div style="display:flex;flex-direction:column;justify-content:center;gap:8px;flex:none">
                     <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="{{ e.ctaVariant }}" onClick="{{ e.onCta }}" hint-size="140px,40px">{{ e.cta }}</x-import>
+                    <sc-if value="{{ e.hasDetails }}">
+                      <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="ghost" onClick="{{ e.onToggleDetails }}" hint-size="140px,40px">{{ e.detailsLabel }}</x-import>
+                    </sc-if>
                   </div>
+                  <sc-if value="{{ e.detailsOpen }}">
+                    <div style="flex:1 1 100%;display:flex;flex-direction:column;gap:16px;padding:24px;background:var(--surface-1);border:1px solid var(--line-hairline)">
+                      <sc-for list="{{ e.details }}" as="d">
+                        <p style="margin:0;max-width:64ch;line-height:var(--lh-body);color:var(--text-body);text-wrap:pretty">{{ d }}</p>
+                      </sc-for>
+                    </div>
+                  </sc-if>
                 </div>
               </sc-for>
             </div>
@@ -375,9 +385,19 @@
               <div style="flex:1 1 260px;min-width:0">
                 <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.EventCard" day="{{ e.day }}" month="{{ e.month }}" title="{{ e.title }}" support="{{ e.support }}" venue="{{ e.venue }}" time="{{ e.time }}" price="{{ e.price }}" badge="{{ e.badge }}" tags="{{ e.tags }}" hint-size="100%,140px"></x-import>
               </div>
-              <div style="display:flex;align-items:center;flex:none">
+              <div style="display:flex;flex-direction:column;justify-content:center;gap:8px;flex:none">
                 <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="{{ e.ctaVariant }}" onClick="{{ e.onCta }}" hint-size="140px,40px">{{ e.cta }}</x-import>
+                <sc-if value="{{ e.hasDetails }}">
+                  <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="ghost" onClick="{{ e.onToggleDetails }}" hint-size="140px,40px">{{ e.detailsLabel }}</x-import>
+                </sc-if>
               </div>
+              <sc-if value="{{ e.detailsOpen }}">
+                <div style="flex:1 1 100%;display:flex;flex-direction:column;gap:16px;padding:24px;background:var(--surface-1);border:1px solid var(--line-hairline)">
+                  <sc-for list="{{ e.details }}" as="d">
+                    <p style="margin:0;max-width:64ch;line-height:var(--lh-body);color:var(--text-body);text-wrap:pretty">{{ d }}</p>
+                  </sc-for>
+                </div>
+              </sc-if>
             </div>
           </sc-for>
         </div>
@@ -556,7 +576,7 @@
         <div style="display:flex;flex-direction:column;gap:40px">
           <div>
             <h2 style="margin:0 0 16px;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">Where we play</h2>
-            <p style="margin:0;line-height:var(--lh-body);color:var(--text-primary)">Midland Records<br>7 Spring Park Rd, Midland WA</p>
+            <p style="margin:0;line-height:var(--lh-body);color:var(--text-primary)">Midland Records<br>7 Spring Park Rd, Midland WA 6056</p>
           </div>
           <div>
             <h2 style="margin:0 0 16px;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">Email</h2>
@@ -692,16 +712,26 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1000}}">
 const EVENTS = [
-  { id: 1, date: "2026-06-06", day: "06", month: "Jun", title: "Gidge Rock", support: "Wabi Sabi album launch, with special guests Midnight Francine and Mergo", venue: "Midland Records", time: "7:00pm", price: "$25 / $18 members", region: "Metro", free: false, badge: { tone: "live", label: "Album launch" }, tags: ["Metro", "Ticketed"], cta: "Book tickets", ctaVariant: "primary" },
-  { id: 2, date: "2026-06-13", day: "13", month: "Jun", title: "Tanya Hemi and The Dusty Stingrays", support: "Saturday Sessions on the shop floor. Two acts, free entry.", venue: "Midland Records", time: "12–2pm", price: "Free", region: "Metro", free: true, badge: { tone: "session", label: "Saturday Sessions" }, tags: ["Metro", "Free"], cta: "Add to calendar", ctaVariant: "secondary" },
-  { id: 3, date: "2026-06-27", day: "27", month: "Jun", title: "String and Bone", support: "Saturday Sessions on the shop floor. Free entry.", venue: "Midland Records", time: "12–2pm", price: "Free", region: "Metro", free: true, badge: { tone: "session", label: "Saturday Sessions" }, tags: ["Metro", "Free"], cta: "Add to calendar", ctaVariant: "secondary" },
-  { id: 4, date: "2026-08-08", day: "08", month: "Aug", title: "Vissac and Moana Mayatrix", support: "Saturday Sessions on the shop floor. Free entry.", venue: "Midland Records", time: "12–2pm", price: "Free", region: "Metro", free: true, badge: { tone: "session", label: "Saturday Sessions" }, tags: ["Metro", "Free"], cta: "Add to calendar", ctaVariant: "secondary" },
-  { id: 5, date: "2026-08-22", day: "22", month: "Aug", title: "Arturo and Blue Minou", support: "Saturday Sessions on the shop floor. Free entry.", venue: "Midland Records", time: "12–2pm", price: "Free", region: "Metro", free: true, badge: { tone: "session", label: "Saturday Sessions" }, tags: ["Metro", "Free"], cta: "Add to calendar", ctaVariant: "secondary" },
-  { id: 8, date: "2026-09-05", day: "05", month: "Sep", title: "Kerry B Ryan and The Off Set", support: "Saturday Sessions on the shop floor. Free entry.", venue: "Midland Records", time: "12–2pm", price: "Free", region: "Metro", free: true, badge: { tone: "session", label: "Saturday Sessions" }, tags: ["Metro", "Free"], cta: "Add to calendar", ctaVariant: "secondary" },
+  { id: 1, date: "2026-06-06", day: "06", month: "Jun", title: "Gidge Rock", support: "Wabi Sabi album launch, with special guests Midnight Francine and Mergo", venue: "Midland Records, 7 Spring Park Rd, Midland WA 6056", time: "7:00pm", price: "$25 / $18 members", region: "Metro", free: false, badge: { tone: "live", label: "Album launch" }, tags: ["Metro", "Ticketed"], cta: "Book tickets", ctaVariant: "primary" },
+  { id: 2, date: "2026-06-13", day: "13", month: "Jun", title: "Tanya Hemi and The Dusty Stingrays", support: "Saturday Sessions on the shop floor. Two acts, free entry.", venue: "Midland Records, 7 Spring Park Rd, Midland WA 6056", time: "12–2pm", price: "Free", region: "Metro", free: true, badge: { tone: "session", label: "Saturday Sessions" }, tags: ["Metro", "Free"], cta: "Add to calendar", ctaVariant: "secondary" },
+  { id: 3, date: "2026-06-27", day: "27", month: "Jun", title: "String and Bone", support: "Saturday Sessions on the shop floor. Free entry.", venue: "Midland Records, 7 Spring Park Rd, Midland WA 6056", time: "12–2pm", price: "Free", region: "Metro", free: true, badge: { tone: "session", label: "Saturday Sessions" }, tags: ["Metro", "Free"], cta: "Add to calendar", ctaVariant: "secondary" },
+  { id: 4, date: "2026-08-08", day: "08", month: "Aug", title: "Vissac and Moana Mayatrix", support: "Saturday Sessions on the shop floor. Free entry.", venue: "Midland Records, 7 Spring Park Rd, Midland WA 6056", time: "12–2pm", price: "Free", region: "Metro", free: true, badge: { tone: "session", label: "Saturday Sessions" }, tags: ["Metro", "Free"], cta: "Add to calendar", ctaVariant: "secondary" },
+  { id: 5, date: "2026-08-22", day: "22", month: "Aug", title: "Arturo and Blue Minou", support: "Saturday Sessions on the shop floor. Free entry.", venue: "Midland Records, 7 Spring Park Rd, Midland WA 6056", time: "12–2pm", price: "Free", region: "Metro", free: true, badge: { tone: "session", label: "Saturday Sessions" }, tags: ["Metro", "Free"], cta: "Add to calendar", ctaVariant: "secondary" },
+  { id: 8, date: "2026-09-05", day: "05", month: "Sep", title: "Kerry B Ryan and The Off Set", support: "Saturday Sessions on the shop floor. Free entry.", venue: "Midland Records, 7 Spring Park Rd, Midland WA 6056", time: "12–2pm", price: "Free", region: "Metro", free: true, badge: { tone: "session", label: "Saturday Sessions" }, tags: ["Metro", "Free"], cta: "Add to calendar", ctaVariant: "secondary" },
   { id: 6, date: "2026-09-13", day: "13", month: "Sep", title: "Spring Time Country Folk Jamboree", support: "The Little Lord Street Band, Whiskey Jack, Stack of Bibles, Michael Savage and Band, and The Stumblers. An afternoon and evening celebrating the very best of Western Australian country, folk and Americana music.", venue: "Lyrics Underground", time: "4:00pm", price: "Tickets via Oztix", region: "Metro", free: false, badge: { tone: "live", label: "Jamboree" }, tags: ["Metro", "Ticketed"], cta: "Buy tickets", ctaVariant: "primary", url: "https://lyricsunderground.oztix.com.au/outlet/event/4fa8bb9a-8264-4fa7-acea-8ece5d16e877?Event=244042" },
   { id: 9, date: "2026-10-04", day: "04", month: "Oct", title: "Season Songbirds — Spring edition", support: "Moana Mayatrix, Jasmine Gannaway, Harriet Hawthorn and Charlie and Goldie in the round. Presented by Midnight Francine. BYO rug, nibblies and drinks.", venue: "24 View St, North Perth", time: "4:30–8pm", price: "Tickets via Humanitix", region: "Metro", free: false, badge: { tone: "live", label: "Songbirds" }, tags: ["Metro", "Ticketed"], cta: "Buy tickets", ctaVariant: "primary", url: "https://events.humanitix.com/season-songbirds-ayelupy4" },
-  { id: 10, date: "2026-10-17", day: "17", month: "Oct", title: "Gidge Rock with The Bloody Lovelies", support: "Saturday Sessions on the shop floor. Free entry.", venue: "Midland Records", time: "12–2pm", price: "Free", region: "Metro", free: true, badge: { tone: "session", label: "Saturday Sessions" }, tags: ["Metro", "Free"], cta: "Add to calendar", ctaVariant: "secondary" },
-  { id: 7, date: "2026-10-17", day: "17", month: "Oct", title: "Merredin Pre-Harvest Hoedown", support: "Country music classics performed by The Stumblers, plus boot scooting, bush dancing, games and activities.", venue: "Cummins Theatre, Bates St, Merredin", time: "6pm–11pm", region: "Regional", free: false, badge: { tone: "live", label: "Hoedown" }, tags: ["Regional", "Ticketed"], cta: "Add to calendar", ctaVariant: "secondary" }
+  { id: 10, date: "2026-10-17", day: "17", month: "Oct", title: "Gidge Rock with The Bloody Lovelies", support: "Saturday Sessions on the shop floor. Free entry.", venue: "Midland Records, 7 Spring Park Rd, Midland WA 6056", time: "12–2pm", price: "Free", region: "Metro", free: true, badge: { tone: "session", label: "Saturday Sessions" }, tags: ["Metro", "Free"], cta: "Add to calendar", ctaVariant: "secondary" },
+  { id: 7, date: "2026-10-17", day: "17", month: "Oct", title: "Merredin Pre-Harvest Hoedown", support: "Country music classics performed by The Stumblers, plus boot scooting, bush dancing, games and activities.", venue: "Cummins Theatre, Bates St, Merredin", time: "6pm–11pm", region: "Regional", free: false, badge: { tone: "live", label: "Hoedown" }, tags: ["Regional", "Ticketed"], cta: "Add to calendar", ctaVariant: "secondary" },
+  { id: 11, date: "2026-11-26", day: "26", month: "Nov", title: "Circle of Six", support: "A songwriter's round with special guests The Pointy Heads, Zoe Eleni and The Bloody Lovelies.", venue: "Midland Junction Arts Centre, 276 Great Eastern Hwy, Midland WA 6056", time: "Doors 5:30pm · 6pm start", region: "Metro", free: false, badge: { tone: "live", label: "Songwriters round" }, tags: ["Metro"], cta: "Add to calendar", ctaVariant: "secondary", details: [
+    "Welcome to \u201cCircle of Six\u201d, hosted by Rising Sound WA, an event showcasing original songwriters in a literal songwriters round, featuring a soloist, a duo and a trio of artists all bringing their stories behind the music and the music itself to a closed audience. The event will be intimate and unplugged with doors closing at 6pm for two sessions, broken up by an intermission.",
+    "Solo - Zoe Eleni is a singer songwriter based in the Perth hills with a passion for folk music, story telling and pretty guitar sounds.",
+    "Inspired by songstresses like Joni Mitchell, Connie Converse and Laura Marling, Zoe\u2019s music is sometimes sad, sometimes funny, sometimes catchy, always honest.",
+    "She performs with warmth, banter and a little bit of awkwardness sure to endear you.",
+    "Duo - The Bloody Lovelies, featuring Kyra Bee and Si\u00e2n Johanna, two of Perth\u2019s biggest female voices come together with their original and gritty songwriting, woven with intricate melodies and soaring harmonies. Inspired by experiences in love, loss and family, their musical stories will move you, they're just soooo bloody lovely.",
+    "The Pointy Heads - The Pointy Heads believe in dressing dapper while filling the room with a bit of that old timey-sound that is energetic and fun. Their influences range from Tom Waits to C.W. Stoneking and Bruce Springsteen and everything inbetween.",
+    "Midland Junction Arts Centre is a licensed venue and the bar will be open, before and during the event.",
+    "This is a closed door event. Doors open at 5.30. Come in, mingle, grab a drink but at 5.59, doors will close and we ask that audiences remain seated and quiet during the sessions. There will be a half hour intermission at 7pm."
+  ] }
 ];
 
 // song and url are filled in as each film is delivered. Leave "" / null until then.
@@ -716,7 +746,7 @@ const SESSIONS = [
 ];
 
 class Component extends DCLogic {
-  state = { mOpen: false, mTier: null, mTitle: "", mBlurb: "", mName: "", mEmail: "", mSubmitting: false, mError: null, membershipNotice: null, membershipNoticeEyebrow: "", screen: "home", openMenu: null, playing: null, filter: "All", nlName: "", nlEmail: "", nlWebsite: "", nlMusician: false, nlSubmitting: false, nlError: null, subscribedEmail: null, cName: "", cEmail: "", cEnquiry: "general", cMessage: "", cWebsite: "", cSubmitting: false, cError: null, contactSubmitted: false };
+  state = { mOpen: false, mTier: null, mTitle: "", mBlurb: "", mName: "", mEmail: "", mSubmitting: false, mError: null, membershipNotice: null, membershipNoticeEyebrow: "", screen: "home", openMenu: null, playing: null, openEvent: null, filter: "All", nlName: "", nlEmail: "", nlWebsite: "", nlMusician: false, nlSubmitting: false, nlError: null, subscribedEmail: null, cName: "", cEmail: "", cEnquiry: "general", cMessage: "", cWebsite: "", cSubmitting: false, cError: null, contactSubmitted: false };
 
   trackPage = (s) => {
     if (typeof gtag === "function") {
@@ -823,9 +853,16 @@ class Component extends DCLogic {
     const today = new Date().toISOString().slice(0, 10);
     const byDate = EVENTS.slice().sort((a, b) => a.date.localeCompare(b.date));
     const upcoming = byDate.filter(e => e.date >= today);
-    const withCta = (e) => Object.assign({}, e, {
-      onCta: e.url ? () => window.open(e.url, "_blank", "noopener") : undefined
-    });
+    const withCta = (e) => {
+      const open = this.state.openEvent === e.id;
+      return Object.assign({}, e, {
+        onCta: e.url ? () => window.open(e.url, "_blank", "noopener") : undefined,
+        hasDetails: !!(e.details && e.details.length),
+        detailsOpen: open,
+        detailsLabel: open ? "Less info" : "More info",
+        onToggleDetails: () => this.setState({ openEvent: open ? null : e.id })
+      });
+    };
     const f = this.state.filter;
     const match = (e) => f === "All" ? true : f === "Free" ? e.free : e.region === f;
     const shownUpcoming = upcoming.filter(match);
@@ -1070,6 +1107,7 @@ class Component extends DCLogic {
 
       featuredPoster: { src: this.asset("assets/poster-gidge-rock-bloody-lovelies.jpg"), alt: "Saturday Sessions poster: Gidge Rock with The Bloody Lovelies", caption: "Sat 17 Oct · Gidge Rock with The Bloody Lovelies", ratio: "3/4" },
       posters: [
+        { src: "assets/poster-circle-of-six.jpg", alt: "Circle of Six poster", caption: "Circle of Six", ratio: "4/5" },
         { src: "assets/poster-gidge-rock-bloody-lovelies.jpg", alt: "Saturday Sessions poster", caption: "Gidge Rock with The Bloody Lovelies", ratio: "3/4" },
         { src: "assets/poster-kerry-b-ryan.jpg", alt: "Saturday Sessions poster", caption: "Kerry B Ryan and The Off Set" },
         { src: "assets/poster-jamboree.jpg", alt: "Spring Time Country Folk Jamboree poster", caption: "Spring Time Country Folk Jamboree" },
