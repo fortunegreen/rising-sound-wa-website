@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7LQKEJ65RX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-7LQKEJ65RX');
+</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
@@ -431,7 +440,7 @@
 
     <section style="background:#000;border-bottom:1px solid var(--line-hairline)">
       <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px">
-        <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">Featured session</span>
+        <span id="{{ featuredSession.anchorId }}" style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber);display:block;scroll-margin-top:120px">Featured session</span>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(32px,5vw,56px);margin-top:28px;align-items:center">
           <div>
             <sc-if value="{{ featuredSession.notPlaying }}" hint-placeholder-val="{{ true }}">
@@ -461,7 +470,7 @@
         <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.SectionHeading" eyebrow="All sessions" title="The rest of the series" rule="amber" hint-size="100%,96px"></x-import>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:40px 24px;margin-top:40px">
           <sc-for list="{{ allSessions }}" as="s" hint-placeholder-count="6">
-            <div>
+            <div id="{{ s.anchorId }}" style="scroll-margin-top:120px">
               <sc-if value="{{ s.notPlaying }}" hint-placeholder-val="{{ true }}">
                 <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.VideoCard" title="{{ s.title }}" artist="{{ s.artist }}" episode="{{ s.episode }}" duration="{{ s.duration }}" image="{{ s.image }}" tone="{{ s.tone }}" onPlay="{{ s.onPlay }}" hint-size="100%,300px"></x-import>
               </sc-if>
@@ -513,7 +522,7 @@
               <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);color:var(--rs-amber)">{{ w.num }}</span>
               <h3 style="margin:0;font:var(--type-h2);letter-spacing:var(--ls-heading);text-transform:uppercase;color:var(--rs-bone-50);font-size:var(--fs-h3)">{{ w.title }}</h3>
               <p style="margin:0;font-size:var(--fs-body-sm);line-height:var(--lh-body);color:var(--text-body);flex:1">{{ w.long }}</p>
-              <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="secondary" hint-size="auto,40px">{{ w.cta }}</x-import>
+              <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="secondary" onClick="{{ goContact }}" hint-size="auto,40px">{{ w.cta }}</x-import>
             </div>
           </sc-for>
         </div>
@@ -524,7 +533,7 @@
         <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.SectionHeading" eyebrow="Membership" title="Keep the free shows free" rule="amber" hint-size="100%,96px"></x-import>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,400px));gap:24px;margin-top:48px;align-items:start">
           <sc-for list="{{ tiers }}" as="t" hint-placeholder-count="2">
-            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.TierCard" name="{{ t.name }}" price="{{ t.price }}" period="{{ t.period }}" blurb="{{ t.blurb }}" features="{{ t.features }}" cta="{{ t.cta }}" featured="{{ t.featured }}" hint-size="100%,420px"></x-import>
+            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.TierCard" name="{{ t.name }}" price="{{ t.price }}" period="{{ t.period }}" blurb="{{ t.blurb }}" features="{{ t.features }}" cta="{{ t.cta }}" featured="{{ t.featured }}" onSelect="{{ t.onSelect }}" hint-size="100%,420px"></x-import>
           </sc-for>
         </div>
         <p style="margin:32px 0 0;font-family:var(--font-mono);font-size:var(--fs-micro);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">Musicians pay no more than anyone else. Playing with us costs nothing.</p>
@@ -551,34 +560,35 @@
           </div>
           <div>
             <h2 style="margin:0 0 16px;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">Email</h2>
-            <p style="margin:0;line-height:var(--lh-body);color:var(--text-primary)">hello@risingsoundwa.org.au</p>
-            <p style="margin:8px 0 0;font-size:var(--fs-body-sm);color:var(--text-muted)">Email address is a placeholder.</p>
-          </div>
-          <div>
-            <h2 style="margin:0 0 16px;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">Mailing list</h2>
-            <p style="margin:0 0 20px;font-size:var(--fs-body-sm);line-height:var(--lh-body);color:var(--text-body);max-width:44ch">One email a month: what's on, who's playing, which sessions are up.</p>
-            <div style="display:flex;gap:12px;align-items:flex-end">
-              <div style="flex:1">
-                <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Input" placeholder="you@email.com" hint-size="100%,48px"></x-import>
-              </div>
-              <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" hint-size="auto,48px">Subscribe</x-import>
-            </div>
+            <p style="margin:0;line-height:var(--lh-body);color:var(--text-primary)">hello@risingsoundwa.com.au</p>
           </div>
         </div>
         <div style="background:var(--surface-1);border:1px solid var(--line-hairline);padding:40px">
           <h2 style="margin:0 0 32px;font:var(--type-h2);letter-spacing:var(--ls-heading);text-transform:uppercase;color:var(--rs-bone-50)">Send us a message</h2>
-          <div style="display:grid;gap:24px">
-            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Input" label="Name" placeholder="Your name" hint-size="100%,72px"></x-import>
-            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Input" label="Email" type="email" placeholder="you@email.com" hint-size="100%,72px"></x-import>
-            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Select" label="What's this about?" options="{{ enquiryOptions }}" hint-size="100%,72px"></x-import>
+          <sc-if value="{{ contactSubmitted }}" hint-placeholder-val="{{ false }}">
+            <div>
+              <p style="margin:0;font:var(--type-h3);color:var(--rs-bone-50)">Thanks — message sent.</p>
+              <p style="margin:12px 0 0;font-size:var(--fs-body-sm);line-height:var(--lh-body);color:var(--text-body)">We read everything and will get back to you soon.</p>
+            </div>
+          </sc-if>
+          <sc-if value="{{ contactNotSubmitted }}" hint-placeholder-val="{{ true }}">
+          <form onSubmit="{{ onContactSubmit }}" style="display:grid;gap:24px">
+            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Input" label="Name" placeholder="Your name" value="{{ cName }}" onChange="{{ setCName }}" hint-size="100%,72px"></x-import>
+            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Input" label="Email" type="email" placeholder="you@email.com" value="{{ cEmail }}" onChange="{{ setCEmail }}" hint-size="100%,72px"></x-import>
+            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Select" label="What's this about?" options="{{ enquiryOptions }}" value="{{ cEnquiry }}" onChange="{{ setCEnquiry }}" hint-size="100%,72px"></x-import>
             <div class="rs-field">
               <label class="rs-label" for="in-message">Message</label>
-              <textarea id="in-message" class="rs-input" rows="5" placeholder="Tell us what you're after" style="resize:vertical;min-height:140px"></textarea>
+              <textarea id="in-message" class="rs-input" rows="5" placeholder="Tell us what you're after" value="{{ cMessage }}" onChange="{{ setCMessage }}" style="resize:vertical;min-height:140px"></textarea>
             </div>
+            <input type="text" name="website" value="{{ cWebsite }}" onChange="{{ setCWebsite }}" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px" aria-hidden="true">
             <div style="display:flex;justify-content:flex-end">
-              <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" size="lg" hint-size="auto,48px">Send</x-import>
+              <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" type="submit" size="lg" hint-size="auto,48px">{{ cSubmitLabel }}</x-import>
             </div>
-          </div>
+            <sc-if value="{{ cError }}" hint-placeholder-val="{{ false }}">
+              <p style="margin:0;font-size:var(--fs-body-sm);color:var(--rs-stop)">{{ cError }}</p>
+            </sc-if>
+          </form>
+          </sc-if>
         </div>
       </div>
     </section>
@@ -604,12 +614,16 @@
             <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Input" label="First name" placeholder="Your name" value="{{ nlName }}" onChange="{{ setName }}" hint-size="100%,76px"></x-import>
             <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Input" label="Email" type="email" placeholder="you@email.com" value="{{ nlEmail }}" onChange="{{ setEmail }}" hint-size="100%,76px"></x-import>
           </div>
+          <input type="text" name="website" value="{{ nlWebsite }}" onChange="{{ setWebsite }}" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px" aria-hidden="true">
           <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap">
             <div style="flex:none">
-              <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" type="submit" size="lg" hint-size="auto,48px">Sign me up</x-import>
+              <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" type="submit" size="lg" hint-size="auto,48px">{{ nlSubmitLabel }}</x-import>
             </div>
             <p style="margin:0;flex:1;min-width:200px;font-size:var(--fs-body-sm);color:var(--text-muted)">Unsubscribe any time. We don't share your details.</p>
           </div>
+          <sc-if value="{{ nlError }}" hint-placeholder-val="{{ false }}">
+            <p style="margin:0;font-size:var(--fs-body-sm);color:var(--rs-stop)">{{ nlError }}</p>
+          </sc-if>
         </form>
       </sc-if>
     </div>
@@ -645,6 +659,36 @@
   </footer>
 </div>
 
+
+<sc-if value="{{ mOpen }}" hint-placeholder-val="{{ false }}">
+  <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Dialog" open="{{ true }}" title="{{ mTitle }}" onClose="{{ closeMembership }}" hint-size="100%,100%">
+    <form onSubmit="{{ onMembershipSubmit }}" style="display:grid;gap:20px">
+      <p style="margin:0;font-size:var(--fs-body-sm);line-height:var(--lh-body);color:var(--text-body);max-width:46ch">{{ mBlurb }}</p>
+      <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Input" label="Name" placeholder="Your name" value="{{ mName }}" onChange="{{ setMName }}" hint-size="100%,72px"></x-import>
+      <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Input" label="Email" type="email" placeholder="you@email.com" value="{{ mEmail }}" onChange="{{ setMEmail }}" hint-size="100%,72px"></x-import>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" type="submit" disabled="{{ mSubmitting }}" hint-size="auto,48px">{{ mSubmitLabel }}</x-import>
+        <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="ghost" onClick="{{ closeMembership }}" hint-size="auto,48px">Cancel</x-import>
+      </div>
+      <p style="margin:0;font-size:var(--fs-body-sm);color:var(--text-muted)">You'll be taken to our payment provider to finish up.</p>
+      <sc-if value="{{ mError }}" hint-placeholder-val="{{ false }}">
+        <p style="margin:0;font-size:var(--fs-body-sm);color:var(--rs-stop)">{{ mError }}</p>
+      </sc-if>
+    </form>
+  </x-import>
+</sc-if>
+
+<sc-if value="{{ membershipNotice }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:24px;right:24px;bottom:24px;z-index:80;display:flex;justify-content:center;pointer-events:none">
+    <div style="pointer-events:auto;display:flex;gap:20px;align-items:flex-start;max-width:560px;background:var(--rs-bone-50);color:var(--rs-ink);border:0;box-shadow:8px 8px 0 0 var(--rs-amber);padding:24px 28px">
+      <div style="flex:1">
+        <p style="margin:0;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber-700)">{{ membershipNoticeEyebrow }}</p>
+        <p style="margin:10px 0 0;font-size:var(--fs-body);line-height:var(--lh-body);color:var(--rs-ink)">{{ membershipNotice }}</p>
+      </div>
+      <button onClick="{{ dismissMembershipNotice }}" style="background:none;border:0;padding:0;cursor:pointer;font:var(--type-meta);text-transform:uppercase;letter-spacing:var(--ls-mono);color:var(--rs-ink)" style-hover="color:var(--rs-amber-700)">Close</button>
+    </div>
+  </div>
+</sc-if>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1000}}">
 const EVENTS = [
@@ -662,18 +706,38 @@ const EVENTS = [
 // song and url are filled in as each film is delivered. Leave "" / null until then.
 const SESSIONS = [
   { artist: "Whiskey Jack", song: "Clover", date: "Sat 30 May 2026", venue: "Midland Records", episode: "Session 01", image: "assets/img-shopfloor.jpg", tone: "amber", featured: true, url: "https://vimeo.com/1223579205?share=copy&fl=sv&fe=ci" },
-  { artist: "Tanya Hemi", song: "", date: "Sat 13 Jun 2026", venue: "Midland Records", episode: "Session 01", image: "assets/img-singer.jpg", tone: "teal", url: null },
-  { artist: "Blue Minou", song: "", date: "Sat 22 Aug 2026", venue: "Midland Records", episode: "Session 02", image: "assets/img-graffiti.jpg", tone: "flare", url: null },
-  { artist: "Arturo", song: "", date: "Sat 22 Aug 2026", venue: "Midland Records", episode: "Session 03", image: "assets/img-portrait-sepia.jpg", tone: "amber", url: null },
-  { artist: "Gidge Rock", song: "", date: "Sat 6 Jun 2026", venue: "Midland Records", episode: "Session 04", image: "assets/img-stage.jpg", tone: "voltage", url: null },
-  { artist: "String and Bone", song: "", date: "Sat 27 Jun 2026", venue: "Midland Records", episode: "Session 05", image: null, tone: "teal", url: null },
-  { artist: "Moana Mayatrix", song: "", date: "Sat 8 Aug 2026", venue: "Midland Records", episode: "Session 06", image: null, tone: "flare", url: null }
+  { artist: "Moana Mayatrix", song: "", date: "Sat 8 Aug 2026", venue: "Midland Records", image: "assets/img-singer.jpg", tone: "flare", url: "https://vimeo.com/1223597673?share=copy&fl=sv&fe=ci" },
+  { artist: "Tanya Hemi", song: "", date: "Sat 13 Jun 2026", venue: "Midland Records", image: null, tone: "voltage", url: null },
+  { artist: "Blue Minou", song: "", date: "Sat 22 Aug 2026", venue: "Midland Records", image: "assets/img-graffiti.jpg", tone: "flare", url: null },
+  { artist: "Arturo", song: "", date: "Sat 22 Aug 2026", venue: "Midland Records", image: "assets/img-portrait-sepia.jpg", tone: "amber", url: null },
+  { artist: "Gidge Rock", song: "", date: "Sat 6 Jun 2026", venue: "Midland Records", image: "assets/img-stage.jpg", tone: "voltage", url: null },
+  { artist: "String and Bone", song: "", date: "Sat 27 Jun 2026", venue: "Midland Records", image: null, tone: "teal", url: null }
 ];
 
 class Component extends DCLogic {
-  state = { screen: "home", openMenu: null, playing: null, filter: "All", nlName: "", nlEmail: "", nlMusician: false, subscribedEmail: null };
+  state = { mOpen: false, mTier: null, mTitle: "", mBlurb: "", mName: "", mEmail: "", mSubmitting: false, mError: null, membershipNotice: null, membershipNoticeEyebrow: "", screen: "home", openMenu: null, playing: null, filter: "All", nlName: "", nlEmail: "", nlWebsite: "", nlMusician: false, nlSubmitting: false, nlError: null, subscribedEmail: null, cName: "", cEmail: "", cEnquiry: "general", cMessage: "", cWebsite: "", cSubmitting: false, cError: null, contactSubmitted: false };
 
-  go = (s) => () => { this.setState({ screen: s, playing: null }); window.scrollTo(0, 0); };
+  trackPage = (s) => {
+    if (typeof gtag === "function") {
+      gtag("event", "page_view", { page_path: `/${s}`, page_title: s });
+    }
+  };
+
+  go = (s) => () => {
+    this.setState({ screen: s, playing: null });
+    window.scrollTo(0, 0);
+    this.trackPage(s);
+  };
+
+  openMembership = (tier, title, blurb) => {
+    this.setState({ mOpen: true, mTier: tier, mTitle: title, mBlurb: blurb, mError: null, mSubmitting: false });
+  };
+
+  componentDidMount() {
+    const q = new URLSearchParams(window.location.search).get("membership");
+    if (q === "success") this.setState({ membershipNotice: "You're in. Check your email for the receipt and your member details.", membershipNoticeEyebrow: "Welcome aboard" });
+    else if (q === "cancelled") this.setState({ membershipNotice: "Checkout cancelled — nothing was charged. Join any time.", membershipNoticeEyebrow: "Checkout cancelled" });
+  }
 
   asset(p) {
     const map = (typeof window !== "undefined" && window.RS_ASSETS) || {};
@@ -686,6 +750,17 @@ class Component extends DCLogic {
         src: this.asset(m.photo), alt: m.name,
         style: { width: "100%", height: "380px", objectFit: "cover", objectPosition: "50% 30%", display: "block" }
       }) : null
+    }));
+  }
+
+  scrollToAnchor(id) {
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const header = document.querySelector("header");
+      const offset = (header ? header.getBoundingClientRect().height : 0) + 24;
+      const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
     }));
   }
 
@@ -718,9 +793,12 @@ class Component extends DCLogic {
       embedUrl,
       onPlay: embedUrl ? () => this.setState({ playing: key })
         : s.url ? () => window.open(s.url, "_blank", "noopener") : undefined,
-      onPlayFromHome: embedUrl
-        ? () => { this.setState({ screen: "sessions", playing: key }); window.scrollTo(0, 0); }
-        : () => { this.setState({ screen: "sessions", playing: null }); window.scrollTo(0, 0); }
+      anchorId: "session-" + key,
+      onPlayFromHome: () => {
+        this.setState({ screen: "sessions", playing: embedUrl ? key : null });
+        this.trackPage("sessions");
+        this.scrollToAnchor("session-" + key);
+      }
     });
   }
 
@@ -761,12 +839,13 @@ class Component extends DCLogic {
       goHome: (e) => { e.preventDefault(); this.go("home")(); },
       goCommittee: () => {
         this.setState({ screen: "about", openMenu: null });
+        this.trackPage("about");
         requestAnimationFrame(() => requestAnimationFrame(() => {
           const el = document.getElementById("committee");
           if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: "smooth" });
         }));
       },
-      goEvents: this.go("events"), goJoin: this.go("join"),
+      goEvents: this.go("events"), goJoin: this.go("join"), goContact: this.go("contact"),
       goSongbirds: () => window.open("https://events.humanitix.com/season-songbirds-ayelupy4", "_blank", "noopener"),
       goJamboree: () => window.open("https://lyricsunderground.oztix.com.au/outlet/event/4fa8bb9a-8264-4fa7-acea-8ece5d16e877?Event=244042", "_blank", "noopener"),
 
@@ -775,14 +854,127 @@ class Component extends DCLogic {
       nlMusician: this.state.nlMusician,
       setName: (e) => this.setState({ nlName: e.target.value }),
       setEmail: (e) => this.setState({ nlEmail: e.target.value }),
+      setWebsite: (e) => this.setState({ nlWebsite: e.target.value }),
       setMusician: (v) => this.setState({ nlMusician: v }),
       subscribed: !!this.state.subscribedEmail,
       notSubscribed: !this.state.subscribedEmail,
       subscribedEmail: this.state.subscribedEmail,
+      nlSubmitting: this.state.nlSubmitting,
+      nlSubmitLabel: this.state.nlSubmitting ? "Signing you up…" : "Sign me up",
+      nlError: this.state.nlError,
       onSubscribe: (e) => {
         e.preventDefault();
-        if (!this.state.nlEmail) return;
-        this.setState({ subscribedEmail: this.state.nlEmail });
+        if (!this.state.nlEmail || this.state.nlSubmitting) return;
+        this.setState({ nlSubmitting: true, nlError: null });
+        fetch("https://email-worker.misty-recipe-db89.workers.dev/subscribe", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: this.state.nlEmail,
+            name: this.state.nlName,
+            website: this.state.nlWebsite // honeypot — real visitors leave this blank
+          })
+        })
+          .then((res) => res.json().then((data) => ({ ok: res.ok, data })))
+          .then(({ ok, data }) => {
+            if (ok && data && data.ok) {
+              this.setState({ subscribedEmail: this.state.nlEmail, nlSubmitting: false });
+            } else {
+              this.setState({
+                nlSubmitting: false,
+                nlError: (data && data.error) || "Something went wrong. Please try again."
+              });
+            }
+          })
+          .catch(() => {
+            this.setState({ nlSubmitting: false, nlError: "Network error — please try again in a moment." });
+          });
+      },
+
+      mOpen: this.state.mOpen,
+      mTier: this.state.mTier,
+      mTitle: this.state.mTitle,
+      mBlurb: this.state.mBlurb,
+      mName: this.state.mName,
+      mEmail: this.state.mEmail,
+      setMName: (e) => this.setState({ mName: e.target.value }),
+      setMEmail: (e) => this.setState({ mEmail: e.target.value }),
+      mSubmitting: this.state.mSubmitting,
+      mSubmitLabel: this.state.mSubmitting ? "Taking you to checkout…" : "Continue to payment",
+      mError: this.state.mError,
+      closeMembership: () => this.setState({ mOpen: false, mError: null }),
+      membershipNotice: this.state.membershipNotice,
+      membershipNoticeEyebrow: this.state.membershipNoticeEyebrow,
+      dismissMembershipNotice: () => this.setState({ membershipNotice: null }),
+      onMembershipSubmit: (e) => {
+        e.preventDefault();
+        if (!this.state.mEmail || this.state.mSubmitting) return;
+        this.setState({ mSubmitting: true, mError: null });
+        fetch("https://email-worker.misty-recipe-db89.workers.dev/membership/checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ tier: this.state.mTier, email: this.state.mEmail, name: this.state.mName })
+        })
+          .then((res) => res.json().then((data) => ({ ok: res.ok, data })))
+          .then(({ ok, data }) => {
+            if (ok && data && data.url) {
+              window.location.href = data.url;
+            } else {
+              this.setState({
+                mSubmitting: false,
+                mError: (data && data.error) || "We couldn't start checkout. Please try again."
+              });
+            }
+          })
+          .catch(() => {
+            this.setState({ mSubmitting: false, mError: "Network error — please try again in a moment." });
+          });
+      },
+
+      cName: this.state.cName,
+      cEmail: this.state.cEmail,
+      cEnquiry: this.state.cEnquiry,
+      cMessage: this.state.cMessage,
+      cWebsite: this.state.cWebsite,
+      setCName: (e) => this.setState({ cName: e.target.value }),
+      setCEmail: (e) => this.setState({ cEmail: e.target.value }),
+      setCEnquiry: (e) => this.setState({ cEnquiry: e.target.value }),
+      setCMessage: (e) => this.setState({ cMessage: e.target.value }),
+      setCWebsite: (e) => this.setState({ cWebsite: e.target.value }),
+      cSubmitting: this.state.cSubmitting,
+      cSubmitLabel: this.state.cSubmitting ? "Sending…" : "Send",
+      cError: this.state.cError,
+      contactSubmitted: this.state.contactSubmitted,
+      contactNotSubmitted: !this.state.contactSubmitted,
+      onContactSubmit: (e) => {
+        e.preventDefault();
+        if (!this.state.cEmail || !this.state.cMessage || this.state.cSubmitting) return;
+        this.setState({ cSubmitting: true, cError: null });
+        fetch("https://email-worker.misty-recipe-db89.workers.dev/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: this.state.cName,
+            email: this.state.cEmail,
+            enquiry: this.state.cEnquiry,
+            message: this.state.cMessage,
+            website: this.state.cWebsite // honeypot — real visitors leave this blank
+          })
+        })
+          .then((res) => res.json().then((data) => ({ ok: res.ok, data })))
+          .then(({ ok, data }) => {
+            if (ok && data && data.ok) {
+              this.setState({ contactSubmitted: true, cSubmitting: false });
+            } else {
+              this.setState({
+                cSubmitting: false,
+                cError: (data && data.error) || "Something went wrong. Please try again."
+              });
+            }
+          })
+          .catch(() => {
+            this.setState({ cSubmitting: false, cError: "Network error — please try again in a moment." });
+          });
       },
 
       pillars: [
@@ -888,8 +1080,8 @@ class Component extends DCLogic {
         { num: "03", title: "Members & volunteers", body: "Keep the free sessions free.", long: "Membership funds artist fees and keeps ticket prices down. Volunteers run doors, cameras and load-ins.", cta: "Become a member" }
       ],
       tiers: [
-        { name: "Member", price: "$20", period: "per year", blurb: "Keep the free sessions free.", features: ["Member ticket prices", "Priority for Sessions slots", "Listed in the artist directory", "Monthly what's on email", "Vote at the AGM"], cta: "Become a member", featured: true },
-        { name: "Champion", price: "$100", period: "per year", blurb: "For the people who make seasons happen.", features: ["Everything in Member", "Two double passes a year", "Named in the season program"], cta: "Join as champion", featured: false }
+        { name: "Member", price: "$20", period: "per year", blurb: "Keep the free sessions free.", features: ["Member ticket prices", "Priority for Sessions slots", "Listed in the artist directory", "Monthly what's on email", "Vote at the AGM"], cta: "Become a member", featured: true, onSelect: () => this.openMembership("member", "Become a member", "$20 a year. Cancel any time.") },
+        { name: "Champion", price: "$100", period: "per year", blurb: "For the people who make seasons happen.", features: ["Everything in Member", "Two double passes a year", "Named in the season program"], cta: "Join as champion", featured: false, onSelect: () => this.openMembership("champion", "Join as champion", "$100 a year. Cancel any time.") }
       ],
       enquiryOptions: [
         { value: "general", label: "General enquiry" },
