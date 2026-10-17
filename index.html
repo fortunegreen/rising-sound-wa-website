@@ -225,6 +225,33 @@
       </div>
     </section>
 
+    <sc-if value="{{ hasArchive }}">
+    <section style="background:var(--rs-voltage);color:var(--rs-bone-50)">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px">
+        <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-bone-50)">From the archive</span>
+        <h2 style="margin:20px 0 0;font:var(--type-h2);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-bone-50)">Recently in the room.</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;margin-top:40px">
+          <sc-for list="{{ archiveItems }}" as="a">
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <sc-if value="{{ a.isPhoto }}">
+                <button type="button" onClick="{{ a.onOpen }}" aria-label="{{ a.alt }}" style="display:block;padding:0;border:0;background:var(--rs-ink);cursor:pointer;aspect-ratio:16/9;overflow:hidden;transition:transform var(--dur-fast) var(--ease-out)" style-hover="transform:translate(-2px,-2px)">
+                  {{ a.img }}
+                </button>
+              </sc-if>
+              <sc-if value="{{ a.isVideo }}">
+                <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.VideoCard" title="{{ a.title }}" image="{{ a.image }}" tone="{{ a.tone }}" duration="Watch" onPlay="{{ a.onOpen }}" hint-size="100%,240px"></x-import>
+              </sc-if>
+              <span style="font-family:var(--font-mono);font-size:var(--fs-micro);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--rs-bone-50)">{{ a.caption }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin-top:40px">
+          <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="secondary" onClick="{{ goEvents }}" hint-size="auto,40px">See past events</x-import>
+        </div>
+      </div>
+    </section>
+    </sc-if>
+
     <section style="background:var(--rs-ink-900);border-top:1px solid var(--line-hairline)">
       <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px">
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:clamp(40px,6vw,72px);align-items:start">
@@ -382,13 +409,46 @@
             <p style="margin:0;font-size:var(--fs-body-sm);color:var(--text-muted)">What the rooms have already heard.</p>
             <div style="display:flex;flex-direction:column;gap:16px;margin-top:32px">
               <sc-for list="{{ shownPast }}" as="e" hint-placeholder-count="4">
-                <div style="display:flex;flex-wrap:wrap;align-items:stretch;gap:16px">
+                <div id="{{ e.anchorId }}" style="display:flex;flex-wrap:wrap;align-items:stretch;gap:16px;scroll-margin-top:120px">
                   <div style="flex:1 1 260px;min-width:0">
                     <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.EventCard" day="{{ e.day }}" month="{{ e.month }}" title="{{ e.title }}" support="{{ e.support }}" venue="{{ e.venue }}" time="{{ e.time }}" badge="{{ e.badge }}" tags="{{ e.tags }}" hint-size="100%,140px"></x-import>
                   </div>
-                  <div style="display:flex;align-items:center;flex:none;min-width:140px">
+                  <div style="display:flex;flex-direction:column;justify-content:center;gap:10px;flex:none;min-width:160px">
                     <span style="font-family:var(--font-mono);font-size:var(--fs-body-sm);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-body)">Finished</span>
+                    <sc-if value="{{ e.hasMedia }}">
+                      <span style="font-family:var(--font-mono);font-size:var(--fs-micro);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--rs-amber)">{{ e.mediaCount }}</span>
+                      <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="secondary" onClick="{{ e.onToggleMedia }}" hint-size="160px,40px">{{ e.mediaLabel }}</x-import>
+                    </sc-if>
                   </div>
+                  <sc-if value="{{ e.mediaOpen }}">
+                    <div style="flex:1 1 100%;display:flex;flex-direction:column;gap:32px;padding:24px;background:var(--surface-1);border:1px solid var(--line-hairline)">
+                      <sc-if value="{{ e.hasVideos }}">
+                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px">
+                          <sc-for list="{{ e.videos }}" as="v">
+                            <div>
+                              <sc-if value="{{ v.notPlaying }}">
+                                <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.VideoCard" title="{{ v.title }}" artist="{{ v.artist }}" episode="{{ v.episode }}" duration="{{ v.duration }}" image="{{ v.image }}" tone="{{ v.tone }}" onPlay="{{ v.onPlay }}" hint-size="100%,260px"></x-import>
+                              </sc-if>
+                              <sc-if value="{{ v.isPlaying }}">
+                                <div style="position:relative;aspect-ratio:16/9;width:100%;background:var(--rs-ink-700)">
+                                  <iframe src="{{ v.embedUrl }}" title="{{ v.frameTitle }}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="true" style="position:absolute;inset:0;width:100%;height:100%;border:0;display:block"></iframe>
+                                </div>
+                              </sc-if>
+                            </div>
+                          </sc-for>
+                        </div>
+                      </sc-if>
+                      <sc-if value="{{ e.hasPhotos }}">
+                        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px">
+                          <sc-for list="{{ e.photos }}" as="p">
+                            <button type="button" onClick="{{ p.onOpen }}" aria-label="{{ p.alt }}" style="display:block;padding:0;border:0;background:var(--rs-ink-700);cursor:zoom-in;aspect-ratio:4/3;overflow:hidden" style-hover="outline:2px solid var(--rs-amber);outline-offset:2px">
+                              {{ p.img }}
+                            </button>
+                          </sc-for>
+                        </div>
+                      </sc-if>
+                    </div>
+                  </sc-if>
                 </div>
               </sc-for>
             </div>
@@ -624,6 +684,16 @@
     </div>
   </section>
 
+  <sc-if value="{{ lightboxOpen }}">
+    <div role="dialog" aria-modal="true" aria-label="{{ lightboxAlt }}" onClick="{{ closeLightbox }}" style="position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px;cursor:zoom-out">
+      {{ lightboxImg }}
+      <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;justify-content:center">
+        <span style="font-family:var(--font-mono);font-size:var(--fs-micro);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--rs-bone-50)">{{ lightboxCaption }}</span>
+        <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="secondary" onClick="{{ closeLightbox }}" hint-size="auto,40px">Close</x-import>
+      </div>
+    </div>
+  </sc-if>
+
   <footer style="background:#000;border-top:1px solid var(--line-hairline)">
     <div style="max-width:1360px;margin:0 auto;padding:clamp(40px,7vw,72px) 24px 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:48px">
       <div>
@@ -695,6 +765,7 @@ const EVENTS = [
   { id: 8, date: "2026-09-05", day: "05", month: "Sep", title: "Kerry B Ryan and The Off Set", support: "Saturday Sessions on the shop floor. Free entry.", venue: "Midland Records, 7 Spring Park Rd, Midland WA 6056", time: "12–2pm", price: "Free", region: "Metro", free: true, badge: { tone: "session", label: "Saturday Sessions" }, tags: ["Metro", "Free"], cta: "Add to calendar", ctaVariant: "secondary" },
   { id: 6, date: "2026-09-13", day: "13", month: "Sep", title: "Spring Time Country Folk Jamboree", support: "The Little Lord Street Band, Whiskey Jack, Stack of Bibles, Michael Savage and Band, and The Stumblers. An afternoon and evening celebrating the very best of Western Australian country, folk and Americana music.", venue: "Lyrics Underground", time: "4:00pm", price: "Tickets via Oztix", region: "Metro", free: false, badge: { tone: "live", label: "Jamboree" }, tags: ["Metro", "Ticketed"], cta: "Buy tickets", ctaVariant: "primary", url: "https://lyricsunderground.oztix.com.au/outlet/event/4fa8bb9a-8264-4fa7-acea-8ece5d16e877?Event=244042" },
   { id: 9, date: "2026-10-04", day: "04", month: "Oct", title: "Season Songbirds — Spring edition", support: "Moana Mayatrix, Jasmine Gannaway, Harriet Hawthorn and Charlie and Goldie in the round. Presented by Midnight Francine. BYO rug, nibblies and drinks.", venue: "24 View St, North Perth", time: "4:30–8pm", price: "Tickets via Humanitix", region: "Metro", free: false, badge: { tone: "live", label: "Songbirds" }, tags: ["Metro", "Ticketed"], cta: "Buy tickets", ctaVariant: "primary", url: "https://events.humanitix.com/season-songbirds-ayelupy4" },
+  { id: 12, date: "2026-10-10", day: "10", month: "Oct", title: "Harmony in the Garden", support: "Sirens of the Hills & Foothills with Charlie & Goldie, Cherry Lou and Kyra Bee & Si\u00e2n Johanna's The Bloody Lovelies. BYO picnic.", venue: "Two Birds (behind the post office), 18 Brook Rd, Darlington", time: "5:30pm onwards", price: "$25", region: "Metro", free: false, badge: { tone: "live", label: "Garden show" }, tags: ["Metro", "Ticketed"], cta: "Add to calendar", ctaVariant: "secondary" },
   { id: 10, date: "2026-10-17", day: "17", month: "Oct", title: "Gidge Rock with The Bloody Lovelies", support: "Saturday Sessions on the shop floor. Free entry.", venue: "Midland Records, 7 Spring Park Rd, Midland WA 6056", time: "12–2pm", price: "Free", region: "Metro", free: true, badge: { tone: "session", label: "Saturday Sessions" }, tags: ["Metro", "Free"], cta: "Add to calendar", ctaVariant: "secondary" },
   { id: 7, date: "2026-10-17", day: "17", month: "Oct", title: "Merredin Pre-Harvest Hoedown", support: "Country music classics performed by The Stumblers, plus boot scooting, bush dancing, games and activities.", venue: "Cummins Theatre, Bates St, Merredin", time: "6pm–11pm", region: "Regional", free: false, badge: { tone: "live", label: "Hoedown" }, tags: ["Regional", "Ticketed"], cta: "Add to calendar", ctaVariant: "secondary" },
   { id: 11, date: "2026-11-26", day: "26", month: "Nov", title: "Circle of Six", support: "A songwriter's round with special guests The Pointy Heads, Zoe Eleni and The Bloody Lovelies.", venue: "Midland Junction Arts Centre, 276 Great Eastern Hwy, Midland WA 6056", time: "Doors 5:30pm · 6pm start", region: "Metro", free: false, badge: { tone: "live", label: "Songwriters round" }, tags: ["Metro"], cta: "Add to calendar", ctaVariant: "secondary", details: [
@@ -716,7 +787,26 @@ const EVENT_POSTERS = {
   9: { src: "assets/poster-season-songbirds.jpg", ratio: "1/1" },
   10: { src: "assets/poster-gidge-rock-bloody-lovelies.jpg", ratio: "3/4" },
   7: { src: "assets/poster-merredin-hoedown.jpg", ratio: "406/720" },
-  11: { src: "assets/poster-circle-of-six.jpg", ratio: "4/5" }
+  11: { src: "assets/poster-circle-of-six.jpg", ratio: "4/5" },
+  12: { src: "assets/poster-harmony-in-the-garden.jpg", ratio: "1448/2048" }
+};
+
+// Photos and video clips from past events, keyed by event id.
+// photos: [{ src: "assets/events/2026-08-08-01.jpg", alt: "…", credit: "…" }]
+// videos: [{ url: "https://vimeo.com/…", title: "…" }]  (session films link automatically via SESSIONS[].eventId)
+const EVENT_MEDIA = {
+  12: {
+    photos: [
+      { src: "assets/events/2026-10-10-harmony-01.jpg", alt: "The Two Birds garden in Darlington, an audience seated among the plants watching a duo on the garden stage" }
+    ],
+    videos: [
+      { url: "https://vimeo.com/1236725472", title: "Harmony in the Garden" },
+      { url: "https://vimeo.com/1236725514", title: "Harmony in the Garden" },
+      { url: "https://vimeo.com/1236725549", title: "Harmony in the Garden" },
+      { url: "https://vimeo.com/1236725469", title: "Harmony in the Garden" },
+      { url: "https://vimeo.com/1236725471", title: "Harmony in the Garden" }
+    ]
+  }
 };
 
 // Featured events on the Events page. Each shows only until its event date has passed; it then lives on in Past events.
@@ -745,8 +835,8 @@ const FEATURED = [
 // song and url are filled in as each film is delivered. Leave "" / null until then.
 const SESSIONS = [
   { artist: "Whiskey Jack", song: "Clover", date: "Sat 30 May 2026", venue: "Midland Records", episode: "Session 01", image: "assets/img-shopfloor.jpg", tone: "amber", featured: true, url: "https://vimeo.com/1223579205?share=copy&fl=sv&fe=ci" },
-  { artist: "Moana Mayatrix", song: "", date: "Sat 8 Aug 2026", venue: "Midland Records", image: "assets/img-singer.jpg", tone: "flare", url: "https://vimeo.com/1223597673?share=copy&fl=sv&fe=ci" },
-  { artist: "Tanya Hemi", song: "", date: "Sat 13 Jun 2026", venue: "Midland Records", image: null, tone: "voltage", url: null },
+  { artist: "Moana Mayatrix", song: "", date: "Sat 8 Aug 2026", venue: "Midland Records", image: "assets/img-singer.jpg", tone: "flare", eventId: 4, url: "https://vimeo.com/1223597673?share=copy&fl=sv&fe=ci" },
+  { artist: "Vissac", song: "", date: "Sat 8 Aug 2026", venue: "Midland Records", image: null, tone: "voltage", eventId: 4, url: "https://vimeo.com/1236726361?share=copy&fl=sv&fe=ci" },
   { artist: "Blue Minou", song: "", date: "Sat 22 Aug 2026", venue: "Midland Records", image: "assets/img-graffiti.jpg", tone: "flare", url: null },
   { artist: "Arturo", song: "", date: "Sat 22 Aug 2026", venue: "Midland Records", image: "assets/img-portrait-sepia.jpg", tone: "amber", url: null },
   { artist: "Gidge Rock", song: "", date: "Sat 6 Jun 2026", venue: "Midland Records", image: "assets/img-stage.jpg", tone: "voltage", url: null },
@@ -754,7 +844,7 @@ const SESSIONS = [
 ];
 
 class Component extends DCLogic {
-  state = { mOpen: false, mTier: null, mTitle: "", mBlurb: "", mName: "", mEmail: "", mSubmitting: false, mError: null, membershipNotice: null, membershipNoticeEyebrow: "", screen: "home", openMenu: null, playing: null, openEvent: null, filter: "All", nlName: "", nlEmail: "", nlWebsite: "", nlMusician: false, nlSubmitting: false, nlError: null, subscribedEmail: null, cName: "", cEmail: "", cEnquiry: "general", cMessage: "", cWebsite: "", cSubmitting: false, cError: null, contactSubmitted: false };
+  state = { mOpen: false, mTier: null, mTitle: "", mBlurb: "", mName: "", mEmail: "", mSubmitting: false, mError: null, membershipNotice: null, membershipNoticeEyebrow: "", screen: "home", openMenu: null, playing: null, openEvent: null, openMedia: null, lightbox: null, filter: "All", nlName: "", nlEmail: "", nlWebsite: "", nlMusician: false, nlSubmitting: false, nlError: null, subscribedEmail: null, cName: "", cEmail: "", cEnquiry: "general", cMessage: "", cWebsite: "", cSubmitting: false, cError: null, contactSubmitted: false };
 
   trackPage = (s) => {
     if (typeof gtag === "function") {
@@ -815,10 +905,10 @@ class Component extends DCLogic {
   session(s) {
     const meta = [s.date, s.venue].filter(Boolean).join(" · ");
     const n = SESSIONS.indexOf(s) + 1;
-    const key = "s" + n;
+    const key = s._clip ? "c" + s._clip : "s" + n;
     const embedUrl = this.embed(s.url);
     return Object.assign({}, s, {
-      episode: "Session " + String(n).padStart(2, "0"),
+      episode: s._label || ("Session " + String(n).padStart(2, "0")),
       image: this.asset(s.image),
       title: s.artist,
       artist: s.song || "",
@@ -903,7 +993,48 @@ class Component extends DCLogic {
     const f = this.state.filter;
     const match = (e) => f === "All" ? true : f === "Free" ? e.free : e.region === f;
     const shownUpcoming = upcoming.filter(match);
-    const shownPast = byDate.filter(e => e.date < today).reverse().filter(match);
+    const shownPastRaw = byDate.filter(e => e.date < today).reverse().filter(match);
+    const coverImg = (src, alt) => React.createElement("img", { src, alt, loading: "lazy", style: { width: "100%", height: "100%", objectFit: "cover", display: "block" } });
+    const fmtDate = (e) => new Date(e.date + "T12:00:00").toLocaleDateString("en-AU", { weekday: "short" }) + " " + Number(e.day) + " " + e.month;
+    const mediaFor = (e) => {
+      const m = EVENT_MEDIA[e.id] || {};
+      const photos = (m.photos || []).map((p, i) => ({
+        src: this.asset(p.src), alt: p.alt || (e.title + " photo " + (i + 1)), credit: p.credit || "",
+        img: coverImg(this.asset(p.src), p.alt || (e.title + " photo " + (i + 1))),
+        onOpen: () => this.setState({ lightbox: { src: this.asset(p.src), alt: p.alt || e.title, caption: fmtDate(e) + " · " + e.title + (p.credit ? " · Photo: " + p.credit : "") } })
+      }));
+      const films = SESSIONS.filter(x => x.eventId === e.id).map(x => this.session(x));
+      const clips = (m.videos || []).map((v, i) => this.session({ artist: v.title || e.title, song: "", url: v.url, tone: ["teal", "flare", "amber", "voltage"][i % 4], image: v.image || null, _clip: e.id + "-" + i, _label: "Clip " + String(i + 1).padStart(2, "0") }));
+      return { photos, videos: films.concat(clips) };
+    };
+    const shownPast = shownPastRaw.map(e => {
+      const { photos, videos } = mediaFor(e);
+      const open = this.state.openMedia === e.id;
+      const bits = [];
+      if (photos.length) bits.push(photos.length + (photos.length === 1 ? " photo" : " photos"));
+      if (videos.length) bits.push(videos.length + (videos.length === 1 ? " video" : " videos"));
+      return Object.assign({}, e, {
+        anchorId: "event-" + e.id,
+        photos, videos,
+        hasPhotos: photos.length > 0, hasVideos: videos.length > 0,
+        hasMedia: photos.length + videos.length > 0,
+        mediaCount: bits.join(" · "),
+        mediaOpen: open,
+        mediaLabel: open ? "Hide" : "Photos & video",
+        onToggleMedia: () => this.setState({ openMedia: open ? null : e.id })
+      });
+    });
+    const archiveItems = byDate.filter(e => e.date < today).reverse().flatMap(e => {
+      const { photos, videos } = mediaFor(e);
+      const go = () => {
+        this.setState({ screen: "events", filter: "All", openMedia: e.id, playing: null });
+        this.trackPage && this.trackPage("events");
+        this.scrollToAnchor("event-" + e.id);
+      };
+      const caption = fmtDate(e) + " · " + e.title;
+      return photos.map(p => ({ isPhoto: true, isVideo: false, src: p.src, alt: p.alt, img: p.img, caption, onOpen: go }))
+        .concat(videos.map(v => ({ isPhoto: false, isVideo: true, title: v.title, image: v.image, tone: v.tone === "voltage" ? "teal" : v.tone, caption, onOpen: go })));
+    }).slice(0, 4);
 
     return {
       nav: items.map(link),
@@ -1135,6 +1266,13 @@ class Component extends DCLogic {
       homeEvents: (upcoming.length ? upcoming : byDate.slice(-4)).slice(0, 4).map(withCta),
       shownUpcoming: shownUpcoming.map(withCta),
       shownPast: shownPast,
+      archiveItems,
+      hasArchive: archiveItems.length > 0,
+      lightboxOpen: !!this.state.lightbox,
+      lightboxImg: this.state.lightbox ? React.createElement("img", { src: this.state.lightbox.src, alt: this.state.lightbox.alt, style: { maxWidth: "100%", maxHeight: "calc(100vh - 120px)", objectFit: "contain", display: "block" } }) : null,
+      lightboxAlt: this.state.lightbox ? this.state.lightbox.alt : "",
+      lightboxCaption: this.state.lightbox ? this.state.lightbox.caption : "",
+      closeLightbox: () => this.setState({ lightbox: null }),
       hasPast: shownPast.length > 0,
       noUpcoming: shownUpcoming.length === 0 && shownPast.length > 0,
       isEmpty: shownUpcoming.length === 0 && shownPast.length === 0,
@@ -1147,6 +1285,7 @@ class Component extends DCLogic {
       featuredPoster: featured.poster,
       featuredLine: featured.line,
       posters: [
+        { src: "assets/poster-harmony-in-the-garden.jpg", alt: "Harmony in the Garden poster", caption: "Harmony in the Garden", ratio: "1448/2048" },
         { src: "assets/poster-circle-of-six.jpg", alt: "Circle of Six poster", caption: "Circle of Six", ratio: "4/5" },
         { src: "assets/poster-gidge-rock-bloody-lovelies.jpg", alt: "Saturday Sessions poster", caption: "Gidge Rock with The Bloody Lovelies", ratio: "3/4" },
         { src: "assets/poster-kerry-b-ryan.jpg", alt: "Saturday Sessions poster", caption: "Kerry B Ryan and The Off Set" },
