@@ -193,7 +193,7 @@
           <h2 style="margin:20px 0 0;font:var(--type-display);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-ink)">Join the room.</h2>
           <p style="margin:24px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--rs-ink)">Members keep the free sessions free. Musicians get stages. Venues get audiences. There is a way in for all three.</p>
           <div style="margin-top:36px">
-            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="inverse" size="lg" onClick="{{ goJoin }}" hint-size="auto,48px">Become a member</x-import>
+            <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="inverse" size="lg" onClick="{{ goMembership }}" hint-size="auto,48px">Become a member</x-import>
           </div>
         </div>
         <div style="display:flex;flex-direction:column;gap:1px;background:rgba(0,0,0,.18)">
@@ -577,13 +577,13 @@
               <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);color:var(--rs-amber)">{{ w.num }}</span>
               <h3 style="margin:0;font:var(--type-h2);letter-spacing:var(--ls-heading);text-transform:uppercase;color:var(--rs-bone-50);font-size:var(--fs-h3)">{{ w.title }}</h3>
               <p style="margin:0;font-size:var(--fs-body-sm);line-height:var(--lh-body);color:var(--text-body);flex:1">{{ w.long }}</p>
-              <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="secondary" onClick="{{ goContact }}" hint-size="auto,40px">{{ w.cta }}</x-import>
+              <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="secondary" onClick="{{ w.onCta }}" hint-size="auto,40px">{{ w.cta }}</x-import>
             </div>
           </sc-for>
         </div>
       </div>
     </section>
-    <section style="background:#000;border-top:1px solid var(--line-hairline)">
+    <section id="membership" style="background:#000;border-top:1px solid var(--line-hairline);scroll-margin-top:96px">
       <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px">
         <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.SectionHeading" eyebrow="Membership" title="Keep the free shows free" rule="amber" hint-size="100%,96px"></x-import>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,400px));gap:24px;margin-top:48px;align-items:start">
@@ -1052,6 +1052,7 @@ class Component extends DCLogic {
         }));
       },
       goEvents: this.go("events"), goJoin: this.go("join"), goContact: this.go("contact"),
+      goMembership: () => { this.setState({ screen: "join", playing: null }); this.scrollToAnchor("membership"); },
       goSongbirds: () => window.open("https://events.humanitix.com/season-songbirds-ayelupy4", "_blank", "noopener"),
       goJamboree: () => window.open("https://lyricsunderground.oztix.com.au/outlet/event/4fa8bb9a-8264-4fa7-acea-8ece5d16e877?Event=244042", "_blank", "noopener"),
 
@@ -1301,9 +1302,9 @@ class Component extends DCLogic {
       featuredSession: this.session(SESSIONS.find(x => x.featured) || SESSIONS[0]),
 
       pathways: [
-        { num: "01", title: "Musicians", body: "Original work, any stage of your career.", long: "Send us a link to your work and we will see if we can help. Sessions slots, support spots and regional dates all start here.", cta: "Get in touch" },
-        { num: "02", title: "Venues & presenters", body: "Rooms, halls and public spaces.", long: "We bring the acts, the gear and the audience. If you have a room in the metro area or a regional town, we want to hear about it.", cta: "Partner with us" },
-        { num: "03", title: "Members & volunteers", body: "Keep the free sessions free.", long: "Membership funds artist fees and keeps ticket prices down. Volunteers run doors, cameras and load-ins.", cta: "Become a member" }
+        { num: "01", title: "Musicians", body: "Original work, any stage of your career.", long: "Send us a link to your work and we will see if we can help. Sessions slots, support spots and regional dates all start here.", cta: "Get in touch", onCta: this.go("contact") },
+        { num: "02", title: "Venues & presenters", body: "Rooms, halls and public spaces.", long: "We bring the acts, the gear and the audience. If you have a room in the metro area or a regional town, we want to hear about it.", cta: "Partner with us", onCta: this.go("contact") },
+        { num: "03", title: "Members & volunteers", body: "Keep the free sessions free.", long: "Membership funds artist fees and keeps ticket prices down. Volunteers run doors, cameras and load-ins.", cta: "Become a member", onCta: () => { this.setState({ screen: "join", playing: null }); this.scrollToAnchor("membership"); } }
       ],
       tiers: [
         { name: "Member", price: "$20", period: "per year", blurb: "Keep the free sessions free.", features: ["Member ticket prices", "Priority for Sessions slots", "Listed in the artist directory", "Monthly what's on email", "Vote at the AGM"], cta: "Become a member", featured: true, onSelect: () => this.openMembership("member", "Become a member", "$20 a year. Cancel any time.") },
