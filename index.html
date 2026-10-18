@@ -560,6 +560,68 @@
   </main>
   </sc-if>
 
+  <!-- ══ ARTISTS ══ -->
+  <sc-if value="{{ isArtists }}">
+  <main data-screen-label="Artists">
+    <section style="background:var(--rs-amber)">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(56px,9vw,120px) 24px">
+        <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-ink)">Artist directory</span>
+        <h1 style="margin:20px 0 0;max-width:22ch;font:var(--type-display);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-ink)">Book a local act.</h1>
+        <p style="margin:24px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--rs-ink)">Original WA artists who are members of Rising Sound WA. Get in touch with them directly.</p>
+      </div>
+    </section>
+
+    <section style="background:#000">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px">
+          <sc-for list="{{ artists }}" as="a" hint-placeholder-count="6">
+            <div style="display:flex;flex-direction:column;background:var(--surface-1);border:1px solid var(--line-hairline)">
+              <div style="position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--rs-ink-700)">
+                <sc-if value="{{ a.hasPhoto }}">{{ a.photoImg }}</sc-if>
+                <sc-if value="{{ a.noPhoto }}">
+                  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:{{ a.blockBg }}">
+                    <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Waveform" height="56" color="#000" hint-size="120px,56px"></x-import>
+                  </div>
+                </sc-if>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:12px;padding:24px;flex:1">
+                <h2 style="margin:0;font:var(--type-h3);font-size:var(--fs-h3);letter-spacing:var(--ls-heading);text-transform:uppercase;color:var(--rs-bone-50)">{{ a.name }}</h2>
+                <sc-if value="{{ a.hasMeta }}">
+                  <p style="margin:0;font-family:var(--font-mono);font-size:var(--fs-micro);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-muted)">{{ a.meta }}</p>
+                </sc-if>
+                <sc-if value="{{ a.hasBio }}">
+                  <p style="margin:0;line-height:var(--lh-body);color:var(--text-body);text-wrap:pretty">{{ a.bio }}</p>
+                </sc-if>
+                <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:8px">
+                  <sc-if value="{{ a.hasEmail }}">
+                    <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" onClick="{{ a.onEmail }}" hint-size="auto,40px">Email</x-import>
+                  </sc-if>
+                  <sc-for list="{{ a.links }}" as="l">
+                    <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="secondary" onClick="{{ l.onClick }}" hint-size="auto,40px">{{ l.label }}</x-import>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section style="background:var(--rs-ink-900);border-top:1px solid var(--line-hairline)">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between">
+        <div>
+          <h2 style="margin:0;font:var(--type-h2);letter-spacing:var(--ls-heading);text-transform:uppercase;color:var(--rs-bone-50)">Get listed.</h2>
+          <p style="margin:16px 0 0;max-width:52ch;line-height:var(--lh-body);color:var(--text-body)">Every artist member is listed here. Join, then send us a photo, a short bio and your links.</p>
+        </div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap">
+          <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" size="lg" onClick="{{ goMembership }}" hint-size="auto,48px">Become a member</x-import>
+          <x-import component-from-global-scope="RisingSoundWADesignSystem_660faa.Button" variant="secondary" size="lg" onClick="{{ goContact }}" hint-size="auto,48px">Send your details</x-import>
+        </div>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
   <!-- ══ GET INVOLVED ══ -->
   <sc-if value="{{ isJoin }}">
   <main data-screen-label="Get involved">
@@ -832,6 +894,18 @@ const FEATURED = [
   ] }
 ];
 
+// Artist directory: Rising Sound WA members only. Fill in bio, genre, area and links as artists send them.
+// email is split into user/domain so it never appears whole in the page source.
+const ARTISTS = [
+  { name: "Charlie & Goldie", photo: null, tone: "teal", bio: "", genre: "Folk", area: "", email: null, website: "", facebook: "", instagram: "", music: "" },
+  { name: "Moana Mayatrix", photo: "assets/img-singer.jpg", tone: "flare", bio: "", genre: "", area: "", email: null, website: "", facebook: "", instagram: "", music: "", session: "s2" },
+  { name: "The Bloody Lovelies", photo: null, tone: "flare", bio: "", genre: "", area: "", email: null, website: "", facebook: "", instagram: "", music: "" },
+  { name: "The Pointy Heads", photo: null, tone: "amber", bio: "", genre: "", area: "", email: null, website: "", facebook: "", instagram: "", music: "" },
+  { name: "The Stumblers", photo: null, tone: "lemon", bio: "", genre: "Country", area: "", email: null, website: "", facebook: "", instagram: "", music: "" },
+  { name: "Vissac", photo: "assets/thumbs/vimeo-1236726361.jpg", tone: "voltage", bio: "", genre: "", area: "", email: null, website: "", facebook: "", instagram: "", music: "", session: "s3" },
+  { name: "Whiskey Jack", photo: "assets/thumbs/vimeo-1223579205.jpg", tone: "amber", bio: "", genre: "", area: "", email: null, website: "", facebook: "", instagram: "", music: "", session: "s1" }
+];
+
 // song and url are filled in as each film is delivered. Leave "" / null until then.
 const SESSIONS = [
   { artist: "Whiskey Jack", song: "Clover", date: "Sat 30 May 2026", venue: "Midland Records", episode: "Session 01", image: "assets/img-shopfloor.jpg", tone: "amber", featured: true, url: "https://vimeo.com/1223579205?share=copy&fl=sv&fe=ci" },
@@ -893,6 +967,31 @@ class Component extends DCLogic {
     }));
   }
 
+  artistList() {
+    const key = (n) => n.replace(/^the\s+/i, "").toLowerCase();
+    const bg = { teal: "var(--rs-teal)", flare: "var(--rs-flare)", amber: "var(--rs-amber)", lemon: "var(--rs-lemon)", voltage: "var(--rs-voltage)" };
+    const open = (u) => () => window.open(u, "_blank", "noopener");
+    return ARTISTS.slice().sort((a, b) => key(a.name).localeCompare(key(b.name))).map(a => {
+      const links = [];
+      if (a.website) links.push({ label: "Website", onClick: open(a.website) });
+      if (a.facebook) links.push({ label: "Facebook", onClick: open(a.facebook) });
+      if (a.instagram) links.push({ label: "Instagram", onClick: open(a.instagram) });
+      if (a.music) links.push({ label: "Listen", onClick: open(a.music) });
+      if (a.session) links.push({ label: "Watch session", onClick: () => { this.setState({ screen: "sessions", playing: a.session }); this.scrollToAnchor("session-" + a.session); } });
+      const meta = [a.genre, a.area].filter(Boolean).join(" · ");
+      const photo = this.asset(a.photo);
+      return {
+        name: a.name, bio: a.bio, hasBio: !!a.bio, meta, hasMeta: !!meta,
+        hasPhoto: !!photo, noPhoto: !photo,
+        photoImg: photo ? React.createElement("img", { src: photo, alt: a.name, loading: "lazy", style: { position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" } }) : null,
+        blockBg: bg[a.tone] || bg.teal,
+        links, hasLinks: links.length > 0,
+        hasEmail: !!(a.email && a.email.user && a.email.domain),
+        onEmail: () => { if (a.email) window.location.href = "mailto:" + a.email.user + "@" + a.email.domain; }
+      };
+    });
+  }
+
   embed(url) {
     if (!url) return null;
     const vimeo = url.match(/vimeo\.com\/(\d+)(?:\/([0-9a-z]+))?/i);
@@ -935,10 +1034,10 @@ class Component extends DCLogic {
     const s = this.state.screen;
     const items = [
       ["home", "Home"], ["about", "About"], ["events", "Events"],
-      ["sessions", "Sessions"], ["join", "Get involved"], ["contact", "Contact"]
+      ["sessions", "Sessions"], ["artists", "Artists"], ["join", "Get involved"], ["contact", "Contact"]
     ];
     const secondary = [
-      ["home", "Home"], ["about", "About"], ["sessions", "Sessions"], ["contact", "Contact"]
+      ["home", "Home"], ["about", "About"], ["sessions", "Sessions"], ["artists", "Artists"], ["contact", "Contact"]
     ];
     const link = ([k, label]) => ({
       key: k, label, go: this.go(k),
@@ -1040,8 +1139,9 @@ class Component extends DCLogic {
       nav: items.map(link),
       secondaryNav: secondary.map(link),
       isHome: s === "home", isAbout: s === "about", isEvents: s === "events",
-      isSessions: s === "sessions", isJoin: s === "join", isContact: s === "contact",
+      isSessions: s === "sessions", isArtists: s === "artists", isJoin: s === "join", isContact: s === "contact",
       goSessions: this.go("sessions"),
+      artists: this.artistList(),
       goHome: (e) => { e.preventDefault(); this.go("home")(); },
       goCommittee: () => {
         this.setState({ screen: "about", openMenu: null });
