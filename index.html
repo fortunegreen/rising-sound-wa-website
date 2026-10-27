@@ -828,6 +828,7 @@ const EVENTS = [
   { id: 6, date: "2026-09-13", day: "13", month: "Sep", title: "Spring Time Country Folk Jamboree", support: "The Little Lord Street Band, Whiskey Jack, Stack of Bibles, Michael Savage and Band, and The Stumblers. An afternoon and evening celebrating the very best of Western Australian country, folk and Americana music.", venue: "Lyrics Underground", time: "4:00pm", price: "Tickets via Oztix", region: "Metro", free: false, badge: { tone: "live", label: "Jamboree" }, tags: ["Metro", "Ticketed"], cta: "Buy tickets", ctaVariant: "primary", url: "https://lyricsunderground.oztix.com.au/outlet/event/4fa8bb9a-8264-4fa7-acea-8ece5d16e877?Event=244042" },
   { id: 9, date: "2026-10-04", day: "04", month: "Oct", title: "Season Songbirds — Spring edition", support: "Moana Mayatrix, Jasmine Gannaway, Harriet Hawthorn and Charlie and Goldie in the round. Presented by Midnight Francine. BYO rug, nibblies and drinks.", venue: "24 View St, North Perth", time: "4:30–8pm", price: "Tickets via Humanitix", region: "Metro", free: false, badge: { tone: "live", label: "Songbirds" }, tags: ["Metro", "Ticketed"], cta: "Buy tickets", ctaVariant: "primary", url: "https://events.humanitix.com/season-songbirds-ayelupy4" },
   { id: 12, date: "2026-10-10", day: "10", month: "Oct", title: "Harmony in the Garden", support: "Sirens of the Hills & Foothills with Charlie & Goldie, Cherry Lou and Kyra Bee & Si\u00e2n Johanna's The Bloody Lovelies. BYO picnic.", venue: "Two Birds (behind the post office), 18 Brook Rd, Darlington", time: "5:30pm onwards", price: "$25", region: "Metro", free: false, badge: { tone: "live", label: "Garden show" }, tags: ["Metro", "Ticketed"], cta: "Add to calendar", ctaVariant: "secondary" },
+  { id: 13, date: "2026-10-31", day: "31", month: "Oct", title: "Cooper Jones and Gary James Benness", support: "Saturday Sessions on the shop floor. Free entry.", venue: "Midland Records, 7 Spring Park Rd, Midland WA 6056", time: "12–2pm", price: "Free", region: "Metro", free: true, badge: { tone: "session", label: "Saturday Sessions" }, tags: ["Metro", "Free"], cta: "Add to calendar", ctaVariant: "secondary" },
   { id: 10, date: "2026-10-17", day: "17", month: "Oct", title: "Gidge Rock with The Bloody Lovelies", support: "Saturday Sessions on the shop floor. Free entry.", venue: "Midland Records, 7 Spring Park Rd, Midland WA 6056", time: "12–2pm", price: "Free", region: "Metro", free: true, badge: { tone: "session", label: "Saturday Sessions" }, tags: ["Metro", "Free"], cta: "Add to calendar", ctaVariant: "secondary" },
   { id: 7, date: "2026-10-17", day: "17", month: "Oct", title: "Merredin Pre-Harvest Hoedown", support: "Country music classics performed by The Stumblers, plus boot scooting, bush dancing, games and activities.", venue: "Cummins Theatre, Bates St, Merredin", time: "6pm–11pm", region: "Regional", free: false, badge: { tone: "live", label: "Hoedown" }, tags: ["Regional", "Ticketed"], cta: "Add to calendar", ctaVariant: "secondary" },
   { id: 11, date: "2026-11-26", day: "26", month: "Nov", title: "Circle of Six", support: "A songwriter's round with special guests The Pointy Heads, Zoe Eleni and The Bloody Lovelies.", venue: "Midland Junction Arts Centre, 276 Great Eastern Hwy, Midland WA 6056", time: "Doors 5:30pm · 6pm start", region: "Metro", free: false, badge: { tone: "live", label: "Songwriters round" }, tags: ["Metro", "Ticketed"], url: "https://www.trybooking.com/au/event/1662240", cta: "Book tickets", ctaVariant: "primary", details: [
@@ -850,7 +851,8 @@ const EVENT_POSTERS = {
   10: { src: "assets/poster-gidge-rock-bloody-lovelies.jpg", ratio: "3/4" },
   7: { src: "assets/poster-merredin-hoedown.jpg", ratio: "406/720" },
   11: { src: "assets/poster-circle-of-six.jpg", ratio: "4/5" },
-  12: { src: "assets/poster-harmony-in-the-garden.jpg", ratio: "1448/2048" }
+  12: { src: "assets/poster-harmony-in-the-garden.jpg", ratio: "1448/2048" },
+  13: { src: "assets/poster-cooper-jones-gary-james-benness.jpg", ratio: "3/4" }
 };
 
 // Photos and video clips from past events, keyed by event id.
@@ -1388,6 +1390,7 @@ class Component extends DCLogic {
       featuredPoster: featured.poster,
       featuredLine: featured.line,
       posters: [
+        { src: "assets/poster-cooper-jones-gary-james-benness.jpg", alt: "Saturday Sessions poster", caption: "Cooper Jones and Gary James Benness", ratio: "3/4" },
         { src: "assets/poster-harmony-in-the-garden.jpg", alt: "Harmony in the Garden poster", caption: "Harmony in the Garden", ratio: "1448/2048" },
         { src: "assets/poster-circle-of-six.jpg", alt: "Circle of Six poster", caption: "Circle of Six", ratio: "4/5" },
         { src: "assets/poster-gidge-rock-bloody-lovelies.jpg", alt: "Saturday Sessions poster", caption: "Gidge Rock with The Bloody Lovelies", ratio: "3/4" },
