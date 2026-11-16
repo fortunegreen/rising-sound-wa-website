@@ -1,0 +1,10 @@
+name: Daily rebuild
+on:
+  schedule:
+    - cron: '0 17 * * *'   # 1am Perth
+  workflow_dispatch:
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl -fsS -X POST "${{ secrets.DEPLOY_HOOK_URL }}"
