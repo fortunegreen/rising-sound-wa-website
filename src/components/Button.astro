@@ -1,0 +1,20 @@
+---
+interface Props {
+  variant?: 'primary' | 'secondary' | 'ghost' | 'inverse';
+  size?: 'sm' | 'md' | 'lg';
+  href?: string;
+  external?: boolean;
+  type?: 'button' | 'submit';
+  full?: boolean;
+  class?: string;
+  [attr: string]: unknown;
+}
+const { variant = 'primary', size = 'md', href, external = false, type = 'button', full = false, class: extra = '', ...rest } = Astro.props;
+const cls = ['rs-btn', `rs-btn--${variant}`, size !== 'md' && `rs-btn--${size}`, full && 'rs-btn--full', extra].filter(Boolean).join(' ');
+const ext = external ? { target: '_blank', rel: 'noopener' } : {};
+---
+{href ? (
+  <a class={cls} href={href} {...ext} {...rest}><slot /></a>
+) : (
+  <button class={cls} type={type} {...rest}><slot /></button>
+)}

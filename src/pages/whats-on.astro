@@ -1,0 +1,111 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import Poster from '../components/Poster.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import EventRow from '../components/EventRow.astro';
+import { getEvents, SITE } from '../lib/content';
+
+const { all, upcoming, past } = await getEvents();
+const featured = all.filter((e) => e.featured && !e.past);
+const posters = all.filter((e) => e.poster);
+const filters = ['All', 'Metro', 'Regional', 'Free'];
+
+const jsonLd = upcoming.filter((e) => e.startTime).map((e) => ({
+  '@context': 'https://schema.org',
+  '@type': 'MusicEvent',
+  name: e.title,
+  description: e.support || undefined,
+  startDate: `${e.date}T${e.startTime}:00+08:00`,
+  ...(e.endTime ? { endDate: `${e.date}T${e.endTime}:00+08:00` } : {}),
+  eventStatus: 'https://schema.org/EventScheduled',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  location: { '@type': 'Place', name: e.venue.split(',')[0], address: e.venue },
+  performer: e.performers.map((n) => ({ '@type': 'MusicGroup', name: n })),
+  organizer: { '@type': 'NGO', name: 'Rising Sound WA Inc.', url: `${SITE}/` },
+  isAccessibleForFree: e.free,
+  url: `${SITE}/whats-on/#${e.anchor}`,
+}));
+---
+<Base
+  title="What's On | Rising Sound WA Shows & Saturday Sessions"
+  description="Upcoming Rising Sound WA shows: songwriters rounds, free Saturday Sessions at Midland Records, and events in halls, parks and regional WA."
+  jsonLd={jsonLd}
+>
+  <section style="background:var(--rs-voltage);color:var(--rs-bone-50)">
+    <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px 72px">
+      <span class="eyebrow" style="color:var(--rs-voltage-300)">What's on</span>
+      <h1 style="margin:20px 0 0;max-width:22ch;font:var(--type-display);letter-spacing:var(--ls-display);text-transform:uppercase">Every show we're putting on.</h1>
+      <p style="margin:24px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body)">Saturday Sessions are our free afternoon shows on the shop floor at Midland Records — they run when we have the right bill, not every Saturday. Other shows are usually ticketed one-offs.</p>
+    </div>
+  </section>
+
+  {featured.length > 0 && (
+    <section style="background:var(--rs-ink-900);border-bottom:1px solid var(--line-hairline)">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(40px,7vw,72px) 24px">
+        <span class="eyebrow" style="color:var(--rs-amber)">Featured</span>
+        <div style="display:flex;flex-direction:column;gap:56px;margin-top:32px">
+          {featured.map((f) => (
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(32px,5vw,56px);align-items:center;padding-top:56px;border-top:1px solid var(--line-hairline)">
+              {f.poster && <Poster src={f.poster} ratio={f.posterRatio} alt={`Poster: ${f.title}`} />}
+              <div>
+                <span class="eyebrow" style="color:var(--rs-amber)">{f.featuredEyebrow}</span>
+                <h2 style="margin:16px 0 0;font:var(--type-h2);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-bone-50)">{f.title}</h2>
+                <div style="display:flex;flex-direction:column;gap:16px;margin-top:20px">
+                  {f.featuredParagraphs.map((p) => <p style="margin:0;max-width:52ch;line-height:var(--lh-body);color:var(--text-body);text-wrap:pretty">{p}</p>)}
+                </div>
+                {f.featuredMeta && <p class="mono" style="margin:24px 0 0">{f.featuredMeta}</p>}
+                {f.ticketUrl && <div style="margin-top:28px"><Button href={f.ticketUrl} external>Buy tickets</Button></div>}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section style="background:#000">
+    <div style="max-width:1360px;margin:0 auto;padding:clamp(32px,6vw,56px) 24px clamp(48px,8vw,96px)">
+      <div data-filter-group>
+        <div class="rs-tabs" role="tablist" aria-label="Filter events">
+          {filters.map((f, i) => (
+            <button type="button" role="tab" class={['rs-tab', i === 0 && 'rs-tab--active'].filter(Boolean).join(' ')} aria-selected={i === 0 ? 'true' : 'false'} data-filter={f}>{f}</button>
+          ))}
+        </div>
+
+        <h2 class="mono" style="margin:40px 0 0;letter-spacing:var(--ls-eyebrow);color:var(--text-muted)" id="upcoming">Upcoming</h2>
+        <div style="display:flex;flex-direction:column;gap:16px;margin-top:24px">
+          {upcoming.map((e) => <EventRow e={e} />)}
+        </div>
+
+        <div data-none-upcoming hidden={upcoming.length > 0} style="border:1px solid var(--line-hairline);padding:40px 32px;margin-top:16px">
+          <p style="margin:0;color:var(--text-primary)">Nothing upcoming {upcoming.length ? 'in this category ' : ''}yet.</p>
+          <p style="margin:8px 0 0;font-size:var(--fs-body-sm);color:var(--text-muted)">Join the mailing list and we'll tell you when the next dates land.</p>
+        </div>
+
+        {past.length > 0 && (
+          <div id="past" style="margin-top:72px;padding-top:32px;border-top:1px solid var(--line-hairline);scroll-margin-top:96px">
+            <h2 class="eyebrow" style="margin:0 0 8px;color:var(--text-muted)">Past events</h2>
+            <p style="margin:0;font-size:var(--fs-body-sm);color:var(--text-muted)">What the rooms have already heard.</p>
+            <div style="display:flex;flex-direction:column;gap:16px;margin-top:32px">
+              {past.map((e) => <EventRow e={e} showPast />)}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  {posters.length > 0 && (
+    <section style="background:#000;border-top:1px solid var(--line-hairline)">
+      <div class="wrap">
+        <SectionHeading eyebrow="Posters" title="The season, on paper" />
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;margin-top:40px">
+          {posters.map((p) => (
+            <Poster src={p.poster} ratio={p.posterRatio} alt={`Poster: ${p.title}`} caption={`${p.dow} ${Number(p.day)} ${p.month} · ${p.title}`} interactive />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</Base>

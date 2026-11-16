@@ -1,0 +1,15 @@
+---
+import Button from './Button.astro';
+interface Props { tier: any }
+const { tier: t } = Astro.props;
+const c = t.featured ? 'var(--rs-amber-700)' : 'var(--rs-amber)';
+---
+<div class={['rs-tier', t.featured && 'rs-tier--featured'].filter(Boolean).join(' ')}>
+  <div style={`font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:${c}`}>{t.name}</div>
+  <div><span class="rs-tier__price">{t.price}</span> <span style="font:var(--type-meta);opacity:.7">{t.period}</span></div>
+  {t.blurb && <p style="margin:0;font-size:var(--fs-body-sm);opacity:.85">{t.blurb}</p>}
+  <ul class="rs-tier__list">
+    {t.features.map((f: string) => <li><span style={`color:${c}`}>—</span>{f}</li>)}
+  </ul>
+  <Button variant={t.featured ? 'inverse' : 'primary'} full data-membership={t.id} data-title={t.dialogTitle} data-blurb={t.dialogBlurb}>{t.cta}</Button>
+</div>

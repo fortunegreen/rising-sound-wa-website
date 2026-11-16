@@ -1,0 +1,30 @@
+note: Musicians pay no more than anyone else. Playing with us costs nothing.
+tiers:
+  - id: member
+    name: Member
+    price: $20
+    period: per year
+    blurb: Keep the free sessions free.
+    features:
+      - Member ticket prices
+      - Priority for Sessions slots
+      - Listed in the artist directory
+      - Monthly what's on email
+      - Vote at the AGM
+    cta: Become a member
+    featured: true
+    dialogTitle: Become a member
+    dialogBlurb: $20 a year. Cancel any time.
+  - id: champion
+    name: Champion
+    price: $100
+    period: per year
+    blurb: For the people who make seasons happen.
+    features:
+      - Everything in Member
+      - Two double passes a year
+      - Named in the season program
+    cta: Join as champion
+    featured: false
+    dialogTitle: Join as champion
+    dialogBlurb: $100 a year. Cancel any time.

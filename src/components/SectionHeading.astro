@@ -1,0 +1,12 @@
+---
+interface Props { eyebrow?: string; title: string; rule?: 'amber' | 'heavy' | 'hair'; level?: 'h2' | 'h1' }
+const { eyebrow, title, rule = 'amber', level = 'h2' } = Astro.props;
+const cls = ['rs-sectionhead', rule === 'amber' && 'rs-sectionhead--amber', rule === 'hair' && 'rs-sectionhead--hair'].filter(Boolean).join(' ');
+const Tag = level;
+---
+<div class={cls}>
+  <div>
+    {eyebrow && <span class="rs-sectionhead__eyebrow">{eyebrow}</span>}
+    <Tag class="rs-sectionhead__title">{title}</Tag>
+  </div>
+</div>

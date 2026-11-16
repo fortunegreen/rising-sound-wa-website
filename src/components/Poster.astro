@@ -1,0 +1,18 @@
+---
+import { dims } from '../lib/content';
+interface Props { src: string; alt: string; ratio?: string; caption?: string; interactive?: boolean; lazy?: boolean }
+const { src, alt, ratio = '2/3', caption, interactive = false, lazy = true } = Astro.props;
+const d = dims(src);
+---
+<figure style="margin:0">
+  {interactive ? (
+    <a class="rs-poster rs-poster--interactive" style={`aspect-ratio:${ratio}`} href={src} data-lightbox data-alt={alt} data-caption={caption || alt}>
+      <img src={src} alt={alt} width={d.width} height={d.height} loading={lazy ? 'lazy' : 'eager'} decoding="async" />
+    </a>
+  ) : (
+    <div class="rs-poster" style={`aspect-ratio:${ratio}`}>
+      <img src={src} alt={alt} width={d.width} height={d.height} loading={lazy ? 'lazy' : 'eager'} decoding="async" />
+    </div>
+  )}
+  {caption && <figcaption class="cap">{caption}</figcaption>}
+</figure>
