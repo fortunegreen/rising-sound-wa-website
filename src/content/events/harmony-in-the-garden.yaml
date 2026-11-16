@@ -9,33 +9,33 @@ free: false
 badgeTone: live
 badgeLabel: Garden show
 ticketUrl: null
-startTime: ""
-endTime: ""
+startTime: ''
+endTime: ''
 performers: []
-poster: poster-harmony-in-the-garden.jpg
+poster: /assets/harmony-in-the-garden/poster-harmony-in-the-garden.jpg
 posterRatio: 1448/2048
 details: []
 featured: false
-featuredEyebrow: ""
-featuredMeta: ""
+featuredEyebrow: ''
+featuredMeta: ''
 featuredParagraphs: []
 photos:
-  - image: 2026-10-10-harmony-01.jpg
-    alt: The Two Birds garden in Darlington, an audience seated among the plants watching a duo on the garden stage
-    credit: ""
+- image: /assets/harmony-in-the-garden/2026-10-10-harmony-01.jpg
+  alt: The Two Birds garden in Darlington, an audience seated among the plants watching a duo on the garden stage
+  credit: ''
 videos:
-  - url: https://vimeo.com/1236725472
-    title: Harmony in the Garden
-    thumb: vimeo-1236725472.jpg
-  - url: https://vimeo.com/1236725514
-    title: Harmony in the Garden
-    thumb: vimeo-1236725514.jpg
-  - url: https://vimeo.com/1236725549
-    title: Harmony in the Garden
-    thumb: vimeo-1236725549.jpg
-  - url: https://vimeo.com/1236725469
-    title: Harmony in the Garden
-    thumb: vimeo-1236725469.jpg
-  - url: https://vimeo.com/1236725471
-    title: Harmony in the Garden
-    thumb: vimeo-1236725471.jpg
+- url: https://vimeo.com/1236725472
+  title: Harmony in the Garden
+  thumb: /assets/harmony-in-the-garden/vimeo-1236725472.jpg
+- url: https://vimeo.com/1236725514
+  title: Harmony in the Garden
+  thumb: /assets/harmony-in-the-garden/vimeo-1236725514.jpg
+- url: https://vimeo.com/1236725549
+  title: Harmony in the Garden
+  thumb: /assets/harmony-in-the-garden/vimeo-1236725549.jpg
+- url: https://vimeo.com/1236725469
+  title: Harmony in the Garden
+  thumb: /assets/harmony-in-the-garden/vimeo-1236725469.jpg
+- url: https://vimeo.com/1236725471
+  title: Harmony in the Garden
+  thumb: /assets/harmony-in-the-garden/vimeo-1236725471.jpg

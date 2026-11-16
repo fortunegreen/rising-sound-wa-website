@@ -6,7 +6,7 @@ import { config, collection, singleton, fields } from '@keystatic/core';
 // See ADMIN-SETUP.md.
 const useGithub = import.meta.env.PUBLIC_KEYSTATIC_STORAGE === 'github';
 const image = (label: string, directory = 'public/assets') =>
-  fields.image({ label, directory });
+  fields.image({ label, directory, publicPath: '/assets/' });
 
 export default config({
   storage: useGithub

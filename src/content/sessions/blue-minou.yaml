@@ -1,10 +1,10 @@
 artist: Blue Minou
 order: 4
-song: ""
+song: ''
 date: Sat 22 Aug 2026
 venue: Midland Records
 videoUrl: null
-still: img-graffiti.jpg
+still: /assets/blue-minou/img-graffiti.jpg
 tone: flare
 featured: false
-eventSlug: ""
+eventSlug: ''

@@ -9,18 +9,18 @@ free: false
 badgeTone: live
 badgeLabel: Songbirds
 ticketUrl: https://events.humanitix.com/season-songbirds-ayelupy4
-startTime: ""
-endTime: ""
+startTime: ''
+endTime: ''
 performers: []
-poster: poster-season-songbirds.jpg
+poster: /assets/season-songbirds-spring-edition/poster-season-songbirds.jpg
 posterRatio: 1/1
 details: []
 featured: true
 featuredEyebrow: Featured series
 featuredMeta: Sun 4 Oct · 4:30–8pm · 24 View St, North Perth · Presented by Midnight Francine
 featuredParagraphs:
-  - Season Songbirds is a gig series designed to showcase and support female creatives from Western Australia. Inspired by the Nashville Bluebird Café “songwriters in the round” format, each event features four female singer-songwriters sharing original songs and the stories behind them in an intimate, acoustic, seated setting.
-  - Each event also features one female visual artist, who designs the event poster and is highlighted during the gig.
-  - Attendees are encouraged to donate to a selected women-focused organisation, and 10% of proceeds from each gig are allocated to this fundraising effort.
+- Season Songbirds is a gig series designed to showcase and support female creatives from Western Australia. Inspired by the Nashville Bluebird Café “songwriters in the round” format, each event features four female singer-songwriters sharing original songs and the stories behind them in an intimate, acoustic, seated setting.
+- Each event also features one female visual artist, who designs the event poster and is highlighted during the gig.
+- Attendees are encouraged to donate to a selected women-focused organisation, and 10% of proceeds from each gig are allocated to this fundraising effort.
 photos: []
 videos: []

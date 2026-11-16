@@ -8,7 +8,7 @@ const reader = createReader(process.cwd(), keystaticConfig);
 export const API_BASE = 'https://email-worker.misty-recipe-db89.workers.dev';
 export const SITE = 'https://www.risingsoundwa.com.au';
 
-export const asset = (name?: string | null) => (name ? `/assets/${name}` : '');
+export const asset = (name?: string | null) => (name ? (name.startsWith('/') ? name : `/assets/${name}`) : '');
 export const dims = (src: string): { width?: number; height?: number } => {
   const d = (sizes as Record<string, number[]>)[src];
   return d ? { width: d[0], height: d[1] } : {};

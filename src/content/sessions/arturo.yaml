@@ -1,10 +1,10 @@
 artist: Arturo
 order: 5
-song: ""
+song: ''
 date: Sat 22 Aug 2026
 venue: Midland Records
 videoUrl: null
-still: img-portrait-sepia.jpg
+still: /assets/arturo/img-portrait-sepia.jpg
 tone: amber
 featured: false
-eventSlug: ""
+eventSlug: ''

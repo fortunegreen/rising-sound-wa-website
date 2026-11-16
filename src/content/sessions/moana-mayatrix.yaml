@@ -1,10 +1,10 @@
 artist: Moana Mayatrix
 order: 2
-song: ""
+song: ''
 date: Sat 8 Aug 2026
 venue: Midland Records
 videoUrl: https://vimeo.com/1223597673?share=copy&fl=sv&fe=ci
-still: img-singer.jpg
+still: /assets/moana-mayatrix/img-singer.jpg
 tone: flare
 featured: false
 eventSlug: vissac-and-moana-mayatrix

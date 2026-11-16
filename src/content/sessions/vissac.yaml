@@ -1,10 +1,10 @@
 artist: Vissac
 order: 3
-song: ""
+song: ''
 date: Sat 8 Aug 2026
 venue: Midland Records
 videoUrl: https://vimeo.com/1236726361?share=copy&fl=sv&fe=ci
-still: vimeo-1236726361.jpg
+still: /assets/vissac/vimeo-1236726361.jpg
 tone: voltage
 featured: false
 eventSlug: vissac-and-moana-mayatrix

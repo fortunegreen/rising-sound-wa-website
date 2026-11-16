@@ -9,15 +9,15 @@ free: true
 badgeTone: session
 badgeLabel: Saturday Sessions
 ticketUrl: null
-startTime: ""
-endTime: ""
+startTime: ''
+endTime: ''
 performers: []
-poster: poster-gidge-rock-bloody-lovelies.jpg
+poster: /assets/gidge-rock-with-the-bloody-lovelies/poster-gidge-rock-bloody-lovelies.jpg
 posterRatio: 3/4
 details: []
 featured: false
-featuredEyebrow: ""
-featuredMeta: ""
+featuredEyebrow: ''
+featuredMeta: ''
 featuredParagraphs: []
 photos: []
 videos: []
