@@ -1,3 +1,7 @@
+// Shrinks big JPEGs so editors can upload straight from a camera or phone.
+// Runs automatically on Cloudflare's builds only (WORKERS_CI), so it never rewrites files on your
+// own computer. Run `npm run optimise-images -- --force` to do it locally on purpose.
+if (!process.env.WORKERS_CI && !process.argv.includes('--force')) { console.log('optimise-images: skipped (not a Cloudflare build)'); process.exit(0); }
 import sharp from 'sharp';
 import { readdirSync, statSync, renameSync } from 'node:fs';
 import { join } from 'node:path';

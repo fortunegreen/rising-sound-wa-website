@@ -1,0 +1,32 @@
+{
+  "name": "rising-sound-wa-website",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "ADMIN=1 astro dev",
+    "dev:github": "ADMIN=1 PUBLIC_KEYSTATIC_STORAGE=github astro dev",
+    "build": "rm -rf .wrangler/deploy && node scripts/optimise-images.mjs && astro build",
+    "build:admin": "node scripts/optimise-images.mjs && ADMIN=1 PUBLIC_ADMIN_BUILD=1 PUBLIC_KEYSTATIC_STORAGE=github astro build",
+    "preview": "astro preview",
+    "deploy": "npm run build && wrangler deploy -c wrangler.jsonc",
+    "optimise-images": "node scripts/optimise-images.mjs --force"
+  },
+  "dependencies": {
+    "@astrojs/react": "^7.1.8",
+    "@keystatic/astro": "^6.0.0",
+    "@keystatic/core": "^0.6.9",
+    "astro": "^7.4.11",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "sharp": "^0.35.5"
+  },
+  "devDependencies": {
+    "@astrojs/cloudflare": "^14.4.8",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.162.0",
+    "yaml": "^2.9.1"
+  }
+}

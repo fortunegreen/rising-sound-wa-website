@@ -18,11 +18,13 @@ npm run preview    # optional: check it at http://localhost:4321
 `wrangler.jsonc` already points the Worker `rising-sound-wa-website` at `./dist`.
 
 ```bash
-npm run build && npx wrangler deploy
+npm run deploy
 ```
 
+(`npm run deploy` builds, then deploys with `wrangler.jsonc` explicitly, so it can never pick up the admin build.)
+
 Or connect the GitHub repo in Cloudflare (Workers & Pages → rising-sound-wa-website → Settings → Builds):
-build command `npm run build`, deploy command `npx wrangler deploy`. Pushes then deploy automatically.
+build command `npm run build`, deploy command `npx wrangler deploy -c wrangler.jsonc`. Pushes then deploy automatically.
 
 `public/_headers` (security headers, long cache for images) and `public/_redirects` ship inside `dist/`.
 
@@ -65,13 +67,10 @@ The site decides upcoming vs past **when it is built**, using Perth time. Set a 
 Cloudflare → Workers Builds → create a deploy hook (or a GitHub Action on a daily cron) that
 triggers a build around 1am Perth. Without it, a show stays "upcoming" until the next deploy.
 
-## 7. Editing online (optional, later)
+## 7. Editing online (for the committee)
 
-By default editing is local (see `EDITING.md`). To let Penny edit from a browser, switch Keystatic to
-GitHub mode: push the repo to GitHub, change `storage` in `keystatic.config.tsx` to
-`{ kind: 'github', repo: 'OWNER/REPO' }`, and add the four `KEYSTATIC_*` variables from `.env.example`
-(follow Keystatic's GitHub-mode guide to create the GitHub App). The admin needs on-demand rendering,
-so that would also need the Cloudflare adapter; the simplest path is to keep editing local and push.
+See `ADMIN-SETUP.md` for the one-off setup (a separate admin Worker plus GitHub mode) and
+`COMMITTEE-GUIDE.md` for the login guide to give editors.
 
 ## Still to confirm (marked out of the page data on purpose)
 

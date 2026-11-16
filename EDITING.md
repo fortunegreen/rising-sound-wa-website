@@ -16,3 +16,5 @@ Tips
 - An event with no ticket link gets an "Add to calendar" button instead.
 - Every image needs alt text. Put new images in `public/assets/`; large photos are best at about 1600px wide.
 - Events move from Upcoming to Past automatically on the next build (daily rebuild recommended).
+
+Editing online as a committee member instead? See `COMMITTEE-GUIDE.md` (setup is in `ADMIN-SETUP.md`).

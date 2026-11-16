@@ -1,0 +1,6 @@
+{
+  // The online editing screen (Keystatic) for the committee. Separate Worker from the public site.
+  "name": "rising-sound-wa-admin",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat"]
+}
