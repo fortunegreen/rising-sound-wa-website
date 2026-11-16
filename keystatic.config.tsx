@@ -1,12 +1,17 @@
 import { config, collection, singleton, fields } from '@keystatic/core';
 
-// Local mode: edits are saved as files in this folder and committed with git.
-// To let editors work on the live site instead, see DEPLOYMENT.md ("Editing online").
+// Storage is chosen at build time:
+//  - default (npm run dev): local files in this folder
+//  - npm run build:admin (the online admin Worker): GitHub, so every save is a commit
+// See ADMIN-SETUP.md.
+const useGithub = import.meta.env.PUBLIC_KEYSTATIC_STORAGE === 'github';
 const image = (label: string, directory = 'public/assets') =>
   fields.image({ label, directory, publicPath: '/assets/' });
 
 export default config({
-  storage: { kind: 'local' },
+  storage: useGithub
+    ? { kind: 'github', repo: 'fortunegreen/rising-sound-wa-website' }
+    : { kind: 'local' },
   ui: { brand: { name: 'Rising Sound WA' } },
 
   singletons: {
