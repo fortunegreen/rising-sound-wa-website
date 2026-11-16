@@ -1,10 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
 import SectionHeading from '../components/SectionHeading.astro';
-import { getCommittee, getCopy, dims, asset } from '../lib/content';
+import { getCommittee, getAboutPage, dims, asset } from '../lib/content';
 const committee = await getCommittee();
-const { values } = getCopy();
-const singer = dims('/assets/img-singer.jpg');
+const about = await getAboutPage();
+const values = about.values;
+const singer = dims(about.image);
 ---
 <Base
   title="About Rising Sound WA | Formed by Musicians, for Musicians"
@@ -12,29 +13,28 @@ const singer = dims('/assets/img-singer.jpg');
 >
   <section style="background:#000;border-bottom:1px solid var(--line-hairline)">
     <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px 72px">
-      <span class="eyebrow" style="color:var(--rs-amber)">About</span>
-      <h1 style="margin:20px 0 0;max-width:24ch;font:var(--type-display);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-bone-50)">Formed by musicians, for musicians.</h1>
+      <span class="eyebrow" style="color:var(--rs-amber)">{about.eyebrow}</span>
+      <h1 style="margin:20px 0 0;max-width:24ch;font:var(--type-display);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-bone-50)">{about.heading}</h1>
     </div>
   </section>
   <section style="background:var(--rs-ink-900)">
     <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:clamp(40px,6vw,72px);align-items:start">
       <div style="display:flex;flex-direction:column;gap:24px">
-        <p style="margin:0;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--text-primary);max-width:52ch">Rising Sound WA Inc. is a not-for-profit incorporated association supporting original musical and performance works across Western Australia.</p>
-        <p style="margin:0;line-height:var(--lh-body);color:var(--text-body);max-width:64ch">We put on concerts in venues, halls, parks and unexpected spaces, take events to towns outside the city, film short-form sessions with original performers, and match musicians with stages that suit them.</p>
-        <p style="margin:0;line-height:var(--lh-body);color:var(--text-body);max-width:64ch">Everything runs on members, volunteers and the venues that lend us their rooms.</p>
+        <p style="margin:0;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--text-primary);max-width:52ch">{about.lead}</p>
+        {about.paragraphs.map((t) => <p style="margin:0;line-height:var(--lh-body);color:var(--text-body);max-width:64ch">{t}</p>)}
         <div style="margin-top:16px;border-left:6px solid var(--rs-amber);padding-left:28px">
-          <p style="margin:0;font:var(--type-feature);color:var(--rs-bone-50);text-wrap:pretty">Atmosphere matters. Original work matters. Both deserve more care than they usually get.</p>
+          <p style="margin:0;font:var(--type-feature);color:var(--rs-bone-50);text-wrap:pretty">{about.pullQuote}</p>
         </div>
       </div>
       <div>
-        <img src="/assets/img-singer.jpg" alt="A performer on the shop floor at Midland Records" width={singer.width} height={singer.height} loading="lazy" style="width:100%;height:520px;object-fit:cover;display:block;filter:saturate(108%)" />
-        <p class="mono" style="margin:12px 0 0">Saturday Sessions · Midland Records, Midland</p>
+        <img src={about.image} alt={about.imageAlt} width={singer.width} height={singer.height} loading="lazy" style="width:100%;height:520px;object-fit:cover;display:block;filter:saturate(108%)" />
+        <p class="mono" style="margin:12px 0 0">{about.imageCaption}</p>
       </div>
     </div>
   </section>
   <section style="background:#000;border-top:1px solid var(--line-hairline)">
     <div class="wrap">
-      <SectionHeading eyebrow="Values" title="What we hold to" />
+      <SectionHeading eyebrow="Values" title={about.valuesHeading} />
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:1px;background:var(--line-hairline);margin-top:40px">
         {values.map((v) => (
           <div style="background:#000;padding:32px 24px;display:flex;flex-direction:column;gap:12px">
@@ -47,8 +47,8 @@ const singer = dims('/assets/img-singer.jpg');
   </section>
   <section id="committee" style="background:var(--rs-ink-900);border-top:1px solid var(--line-hairline);scroll-margin-top:80px">
     <div class="wrap">
-      <SectionHeading eyebrow="Committee" title="Who runs it" />
-      <p style="margin:24px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--text-body)">Rising Sound WA is governed by a volunteer committee of musicians, organisers and community board members.</p>
+      <SectionHeading eyebrow="Committee" title={about.committeeHeading} />
+      <p style="margin:24px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--text-body)">{about.committeeIntro}</p>
       <div style="display:flex;flex-direction:column;gap:1px;background:var(--line-hairline);margin-top:48px">
         {committee.map((m) => {
           const src = asset(m.photo);

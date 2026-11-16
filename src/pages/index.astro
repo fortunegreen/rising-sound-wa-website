@@ -6,13 +6,14 @@ import SectionHeading from '../components/SectionHeading.astro';
 import VideoCard from '../components/VideoCard.astro';
 import EventRow from '../components/EventRow.astro';
 import Waveform from '../components/Waveform.astro';
-import { getEvents, getSessions, getSettings, getCopy, dims, SITE } from '../lib/content';
+import { getEvents, getSessions, getSettings, getHomePage, dims, SITE } from '../lib/content';
 import { pathways } from '../lib/copy';
 
 const settings = await getSettings();
 const { all, upcoming, past } = await getEvents();
 const films = await getSessions();
-const { pillars } = getCopy();
+const home = await getHomePage();
+const pillars = home.pillars;
 
 const homeEvents = (upcoming.length ? upcoming : all.slice(-4)).slice(0, 4);
 const withPoster = all.filter((e) => e.poster);
@@ -53,7 +54,7 @@ const jsonLd = [{
     },
   ],
 }];
-const hero = dims('/assets/img-shopfloor.jpg');
+const hero = dims(home.heroImage);
 ---
 <Base
   title="Rising Sound WA | Original Live Music in Midland & Across WA"
@@ -73,18 +74,18 @@ const hero = dims('/assets/img-shopfloor.jpg');
   </div>
 
   <section style="position:relative;min-height:min(76vh,720px);display:flex;align-items:flex-end;overflow:hidden">
-    <img src="/assets/img-shopfloor.jpg" alt="A session on the shop floor at Midland Records" width={hero.width} height={hero.height} fetchpriority="high" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 40%;filter:saturate(108%) contrast(104%)" />
+    <img src={home.heroImage} alt={home.heroImageAlt} width={hero.width} height={hero.height} fetchpriority="high" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 40%;filter:saturate(108%) contrast(104%)" />
     <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.94) 0%,rgba(0,0,0,.82) 42%,rgba(0,0,0,.25) 100%)"></div>
     <div style="position:relative;max-width:1360px;margin:0 auto;padding:clamp(88px,15vw,144px) 24px clamp(48px,8vw,96px);width:100%">
       <div style="display:flex;align-items:center;gap:16px;margin-bottom:28px">
         <Waveform height={20} bars={9} />
-        <span class="eyebrow" style="color:var(--rs-amber)">Original music, Western Australia</span>
+        <span class="eyebrow" style="color:var(--rs-amber)">{home.heroEyebrow}</span>
       </div>
-      <h1 style="margin:0;max-width:20ch;font:var(--type-display);font-size:clamp(2.5rem,5.5vw,4.5rem);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-bone-50);text-wrap:balance">Let your songs fill the space.</h1>
-      <p style="margin:32px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--text-body)">A not-for-profit formed by passionate local musicians, creating live music experiences across WA — from intimate concerts in cosy rooms to events in public spaces.</p>
+      <h1 style="margin:0;max-width:20ch;font:var(--type-display);font-size:clamp(2.5rem,5.5vw,4.5rem);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-bone-50);text-wrap:balance">{home.heroHeadline}</h1>
+      <p style="margin:32px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--text-body)">{home.heroIntro}</p>
       <div style="display:flex;gap:16px;margin-top:40px;flex-wrap:wrap">
-        <Button size="lg" href="/whats-on/">See what's on</Button>
-        <Button size="lg" variant="secondary" href="/get-involved/">Get involved</Button>
+        <Button size="lg" href={home.primaryLink}>{home.primaryLabel}</Button>
+        <Button size="lg" variant="secondary" href={home.secondaryLink}>{home.secondaryLabel}</Button>
       </div>
     </div>
   </section>
@@ -112,10 +113,10 @@ const hero = dims('/assets/img-shopfloor.jpg');
   <section style="background:var(--rs-teal);color:var(--rs-ink)">
     <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:clamp(40px,6vw,72px);align-items:center">
       <div>
-        <span class="eyebrow" style="color:var(--rs-teal-700)">Get involved</span>
-        <h2 style="margin:20px 0 0;font:var(--type-display);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-ink)">Join the room.</h2>
-        <p style="margin:24px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--rs-ink)">Members keep the free sessions free. Musicians get stages. Venues get audiences. There is a way in for all three.</p>
-        <div style="margin-top:36px"><Button variant="inverse" size="lg" href="/get-involved/#membership">Become a member</Button></div>
+        <span class="eyebrow" style="color:var(--rs-teal-700)">{home.joinEyebrow}</span>
+        <h2 style="margin:20px 0 0;font:var(--type-display);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-ink)">{home.joinHeading}</h2>
+        <p style="margin:24px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--rs-ink)">{home.joinBody}</p>
+        <div style="margin-top:36px"><Button variant="inverse" size="lg" href={home.joinButtonLink}>{home.joinButtonLabel}</Button></div>
       </div>
       <div style="display:flex;flex-direction:column;gap:1px;background:rgba(0,0,0,.18)">
         {pathways.map((w) => (
@@ -134,7 +135,7 @@ const hero = dims('/assets/img-shopfloor.jpg');
   <section style="background:#000">
     <div class="wrap">
       <SectionHeading eyebrow="Rising Sound Sessions" title="Three songs, one take" />
-      <p style="margin:24px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--text-body)">Short-form filmed concerts capturing original WA performers, recorded on the shop floor at Midland Records.</p>
+      <p style="margin:24px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--text-body)">{home.sessionsIntro}</p>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:24px;margin-top:40px">
         {homeFilms.map((s) => (
           <VideoCard title={s.title} artist={s.song} episode={s.episode} duration={s.duration} image={s.image} tone={s.tone} url={`/sessions/#${s.anchor}`} newTab={false} />
@@ -168,13 +169,13 @@ const hero = dims('/assets/img-shopfloor.jpg');
     <div class="wrap">
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:clamp(40px,6vw,72px);align-items:start">
         <div>
-          <span class="eyebrow" style="color:var(--rs-amber)">What we do</span>
-          <p style="margin:20px 0 0;font:var(--type-feature);color:var(--rs-bone-50);text-wrap:pretty">Atmosphere matters. Original work matters. Both deserve more care than they usually get.</p>
+          <span class="eyebrow" style="color:var(--rs-amber)">{home.whatWeDoEyebrow}</span>
+          <p style="margin:20px 0 0;font:var(--type-feature);color:var(--rs-bone-50);text-wrap:pretty">{home.whatWeDoStatement}</p>
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1px;background:var(--line-hairline)">
-          {pillars.map((p) => (
+          {pillars.map((p, i) => (
             <div style="background:var(--rs-ink-900);padding:32px 28px 36px;display:flex;flex-direction:column;gap:14px">
-              <span class="eyebrow" style="color:var(--text-muted)">{p.num}</span>
+              <span class="eyebrow" style="color:var(--text-muted)">{String(i + 1).padStart(2, '0')}</span>
               <h3 style="margin:0;font:var(--type-h3);color:var(--rs-bone-50)">{p.title}</h3>
               <p style="margin:0;font-size:var(--fs-body-sm);line-height:var(--lh-body);color:var(--text-body)">{p.body}</p>
             </div>

@@ -1,7 +1,6 @@
 import { createReader } from '@keystatic/core/reader';
 import keystaticConfig from '../../keystatic.config';
 import sizes from '../image-sizes.json';
-import copy from '../content/copy.json';
 
 const reader = createReader(process.cwd(), keystaticConfig);
 
@@ -40,7 +39,12 @@ export async function getSettings() {
 export async function getMembership() {
   return (await reader.singletons.membership.read())!;
 }
-export const getCopy = () => copy as { pillars: { num: string; title: string; body: string }[]; values: { title: string; body: string }[] };
+export async function getHomePage() {
+  return (await reader.singletons.homePage.read())!;
+}
+export async function getAboutPage() {
+  return (await reader.singletons.aboutPage.read())!;
+}
 
 export async function getSessions(): Promise<Film[]> {
   const all = await reader.collections.sessions.all();

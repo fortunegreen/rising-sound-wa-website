@@ -1,0 +1,26 @@
+heroEyebrow: Original music, Western Australia
+heroHeadline: Let your songs fill the space.
+heroIntro: A not-for-profit formed by passionate local musicians, creating live music experiences across WA — from intimate concerts in cosy rooms to events in public spaces.
+heroImage: /assets/img-shopfloor.jpg
+heroImageAlt: A session on the shop floor at Midland Records
+primaryLabel: See what's on
+primaryLink: /whats-on/
+secondaryLabel: Get involved
+secondaryLink: /get-involved/
+joinEyebrow: Get involved
+joinHeading: Join the room.
+joinBody: Members keep the free sessions free. Musicians get stages. Venues get audiences. There is a way in for all three.
+joinButtonLabel: Become a member
+joinButtonLink: /get-involved/#membership
+sessionsIntro: Short-form filmed concerts capturing original WA performers, recorded on the shop floor at Midland Records.
+whatWeDoEyebrow: What we do
+whatWeDoStatement: Atmosphere matters. Original work matters. Both deserve more care than they usually get.
+pillars:
+- title: Concerts & events
+  body: Live music in venues, halls, parks and unexpected spaces across WA.
+- title: Regional events
+  body: Bringing music to towns outside the city.
+- title: Rising Sound Sessions
+  body: Short-form filmed concerts capturing original WA performers.
+- title: Connecting performers with stages
+  body: Matching musicians and venues.

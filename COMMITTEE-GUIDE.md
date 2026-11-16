@@ -23,6 +23,12 @@ The site updates by itself within a minute or two. Refresh the public site to ch
 Open the event and add photos (with a short description and a photographer credit) and video links. It moves
 to **Past events** on its own, with a "Photos & video" button.
 
+## Change the Home or About page wording
+- **Home page**: headline, intro, the two buttons (the words and where they go), the hero photo, the "Join the room" box, the Rising Sound Sessions intro, and the four "What we do" boxes.
+- **About page**: heading, the paragraphs, the highlighted quote, the photo and caption, the values, and the committee intro.
+- To link a button to another page of the site, type the address starting with a slash, e.g. `/whats-on/`. For another website, paste the full address.
+- The Google search title and description for each page are not editable here. Ask Penny.
+
 ## Other things you can edit
 - **Sessions**: artist, song, Vimeo or YouTube link, still image.
 - **Artists**: photo, bio, genre, area, links. Email is in two parts (the bit before the @, and the bit after).
