@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+---
+<Base title="Page not found | Rising Sound WA" description="That page doesn't exist." noindex>
+  <section style="background:#000;min-height:50vh">
+    <div style="max-width:1360px;margin:0 auto;padding:clamp(64px,10vw,140px) 24px">
+      <span class="eyebrow" style="color:var(--rs-amber)">404</span>
+      <h1 style="margin:20px 0 0;max-width:20ch;font:var(--type-display);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-bone-50)">Wrong room.</h1>
+      <p style="margin:24px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--text-body)">We can't find that page. Try what's on, or head back home.</p>
+      <div style="display:flex;gap:16px;margin-top:32px;flex-wrap:wrap"><Button size="lg" href="/whats-on/">See what's on</Button><Button variant="secondary" size="lg" href="/">Home</Button></div>
+    </div>
+  </section>
+</Base>

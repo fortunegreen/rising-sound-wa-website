@@ -1,0 +1,7 @@
+# The old single-page site had one URL. Old hash links (#events etc.) can't be
+# redirected server-side, so only the path-based ones are listed here.
+/index.html   /          301
+/events       /whats-on/ 301
+/events/      /whats-on/ 301
+/join         /get-involved/ 301
+/join/        /get-involved/ 301

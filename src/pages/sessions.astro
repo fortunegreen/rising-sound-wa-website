@@ -1,0 +1,78 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import VideoCard from '../components/VideoCard.astro';
+import { getSessions } from '../lib/content';
+
+const films = await getSessions();
+const featured = films.find((f) => f.featured) || films[0];
+const rest = films.filter((f) => f !== featured);
+const jsonLd = films.filter((f) => f.url).map((f) => ({
+  '@context': 'https://schema.org', '@type': 'VideoObject',
+  name: `${f.title}${f.song ? ` — ${f.song}` : ''} | Rising Sound Sessions`,
+  description: `${f.title} performing live on the shop floor at Midland Records. Part of the Rising Sound Sessions film series by Rising Sound WA.`,
+  thumbnailUrl: f.image ? `https://www.risingsoundwa.com.au${f.image}` : undefined,
+  embedUrl: f.embed || undefined, contentUrl: f.url,
+}));
+---
+<Base
+  title="Rising Sound Sessions | Three Songs, One Take"
+  description="Short filmed concerts with original WA performers, recorded on the shop floor at Midland Records. Watch Whiskey Jack, Moana Mayatrix and Vissac."
+  jsonLd={jsonLd}
+>
+  <section style="background:var(--rs-teal)">
+    <div style="max-width:1360px;margin:0 auto;padding:clamp(56px,9vw,120px) 24px">
+      <span class="eyebrow" style="color:var(--rs-teal-700)">Rising Sound Sessions</span>
+      <h1 style="margin:20px 0 0;max-width:22ch;font:var(--type-display);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-ink)">Three songs, one take.</h1>
+      <p style="margin:24px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--rs-ink)">Short-form filmed concerts capturing original WA performers. No overdubs, no crowd, one afternoon on the shop floor at Midland Records.</p>
+    </div>
+  </section>
+
+  {featured && (
+    <section style="background:#000;border-bottom:1px solid var(--line-hairline)">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px">
+        <span id={featured.anchor} class="eyebrow" style="color:var(--rs-amber);display:block;scroll-margin-top:96px">Featured session</span>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(32px,5vw,56px);margin-top:28px;align-items:center">
+          <VideoCard id={`${featured.anchor}-card`} title={featured.title} artist={featured.song} episode={featured.episode} duration={featured.duration} image={featured.image} tone={featured.tone} url={featured.url} embed={featured.embed} />
+          <div>
+            <h2 style="margin:0;font:var(--type-h2);letter-spacing:var(--ls-heading);text-transform:uppercase;color:var(--rs-bone-50)">{featured.title}</h2>
+            {featured.song && <p style="margin:14px 0 0;font-family:var(--font-brand);font-weight:900;font-size:clamp(1.75rem,3.5vw,2.5rem);line-height:1;color:var(--rs-amber)">{featured.song}</p>}
+            <p class="mono" style="margin:20px 0 0">{featured.meta}</p>
+            <p style="margin:24px 0 0;max-width:44ch;line-height:var(--lh-body);color:var(--text-body)">An original composition, recorded live on the shop floor.</p>
+            {featured.url && <div style="margin-top:32px"><Button size="lg" data-play={`${featured.anchor}-card`}>Play the session</Button></div>}
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section style="background:#000">
+    <div class="wrap">
+      <SectionHeading eyebrow="All sessions" title="The rest of the series" />
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:40px 24px;margin-top:40px">
+        {rest.map((s) => (
+          <div id={s.anchor} style="scroll-margin-top:96px">
+            <VideoCard title={s.title} artist={s.song} episode={s.episode} duration={s.duration} image={s.image} tone={s.tone} url={s.url} embed={s.embed} />
+            {s.song && <p style="margin:16px 0 0;font:var(--type-h3);color:var(--text-primary)">{s.song}</p>}
+            <p class="mono" style="margin:12px 0 0">{s.meta}</p>
+          </div>
+        ))}
+      </div>
+      <p class="mono" style="margin:56px 0 0">Session stills stand in until the films are delivered. Song titles and video links to follow.</p>
+    </div>
+  </section>
+
+  <section style="background:var(--rs-ink-900);border-top:1px solid var(--line-hairline)">
+    <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between">
+      <div>
+        <h2 style="margin:0;font:var(--type-h2);letter-spacing:var(--ls-heading);text-transform:uppercase;color:var(--rs-bone-50)">Play a session.</h2>
+        <p style="margin:16px 0 0;max-width:52ch;line-height:var(--lh-body);color:var(--text-body)">Sessions are filmed at the free Saturday shows. Come to one, or send us your work.</p>
+      </div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap">
+        <Button size="lg" href="/whats-on/">See what's on</Button>
+        <Button variant="secondary" size="lg" href="/get-involved/">Get involved</Button>
+      </div>
+    </div>
+  </section>
+</Base>

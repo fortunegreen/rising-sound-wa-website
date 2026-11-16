@@ -1,0 +1,186 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import Poster from '../components/Poster.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import VideoCard from '../components/VideoCard.astro';
+import EventRow from '../components/EventRow.astro';
+import Waveform from '../components/Waveform.astro';
+import { getEvents, getSessions, getSettings, getCopy, dims, SITE } from '../lib/content';
+import { pathways } from '../lib/copy';
+
+const settings = await getSettings();
+const { all, upcoming, past } = await getEvents();
+const films = await getSessions();
+const { pillars } = getCopy();
+
+const homeEvents = (upcoming.length ? upcoming : all.slice(-4)).slice(0, 4);
+const withPoster = all.filter((e) => e.poster);
+const next = withPoster.find((e) => !e.past) || withPoster[withPoster.length - 1];
+const place = next ? next.venue.split(',')[0] : '';
+const lead = next ? (!next.past ? (place === 'Midland Records' ? 'Next up on the shop floor at Midland Records.' : `Next up at ${place}.`) : `Last up at ${place}.`) : '';
+const line = next ? `${lead} ${next.free ? `Free, ${next.time}.` : `${next.time}.`}` : '';
+
+// "Recently in the room": newest photos and clips from past events
+const archive = past.flatMap((e) => [
+  ...e.photos.map((p) => ({ kind: 'photo', src: p.src, alt: p.alt, caption: `${e.dow} ${Number(e.day)} ${e.month} · ${e.title}`, href: `/whats-on/#${e.anchor}` })),
+  ...[...e.films, ...e.videos].map((v) => ({ kind: 'video', src: v.image, alt: v.title, title: v.title, tone: v.tone, caption: `${e.dow} ${Number(e.day)} ${e.month} · ${e.title}`, href: `/whats-on/#${e.anchor}` })),
+]).slice(0, 4);
+
+const homeFilms = films.slice(0, 3);
+const jsonLd = [{
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'NGO', '@id': `${SITE}/#organization`, name: 'Rising Sound WA Inc.', alternateName: 'Rising Sound WA',
+      description: "Not-for-profit incorporated association formed by local musicians, supporting original musical and performance works across Western Australia. Runs concerts in venues, halls, parks and public spaces, free Saturday Sessions at Midland Records in Midland, regional events, the Rising Sound Sessions filmed concert series, and a directory of original WA artists for booking.",
+      url: `${SITE}/`, logo: `${SITE}/assets/logo-lockup.png`, email: settings.email,
+      areaServed: { '@type': 'State', name: 'Western Australia' },
+      knowsAbout: ['Original music', 'Live music', 'Songwriters rounds', 'Filmed live sessions', 'Regional touring', 'Booking local musicians', 'Perth Hills music'],
+      founder: [{ '@type': 'Person', name: 'Siân Johanna' }, { '@type': 'Person', name: 'Jon Elbery' }],
+      member: [
+        { '@type': 'OrganizationRole', roleName: 'Chair', member: { '@type': 'Person', name: 'Jon Elbery' } },
+        { '@type': 'OrganizationRole', roleName: 'Chief Executive Officer', member: { '@type': 'Person', name: 'Siân Johanna' } },
+        { '@type': 'OrganizationRole', roleName: 'Committee member', member: { '@type': 'Person', name: 'Nici Bull' } },
+      ],
+      sameAs: [settings.instagram, settings.facebook, settings.youtube].filter(Boolean),
+    },
+    { '@type': 'WebSite', '@id': `${SITE}/#website`, name: 'Rising Sound WA', url: `${SITE}/`, inLanguage: 'en-AU', publisher: { '@id': `${SITE}/#organization` } },
+    {
+      '@type': 'MusicVenue', '@id': `${SITE}/#midland-records`, name: 'Midland Records',
+      description: "Record shop in Midland, WA. Home of Rising Sound WA's free Saturday Sessions and the Rising Sound Sessions film series.",
+      address: { '@type': 'PostalAddress', streetAddress: '7 Spring Park Rd', addressLocality: 'Midland', addressRegion: 'WA', postalCode: '6056', addressCountry: 'AU' },
+    },
+  ],
+}];
+const hero = dims('/assets/img-shopfloor.jpg');
+---
+<Base
+  title="Rising Sound WA | Original Live Music in Midland & Across WA"
+  description="Not-for-profit run by WA musicians. Original live music: free Saturday Sessions at Midland Records, songwriters rounds, regional shows and filmed sessions."
+  ogTitle="Rising Sound WA: let your songs fill the space"
+  jsonLd={jsonLd}
+>
+  <div style="background:var(--rs-amber);color:var(--rs-ink);overflow:hidden;padding:10px 0;border-bottom:1px solid var(--rs-ink)">
+    <div style="display:flex;width:max-content;animation:rs-ticker 28s linear infinite">
+      <div style="display:flex;gap:56px;padding-right:56px;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase">
+        {settings.ticker.map((t) => <span>{t}</span>)}
+      </div>
+      <div style="display:flex;gap:56px;padding-right:56px;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase" aria-hidden="true">
+        {settings.ticker.map((t) => <span>{t}</span>)}
+      </div>
+    </div>
+  </div>
+
+  <section style="position:relative;min-height:min(76vh,720px);display:flex;align-items:flex-end;overflow:hidden">
+    <img src="/assets/img-shopfloor.jpg" alt="A session on the shop floor at Midland Records" width={hero.width} height={hero.height} fetchpriority="high" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 40%;filter:saturate(108%) contrast(104%)" />
+    <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.94) 0%,rgba(0,0,0,.82) 42%,rgba(0,0,0,.25) 100%)"></div>
+    <div style="position:relative;max-width:1360px;margin:0 auto;padding:clamp(88px,15vw,144px) 24px clamp(48px,8vw,96px);width:100%">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:28px">
+        <Waveform height={20} bars={9} />
+        <span class="eyebrow" style="color:var(--rs-amber)">Original music, Western Australia</span>
+      </div>
+      <h1 style="margin:0;max-width:20ch;font:var(--type-display);font-size:clamp(2.5rem,5.5vw,4.5rem);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-bone-50);text-wrap:balance">Let your songs fill the space.</h1>
+      <p style="margin:32px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--text-body)">A not-for-profit formed by passionate local musicians, creating live music experiences across WA — from intimate concerts in cosy rooms to events in public spaces.</p>
+      <div style="display:flex;gap:16px;margin-top:40px;flex-wrap:wrap">
+        <Button size="lg" href="/whats-on/">See what's on</Button>
+        <Button size="lg" variant="secondary" href="/get-involved/">Get involved</Button>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#000;border-top:1px solid var(--line-hairline)">
+    <div class="wrap">
+      <SectionHeading eyebrow="What's on" title="Upcoming shows" />
+      {next && (
+        <div style="display:flex;flex-wrap:wrap;gap:40px;align-items:flex-end;margin-top:40px">
+          <div style="width:min(300px,100%);flex:none">
+            <Poster src={next.poster} ratio={next.posterRatio} alt={`Poster: ${next.title}`} caption={`${next.dow} ${Number(next.day)} ${next.month} · ${next.title}`} lazy={false} />
+          </div>
+          <p style="margin:0 0 8px;flex:1;min-width:280px;max-width:52ch;font:var(--type-feature);color:var(--rs-bone-50);text-wrap:pretty">{line}</p>
+        </div>
+      )}
+      <div style="margin-top:56px">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          {homeEvents.map((e) => <EventRow e={e} showPast={e.past} />)}
+        </div>
+        <div style="margin-top:40px"><Button size="lg" href="/whats-on/">See all events</Button></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:var(--rs-teal);color:var(--rs-ink)">
+    <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:clamp(40px,6vw,72px);align-items:center">
+      <div>
+        <span class="eyebrow" style="color:var(--rs-teal-700)">Get involved</span>
+        <h2 style="margin:20px 0 0;font:var(--type-display);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-ink)">Join the room.</h2>
+        <p style="margin:24px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--rs-ink)">Members keep the free sessions free. Musicians get stages. Venues get audiences. There is a way in for all three.</p>
+        <div style="margin-top:36px"><Button variant="inverse" size="lg" href="/get-involved/#membership">Become a member</Button></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1px;background:rgba(0,0,0,.18)">
+        {pathways.map((w) => (
+          <div style="background:var(--rs-teal);padding:24px 4px;display:flex;align-items:baseline;gap:20px">
+            <span class="eyebrow" style="color:var(--rs-teal-700);flex:none;width:32px">{w.num}</span>
+            <div>
+              <h3 style="margin:0;font:var(--type-h3);color:var(--rs-ink)">{w.title}</h3>
+              <p style="margin:8px 0 0;font-size:var(--fs-body-sm);line-height:var(--lh-body);color:var(--rs-ink)">{w.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#000">
+    <div class="wrap">
+      <SectionHeading eyebrow="Rising Sound Sessions" title="Three songs, one take" />
+      <p style="margin:24px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--text-body)">Short-form filmed concerts capturing original WA performers, recorded on the shop floor at Midland Records.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:24px;margin-top:40px">
+        {homeFilms.map((s) => (
+          <VideoCard title={s.title} artist={s.song} episode={s.episode} duration={s.duration} image={s.image} tone={s.tone} url={`/sessions/#${s.anchor}`} newTab={false} />
+        ))}
+      </div>
+      <div style="margin-top:40px"><Button variant="secondary" href="/sessions/">See all sessions</Button></div>
+    </div>
+  </section>
+
+  {archive.length > 0 && (
+    <section style="background:var(--rs-voltage);color:var(--rs-bone-50)">
+      <div class="wrap">
+        <span class="eyebrow" style="color:var(--rs-bone-50)">From the archive</span>
+        <h2 style="margin:20px 0 0;font:var(--type-h2);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-bone-50)">Recently in the room.</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;margin-top:40px">
+          {archive.map((a) => (
+            <div style="display:flex;flex-direction:column;gap:12px">
+              {a.kind === 'photo'
+                ? <a href={a.href} class="photo" style="aspect-ratio:16/9;background:var(--rs-ink)" aria-label={a.alt}><img src={a.src} alt={a.alt} loading="lazy" decoding="async" /></a>
+                : <VideoCard title={a.title!} image={a.src} tone={a.tone === 'voltage' ? 'teal' : a.tone} duration="Watch" url={a.href} newTab={false} />}
+              <span class="mono" style="color:var(--rs-bone-50)">{a.caption}</span>
+            </div>
+          ))}
+        </div>
+        <div style="margin-top:40px"><Button variant="secondary" href="/whats-on/#past">See past events</Button></div>
+      </div>
+    </section>
+  )}
+
+  <section style="background:var(--rs-ink-900);border-top:1px solid var(--line-hairline)">
+    <div class="wrap">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:clamp(40px,6vw,72px);align-items:start">
+        <div>
+          <span class="eyebrow" style="color:var(--rs-amber)">What we do</span>
+          <p style="margin:20px 0 0;font:var(--type-feature);color:var(--rs-bone-50);text-wrap:pretty">Atmosphere matters. Original work matters. Both deserve more care than they usually get.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1px;background:var(--line-hairline)">
+          {pillars.map((p) => (
+            <div style="background:var(--rs-ink-900);padding:32px 28px 36px;display:flex;flex-direction:column;gap:14px">
+              <span class="eyebrow" style="color:var(--text-muted)">{p.num}</span>
+              <h3 style="margin:0;font:var(--type-h3);color:var(--rs-bone-50)">{p.title}</h3>
+              <p style="margin:0;font-size:var(--fs-body-sm);line-height:var(--lh-body);color:var(--text-body)">{p.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,46 @@
+{
+  "pillars": [
+    {
+      "num": "01",
+      "title": "Concerts & events",
+      "body": "Live music in venues, halls, parks and unexpected spaces across WA."
+    },
+    {
+      "num": "02",
+      "title": "Regional events",
+      "body": "Bringing music to towns outside the city."
+    },
+    {
+      "num": "03",
+      "title": "Rising Sound Sessions",
+      "body": "Short-form filmed concerts capturing original WA performers."
+    },
+    {
+      "num": "04",
+      "title": "Connecting performers with stages",
+      "body": "Matching musicians and venues."
+    }
+  ],
+  "values": [
+    {
+      "title": "Community",
+      "body": "The room matters as much as the bill."
+    },
+    {
+      "title": "Craft",
+      "body": "Sound, light and staging done properly."
+    },
+    {
+      "title": "Original work",
+      "body": "A place for original songs, where many rooms only want covers."
+    },
+    {
+      "title": "Care",
+      "body": "Artists paid, audiences looked after."
+    },
+    {
+      "title": "Local first",
+      "body": "We encourage WA artists, and welcome acts from further afield."
+    }
+  ]
+}

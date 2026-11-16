@@ -1,0 +1,70 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import Waveform from '../components/Waveform.astro';
+import { getArtists, asset, dims } from '../lib/content';
+
+const artists = await getArtists();
+const fills: Record<string, string> = { teal: 'var(--rs-teal)', voltage: 'var(--rs-voltage)', amber: 'var(--rs-amber)', flare: 'var(--rs-flare)' };
+const links = (a: (typeof artists)[number]) =>
+  [['Website', a.website], ['Facebook', a.facebook], ['Instagram', a.instagram], ['Music', a.music]].filter(([, u]) => u) as [string, string][];
+---
+<Base
+  title="Book a Local Act | Original WA Artists | Rising Sound WA"
+  description="Book original Western Australian artists directly, from folk duos to country bands. All are members of Rising Sound WA."
+>
+  <section style="background:var(--rs-amber)">
+    <div style="max-width:1360px;margin:0 auto;padding:clamp(56px,9vw,120px) 24px">
+      <span class="eyebrow" style="color:var(--rs-ink)">Artist directory</span>
+      <h1 style="margin:20px 0 0;max-width:22ch;font:var(--type-display);letter-spacing:var(--ls-display);text-transform:uppercase;color:var(--rs-ink)">Book a local act.</h1>
+      <p style="margin:24px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--rs-ink)">Original WA artists who are members of Rising Sound WA. Get in touch with them directly.</p>
+    </div>
+  </section>
+
+  <section style="background:#000">
+    <div class="wrap">
+      <ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px">
+        {artists.map((a) => {
+          const src = asset(a.photo);
+          const d = dims(src);
+          const meta = [a.genre, a.area].filter(Boolean).join(' · ');
+          return (
+            <li style="display:flex;flex-direction:column;background:var(--surface-1);border:1px solid var(--line-hairline)" id={`artist-${a.slug}`}>
+              <div style="position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--rs-ink-700)">
+                {src ? (
+                  <img src={src} alt={`${a.name}`} width={d.width} height={d.height} loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" />
+                ) : (
+                  <div style={`position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:${fills[a.tone] || fills.teal}`}>
+                    <Waveform height={56} color="#000" />
+                  </div>
+                )}
+              </div>
+              <div style="display:flex;flex-direction:column;gap:12px;padding:24px;flex:1">
+                <h2 style="margin:0;font:var(--type-h3);letter-spacing:var(--ls-heading);text-transform:uppercase;color:var(--rs-bone-50)">{a.name}</h2>
+                {meta && <p class="mono" style="margin:0">{meta}</p>}
+                {a.bio && <p style="margin:0;line-height:var(--lh-body);color:var(--text-body);text-wrap:pretty">{a.bio}</p>}
+                <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:8px">
+                  {a.emailUser && a.emailDomain && <Button data-email-user={a.emailUser} data-email-domain={a.emailDomain}>Email</Button>}
+                  {links(a).map(([label, url]) => <Button variant="secondary" href={url} external>{label}</Button>)}
+                </div>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </section>
+
+  <section style="background:var(--rs-ink-900);border-top:1px solid var(--line-hairline)">
+    <div style="max-width:1360px;margin:0 auto;padding:clamp(48px,8vw,96px) 24px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between">
+      <div>
+        <h2 style="margin:0;font:var(--type-h2);letter-spacing:var(--ls-heading);text-transform:uppercase;color:var(--rs-bone-50)">Get listed.</h2>
+        <p style="margin:16px 0 0;max-width:52ch;line-height:var(--lh-body);color:var(--text-body)">Every artist member is listed here. Join, then send us a photo, a short bio and your links.</p>
+      </div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap">
+        <Button size="lg" href="/get-involved/#membership">Become a member</Button>
+        <Button variant="secondary" size="lg" href="/contact/">Send your details</Button>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,28 @@
+---
+import Waveform from './Waveform.astro';
+import { dims } from '../lib/content';
+interface Props {
+  title: string; artist?: string; episode?: string; duration?: string; image?: string; tone?: string;
+  url?: string | null; embed?: string | null; id?: string; newTab?: boolean;
+}
+const { title, artist = '', episode, duration, image, tone = 'teal', url, embed, id, newTab = true } = Astro.props;
+const fills: Record<string, string> = { teal: 'var(--rs-teal)', voltage: 'var(--rs-voltage)', amber: 'var(--rs-amber)', flare: 'var(--rs-flare)', ink: 'var(--rs-ink-700)' };
+const d = image ? dims(image) : {};
+const Wrapper = url ? 'a' : 'div';
+const attrs = url ? { href: url, ...(newTab ? { target: '_blank', rel: 'noopener' } : {}), 'data-embed': embed || undefined, 'data-title': [title, artist].filter(Boolean).join(' — ') } : {};
+---
+<Wrapper class="rs-video" id={id} {...attrs}>
+  {image ? (
+    <img class="rs-video__thumb" src={image} alt="" width={d.width} height={d.height} loading="lazy" decoding="async" />
+  ) : (
+    <div class="rs-video__thumb" style={`background:${fills[tone] || fills.teal};display:grid;place-items:center`}>
+      <Waveform height={64} bars={15} color="rgba(0,0,0,.55)" />
+    </div>
+  )}
+  <div class="rs-video__veil"></div>
+  <div class="rs-video__body">
+    {episode && <div style="display:flex;gap:var(--sp-2);margin-bottom:var(--sp-2)"><span class="rs-badge">{episode}</span></div>}
+    <h3 style="font:var(--type-h3);color:var(--rs-bone-50);margin:0">{title}</h3>
+    <div class="vmeta">{[artist, duration].filter(Boolean).join(' · ')}</div>
+  </div>
+</Wrapper>

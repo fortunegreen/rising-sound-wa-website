@@ -1,0 +1,9 @@
+---
+interface Props { height?: number; bars?: number; color?: string }
+const { height = 24, bars = 9, color } = Astro.props;
+const SHAPE = [0.35, 0.62, 0.48, 0.9, 1, 0.72, 0.55, 0.38, 0.24];
+const list = Array.from({ length: bars }, (_, i) => SHAPE[i % SHAPE.length]);
+---
+<div class="rs-wave" style={`height:${height}px`} aria-hidden="true">
+  {list.map((v, i) => <span style={`height:${Math.round(height * v)}px;${color ? `background:${color};` : ''}animation-delay:${i * 90}ms`}></span>)}
+</div>

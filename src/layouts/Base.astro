@@ -1,0 +1,194 @@
+---
+import '../styles/design-system.css';
+import '../styles/site.css';
+import Button from '../components/Button.astro';
+import { API_BASE, SITE, getSettings } from '../lib/content';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  ogTitle?: string;
+  jsonLd?: object[];
+  noindex?: boolean;
+}
+const { title, description, ogImage = '/assets/og-share.jpg', ogTitle, jsonLd = [], noindex = false } = Astro.props;
+const settings = await getSettings();
+const path = Astro.url.pathname;
+const canonical = `${SITE}${path}`;
+const is = (p: string) => (p === '/' ? path === '/' : path.startsWith(p));
+const bars = [13, 28, 46, 62, 50, 34, 21, 11];
+const main = [
+  { href: '/', label: 'Home' },
+  { href: '/about/', label: 'About', sub: { href: '/about/#committee', label: 'Committee' } },
+  { href: '/sessions/', label: 'Sessions' },
+  { href: '/artists/', label: 'Artists' },
+  { href: '/contact/', label: 'Contact' },
+];
+const footerNav = [
+  { href: '/', label: 'Home' }, { href: '/about/', label: 'About' }, { href: '/whats-on/', label: 'Events' },
+  { href: '/sessions/', label: 'Sessions' }, { href: '/artists/', label: 'Artists' },
+  { href: '/get-involved/', label: 'Get involved' }, { href: '/contact/', label: 'Contact' },
+];
+const social = [
+  { label: 'Instagram', url: settings.instagram },
+  { label: 'Facebook', url: settings.facebook },
+  { label: 'YouTube', url: settings.youtube },
+].filter((s) => s.url);
+---
+<!doctype html>
+<html lang="en-AU" data-api={API_BASE}>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  {noindex && <meta name="robots" content="noindex" />}
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Rising Sound WA" />
+  <meta property="og:title" content={ogTitle || title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={`${SITE}${ogImage}`} />
+  <meta property="og:locale" content="en_AU" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600;700&family=Playfair+Display:wght@700;800;900&family=Space+Mono:wght@400;700&display=swap" />
+  {jsonLd.map((j) => <script type="application/ld+json" set:html={JSON.stringify(j)} />)}
+  <!-- Google tag (gtag.js) -->
+  <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-7LQKEJ65RX"></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7LQKEJ65RX');
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div style="background:#000;min-height:100vh">
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="logo" href="/" aria-label="Rising Sound WA — home">
+          <div class="logo__in">
+            <img src="/assets/logo-wordmark.png" alt="Rising Sound WA" width="338" height="62" style="height:62px;width:auto;display:block" />
+            <div class="logo__bars" aria-hidden="true">
+              {bars.map((h, i) => <i style={`height:${h}px;animation-delay:${420 + i * 60}ms`}></i>)}
+            </div>
+          </div>
+        </a>
+        <nav class="nav" aria-label="Main">
+          {main.map((n) => (
+            <div class="nav__item">
+              <a class="nav__link" href={n.href} aria-current={is(n.href) ? 'page' : undefined}>{n.label}</a>
+              {n.sub && <div class="nav__sub"><div><a href={n.sub.href}>{n.sub.label}</a></div></div>}
+            </div>
+          ))}
+        </nav>
+        <div class="header-cta">
+          <Button size="sm" href="/whats-on/">What's on</Button>
+          <Button size="sm" variant="secondary" href="/get-involved/">Get involved</Button>
+        </div>
+      </div>
+    </header>
+
+    <slot name="top" />
+    <main id="main"><slot /></main>
+
+    <section style="background:var(--rs-ink-900);border-top:1px solid var(--line-hairline)">
+      <div style="max-width:1360px;margin:0 auto;padding:80px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:clamp(40px,6vw,72px);align-items:start">
+        <div>
+          <span class="eyebrow" style="color:var(--rs-amber)">Mailing list</span>
+          <h2 style="margin:16px 0 0;font:var(--type-h2);letter-spacing:var(--ls-heading);text-transform:uppercase;color:var(--rs-bone-50)">Hear what's next.</h2>
+          <p style="margin:16px 0 0;max-width:52ch;font-size:var(--fs-body-lg);line-height:var(--lh-body);color:var(--text-body)">An occasional email about what we're up to: upcoming shows, new sessions, and ways to get involved. We won't send more than that.</p>
+        </div>
+        <div>
+          <div id="newsletter-done" hidden style="border:1px solid var(--line-hairline);background:var(--surface-1);padding:32px 28px">
+            <p style="margin:0;font:var(--type-h3);color:var(--rs-bone-50)">You're on the list.</p>
+            <p style="margin:12px 0 0;font-size:var(--fs-body-sm);line-height:var(--lh-body);color:var(--text-body)">We'll email <span id="newsletter-email"></span> when there's something worth telling you about.</p>
+          </div>
+          <form id="newsletter-form" data-busy="Signing you up…" style="display:flex;flex-direction:column;gap:24px">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px">
+              <div class="rs-field"><label class="rs-label" for="nl-name">First name</label><input class="rs-input" id="nl-name" name="name" type="text" placeholder="Your name" autocomplete="given-name" /></div>
+              <div class="rs-field"><label class="rs-label" for="nl-email">Email</label><input class="rs-input" id="nl-email" name="email" type="email" required placeholder="you@email.com" autocomplete="email" /></div>
+            </div>
+            <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap">
+              <div style="flex:none"><Button type="submit" size="lg">Sign me up</Button></div>
+              <p style="margin:0;flex:1;min-width:200px;font-size:var(--fs-body-sm);color:var(--text-muted)">Unsubscribe any time. We don't share your details.</p>
+            </div>
+            <p class="form-error" role="alert" hidden></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <footer style="background:#000;border-top:1px solid var(--line-hairline)">
+      <div style="max-width:1360px;margin:0 auto;padding:clamp(40px,7vw,72px) 24px 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:48px">
+        <div>
+          <img src="/assets/logo-lockup.png" alt="Rising Sound WA" width="226" height="52" loading="lazy" style="height:52px;width:auto;display:block" />
+          <p style="margin:24px 0 0;max-width:34ch;font-size:var(--fs-body-sm);line-height:var(--lh-body);color:var(--text-muted)">A not-for-profit incorporated association supporting original musical and performance works across Western Australia.</p>
+        </div>
+        <nav aria-label="Site">
+          <h2 style="margin:0 0 20px;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">Site</h2>
+          <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start">
+            {footerNav.map((n) => <a class="footer-link" href={n.href}>{n.label}</a>)}
+          </div>
+        </nav>
+        <div>
+          <h2 style="margin:0 0 20px;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber)">Follow</h2>
+          <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-start">
+            {social.map((s) => <a class="footer-social" href={s.url!} rel="me noopener" target="_blank">{s.label}</a>)}
+          </div>
+        </div>
+      </div>
+      <div style="max-width:1360px;margin:0 auto;padding:32px 24px 72px;border-top:1px solid var(--line-hairline)">
+        <p style="margin:0;max-width:80ch;font-size:var(--fs-body-sm);line-height:var(--lh-body);color:var(--text-muted)">{settings.acknowledgement}</p>
+        <p class="mono" style="margin:20px 0 0">Rising Sound WA Inc. · Not-for-profit incorporated association</p>
+      </div>
+    </footer>
+  </div>
+
+  <div class="rs-dialog__scrim" id="membership-dialog" hidden>
+    <div class="rs-dialog" role="dialog" aria-modal="true" aria-labelledby="m-title">
+      <h2 class="rs-dialog__title" id="m-title">Become a member</h2>
+      <form id="membership-form" style="display:grid;gap:20px">
+        <p id="m-blurb" style="margin:0;font-size:var(--fs-body-sm);line-height:var(--lh-body);color:var(--text-body);max-width:46ch"></p>
+        <div class="rs-field"><label class="rs-label" for="m-name">Name</label><input class="rs-input" id="m-name" type="text" placeholder="Your name" autocomplete="name" /></div>
+        <div class="rs-field"><label class="rs-label" for="m-email">Email</label><input class="rs-input" id="m-email" type="email" required placeholder="you@email.com" autocomplete="email" /></div>
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <Button type="submit">Continue to payment</Button>
+          <Button variant="ghost" data-close-dialog>Cancel</Button>
+        </div>
+        <p style="margin:0;font-size:var(--fs-body-sm);color:var(--text-muted)">You'll be taken to our payment provider to finish up.</p>
+        <p class="form-error" id="m-error" role="alert" hidden></p>
+      </form>
+    </div>
+  </div>
+
+  <div class="notice" id="notice" hidden>
+    <div class="notice__box" role="status">
+      <div style="flex:1">
+        <p id="notice-eyebrow" style="margin:0;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--rs-amber-700)"></p>
+        <p id="notice-text" style="margin:10px 0 0;font-size:var(--fs-body);line-height:var(--lh-body);color:var(--rs-ink)"></p>
+      </div>
+      <button type="button" id="notice-close">Close</button>
+    </div>
+  </div>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" hidden>
+    <img alt="" />
+    <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;justify-content:center">
+      <span class="mono" id="lightbox-caption" style="color:var(--rs-bone-50)"></span>
+      <Button variant="secondary" id="lightbox-close">Close</Button>
+    </div>
+  </div>
+
+  <script>
+    import '../scripts/site.js';
+  </script>
+</body>
+</html>
