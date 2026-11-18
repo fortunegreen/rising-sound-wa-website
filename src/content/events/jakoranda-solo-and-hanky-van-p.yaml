@@ -13,6 +13,7 @@ price: Free
 region: Metro
 free: true
 badgeTone: session
+badgeLabel: Saturday Sessions
 performers: []
 poster: /assets/jakoranda-solo-and-hanky-van-p/poster.jpg
 posterRatio: 3/4
