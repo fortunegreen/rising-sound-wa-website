@@ -75,6 +75,8 @@ textarea.rs-input { resize: vertical; min-height: 140px; }
 .footer-link { font-size: var(--fs-body-sm); color: var(--text-body); white-space: nowrap; }
 .footer-link:hover, .footer-link:focus-visible { color: var(--rs-amber-300); }
 .footer-social { color: var(--link); border-bottom: 1px solid currentColor; }
+.footer-credit { color: inherit; border-bottom: 1px solid currentColor; }
+.footer-credit:hover, .footer-credit:focus-visible { color: var(--rs-amber-300); }
 
 /* notice + lightbox */
 .notice { position: fixed; left: 24px; right: 24px; bottom: 24px; z-index: 80; display: flex; justify-content: center; pointer-events: none; }
